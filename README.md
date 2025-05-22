@@ -1,12 +1,12 @@
-# SecureSphere: Next-Generation Secure Computing Architecture
+# ASKA: Next-Generation Secure Computing Architecture
 
 **Building Trust from the Ruins of Broken Promises**
 
 ## Overview
 
-SecureSphere is a revolutionary hardware-rooted secure computing architecture designed for high-assurance operation in complex environments, particularly relevant for the age of Advanced General Intelligence (AGI). It addresses fundamental vulnerabilities in current computing architectures through modularity, hardware-enforced isolation, dynamic adaptability, and decentralized governance.
+ASKA is a revolutionary hardware-rooted secure computing architecture designed for high-assurance operation in complex environments, particularly relevant for the age of Advanced General Intelligence (AGI). It addresses fundamental vulnerabilities in current computing architectures through modularity, hardware-enforced isolation, dynamic adaptability, and decentralized governance.
 
-This repository contains the architectural specifications, patent documentation, and technical designs for SecureSphere - a comprehensive framework for secure computing that reimagines how we build trustworthy systems from the ground up.
+This repository contains the architectural specifications, patent documentation, and technical designs for ASKA - a comprehensive framework for secure computing that reimagines how we build trustworthy systems from the ground up.
 
 ### Key Innovations
 
@@ -31,7 +31,7 @@ This repository contains the architectural specifications, patent documentation,
 
 ## Architecture Overview
 
-SecureSphere employs a defense-in-depth strategy combining multiple innovative technologies into a cohesive secure computing platform. The architecture is built around several core principles:
+ASKA employs a defense-in-depth strategy combining multiple innovative technologies into a cohesive secure computing platform. The architecture is built around several core principles:
 
 ### Core Principles
 
@@ -43,9 +43,9 @@ SecureSphere employs a defense-in-depth strategy combining multiple innovative t
 
 ### System Architecture
 
-The SecureSphere system consists of interconnected zones, each containing:
+The ASKA system consists of interconnected zones, each containing:
 
-- **SecureSphere Hub**: Central orchestration and management
+- **ASKA Hub**: Central orchestration and management
 - **IES Clusters**: Hardware-isolated execution environments
 - **Multi-Channel Network**: Secure communication infrastructure
 - **Security Mesh**: Hierarchical monitoring and response system
@@ -53,7 +53,7 @@ The SecureSphere system consists of interconnected zones, each containing:
 
 ## Core Components
 
-### 🏛️ SecureSphere Hub
+### 🏛️ ASKA Hub
 The central orchestration and management entity that coordinates all system operations:
 
 - **Orchestrator**: Manages IES lifecycle and resource allocation (P1, P10)
@@ -64,7 +64,7 @@ The central orchestration and management entity that coordinates all system oper
 - **SIZCF Interface**: Secure Inter-Zone Collaboration Framework (P22)
 
 ### 🏗️ Isolated Execution Stacks (IES)
-Hardware-isolated execution environments providing the foundation of SecureSphere's security:
+Hardware-isolated execution environments providing the foundation of ASKA's security:
 
 - **Complete Hardware Isolation**: Dedicated CPU, memory, I/O, and network resources (P1)
 - **Dynamic Partitioning**: Child IES instances for granular control and resource optimization
@@ -198,7 +198,7 @@ Intelligent automation for security and system management:
 
 ## Patent Portfolio
 
-SecureSphere is protected by an extensive patent portfolio covering 36+ innovations:
+ASKA is protected by an extensive patent portfolio covering 36+ innovations:
 
 | Patent | Technology Area | Key Innovation |
 |--------|----------------|----------------|
@@ -273,7 +273,7 @@ SecureSphere is protected by an extensive patent portfolio covering 36+ innovati
 
 ## Research Collaboration
 
-SecureSphere represents cutting-edge research in secure computing. We welcome collaboration with:
+ASKA represents cutting-edge research in secure computing. We welcome collaboration with:
 
 - **Academic Institutions**: Research partnerships and student projects
 - **Government Agencies**: Security research and standards development
@@ -297,7 +297,7 @@ Email: ZeroTrust@NSHkr.com
 For detailed technical specifications, patent documentation, and architecture diagrams, please refer to the documentation in this repository or contact the research team.
 
 ### Licensing and Commercialization
-SecureSphere technologies are available for licensing. Please contact for information about:
+ASKA technologies are available for licensing. Please contact for information about:
 - Academic research licenses
 - Commercial implementation partnerships
 - Government and defense applications
@@ -305,6 +305,6 @@ SecureSphere technologies are available for licensing. Please contact for inform
 
 ---
 
-**SecureSphere** - *Building Trust from the Ruins of Broken Promises*
+**ASKA** - *Building Trust from the Ruins of Broken Promises*
 
-This repository contains the foundational research and architectural specifications for SecureSphere, representing a paradigm shift in secure computing design. The technologies described here address fundamental security challenges in modern computing systems and provide a framework for building trustworthy systems in an increasingly complex threat landscape.
+This repository contains the foundational research and architectural specifications for ASKA, representing a paradigm shift in secure computing design. The technologies described here address fundamental security challenges in modern computing systems and provide a framework for building trustworthy systems in an increasingly complex threat landscape.
