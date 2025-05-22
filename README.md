@@ -99,7 +99,7 @@ graph LR
     ResourceMgr --> IES1 & IESn
     MSM --> Hub
 ```
-![Diagram 1 - SecureSphere Overview Image][image1]
+
 
 ### Diagram 1 Explanation: {#diagram-1-explanation}
 
@@ -282,7 +282,6 @@ graph
     classDef main3 fill:#c4f3d3
     class DTaP main3
 ```
-![Diagram 2 - SecureSphere Overview 2 Image][image2]
 
 ### Diagram 2 Description: {#diagram-2-description}
 
@@ -386,7 +385,6 @@ graph LR
     classDef main3 fill:#c4f3d3,line-height:1.5
     class UI,AIS main3
 ```
-![Diagram 3 - AI Agent Dual Role Image][image3]
 
 #### Diagram Description: {#diagram-description}
 
@@ -506,10 +504,3 @@ graph LR
     end
     style AI_Agent_IES_P1 fill:#ccf,stroke:#333,stroke-width:2px
 ```
-![Diagram 4 - AI Agent Interactions Image][image4]
-
----
-
-This detailed README.md should provide a comprehensive overview of SecureSphere based on the content of `11.md`. Remember to replace `![][imageN]` with actual image file paths or Base64 encoded images if you are rendering this Markdown. The Table of Contents is a general guide; Markdown renderers will typically generate it based on the headings used.
-
-[image1]: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAhgAAAPjCAYAAAD2pnd+AACAAElEQVR4Xuydh1cTzduGv/8pVBv23nvXn+21d+wde0MQe0HFDlYUFRVEEMWCSBWkKAjS7IoF8PkyExKSnQRSNslmcz/nXCez9242iECu7E75P0KhUCgUCoWSuf5PGqBQKMersfEvvXy5EQBgJSj1FQQDhXJCMcEgKgYAWMGPH08Ipb6CYKBQTigIBgDWA8FQZ0EwUCgnFARDWUzr2J6+msmBMoBgqLMgGCiUEwqCYR6NRkMHD241IN3PGOeroQYzuSNMCPCjL5LsR8Ut0rTvTQf2b6K+g2cJzzGHRuMrZMBxIBjqLAgGCuWEgmCYhwmG8XbGjY0UcusRb9dl7KbGhmvkrz2md+/udCE9k+cfS67y7VvP0/h2aeo2ik1/TFOGdqcraSk0cMgsyozbqT2mj
