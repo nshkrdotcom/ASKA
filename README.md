@@ -1,6 +1,6 @@
 # SecureSphere 20241102 - Detailed Overview
 
-Written by: Paul Lowndes &lt;ZeroTrust@NSHkr.com&gt;
+Written by: Paul Lowndes <ZeroTrust@NSHkr.com>
 
 ## Table of Contents
 
@@ -24,35 +24,29 @@ Written by: Paul Lowndes &lt;ZeroTrust@NSHkr.com&gt;
 ### Diagram 1 - SecureSphere Overview: {#diagram-1---securesphere-overview}
 
 ```mermaid
----
-config:
-  theme: default
-  themeVariables:
-    fontSize: 28px
----
 graph LR
     subgraph "SecureSphere&nbsp;Hub"
-        Hub["Hub"] --&gt; DTMS["DTMS (P4)"]
-        Hub --&gt; AESDS["AESDS (P16)"]
-        Hub --&gt; PolicyEngine["Policy Engine (P4)"]
-        Hub --&gt; ResourceMgr["Resource Mgr (P9, P10)"]
-        Hub --&gt; CMM["CMM"]
-        Hub --&gt; UIK["Secure UI Kernel<br>(P11)"]
-        Hub &lt;--&gt; DLT["Decentralized Ledger<br>(P13, P15)"] & MDATS["MDATS (P17)"]
+        Hub["Hub"] --> DTMS["DTMS (P4)"]
+        Hub --> AESDS["AESDS (P16)"]
+        Hub --> PolicyEngine["Policy Engine (P4)"]
+        Hub --> ResourceMgr["Resource Mgr (P9, P10)"]
+        Hub --> CMM["CMM"]
+        Hub --> UIK["Secure UI Kernel<br>(P11)"]
+        Hub <--> DLT["Decentralized Ledger<br>(P13, P15)"] & MDATS["MDATS (P17)"]
         style Hub fill:#ccf,stroke:#333,stroke-width:2px
     end
 
     subgraph "Isolated&nbsp;Execution&nbsp;Stacks&nbsp;(IES)"
-        IES1["IES 1 (P1)"] --&gt; LSM1["Local MSM (P2)"]
-        IESn["IES n (P1)"] --&gt; LSMn["Local MSM (P2)"]
-        LSM1 --&gt; MSM["MSM (P2)"]
-        LSMn --&gt; MSM
-        IES1 --&gt; App1["Application 1"]
-        IESn --&gt; AppN["Application N"]
+        IES1["IES 1 (P1)"] --> LSM1["Local MSM (P2)"]
+        IESn["IES n (P1)"] --> LSMn["Local MSM (P2)"]
+        LSM1 --> MSM["MSM (P2)"]
+        LSMn --> MSM
+        IES1 --> App1["Application 1"]
+        IESn --> AppN["Application N"]
         subgraph "DMNoC&nbsp;(Decentralized&nbsp;Mesh&nbsp;NoC)"
-             IES1 --&gt; DMNoC_IES["DMNoC"]
-             IESn --&gt; DMNoC_IES
-            DMNoC_IES --&gt; Ext_SS["External SecureSphere<br>Instances"]
+             IES1 --> DMNoC_IES["DMNoC"]
+             IESn --> DMNoC_IES
+            DMNoC_IES --> Ext_SS["External SecureSphere<br>Instances"]
           style DMNoC_IES fill:#aaf,stroke:#333,stroke-width:1px
         end
         style IES1 fill:#aaf,stroke:#333,stroke-width:1px
@@ -60,37 +54,37 @@ graph LR
     end
 
     subgraph "AI&nbsp;Agent&nbsp;(P36)"
-        AIAgent["AI Agent"] --&gt; API["Agent API"]
-        AIAgent --&gt; UIMonitor["UI Monitor (P11)"]
+        AIAgent["AI Agent"] --> API["Agent API"]
+        AIAgent --> UIMonitor["UI Monitor (P11)"]
         UIMonitor -.-> UIK
-        AIAgent --&gt; DTMS & MSM & AESDS & DLT & DMN_AI["DMNoC"]
-        App1 & AppN --&gt; API
+        AIAgent --> DTMS & MSM & AESDS & DLT & DMN_AI["DMNoC"]
+        App1 & AppN --> API
          style AIAgent fill:#aaf,stroke:#333,stroke-width:1px
     end
 
     subgraph "SecureSphere&nbsp;Zones&nbsp;(P22)"
-        Zone1["Zone 1"] --&gt; IES1
-        ZoneN["Zone n"] --&gt; IESn
-        Zone1 &lt;--&gt; SIZCF["SIZCF (P22)"]
-        ZoneN &lt;--&gt; SIZCF
+        Zone1["Zone 1"] --> IES1
+        ZoneN["Zone n"] --> IESn
+        Zone1 <--> SIZCF["SIZCF (P22)"]
+        ZoneN <--> SIZCF
          style Zone1 fill:#aaf,stroke:#333,stroke-width:1px
          style ZoneN fill:#aaf,stroke:#333,stroke-width:1px
     end
 
     subgraph "External&nbsp;Systems"
-        External["External Systems/Legacy"] --&gt; IAMA["IAMA (P16)"]
-        IAMA --&gt; AESDS
-        SIZCF --&gt; External
+        External["External Systems/Legacy"] --> IAMA["IAMA (P16)"]
+        IAMA --> AESDS
+        SIZCF --> External
          style External fill:#eee,stroke:#999,stroke-width:1px
     end
 
     subgraph "Security&nbsp;Features"
-       SecureBoot["Secure Boot (P1, P13)"] --&gt; IES1 & IESn
-        HESE_DAR["HESE-DAR (P24)"] --&gt; IES1 & IESn
-        MCN["Multi-Channel Network (P3)"] --&gt; IES1 & IESn & External
-        Quantum["Quantum-Resistant Comm (P5)"] --&gt; MCN & DMN_AI
-        ZKEE["ZKEE (P6)"] --&gt; IES1 & IESn
-         SDE["Secure Data Enclaves (P20)"] --&gt; IES1 & IESn
+       SecureBoot["Secure Boot (P1, P13)"] --> IES1 & IESn
+        HESE_DAR["HESE-DAR (P24)"] --> IES1 & IESn
+        MCN["Multi-Channel Network (P3)"] --> IES1 & IESn & External
+        Quantum["Quantum-Resistant Comm (P5)"] --> MCN & DMN_AI
+        ZKEE["ZKEE (P6)"] --> IES1 & IESn
+         SDE["Secure Data Enclaves (P20)"] --> IES1 & IESn
           style SecureBoot fill:#88f,stroke:#333,stroke-width:1px
            style HESE_DAR fill:#88f,stroke:#333,stroke-width:1px
             style MCN fill:#88f,stroke:#333,stroke-width:1px
@@ -99,11 +93,11 @@ graph LR
                style SDE fill:#88f,stroke:#333,stroke-width:1px
     end
 
-    User["User"] --&gt; UIK
-    CMM --&gt; IES1 & IESn
-    PolicyEngine --&gt; AIAgent & MSM
-    ResourceMgr --&gt; IES1 & IESn
-    MSM --&gt; Hub
+    User["User"] --> UIK
+    CMM --> IES1 & IESn
+    PolicyEngine --> AIAgent & MSM
+    ResourceMgr --> IES1 & IESn
+    MSM --> Hub
 ```
 ![Diagram 1 - SecureSphere Overview Image][image1]
 
@@ -215,59 +209,59 @@ graph
     subgraph SecSphSys["SecureSphere&nbsp;System"]
         subgraph SecI["Instance&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
             subgraph SH["SecureSphere&nbsp;Hub"]
-                Hub_SH["SecureSphere Hub"] --&gt; DTMS_SH & PolicyEngine_SH & AI_Agent_SH & AESDS_SH["AESDS (P16)"] & SecureUI_SH["Secure UI Kernel (P11)"]
+                Hub_SH["SecureSphere Hub"] --> DTMS_SH & PolicyEngine_SH & AI_Agent_SH & AESDS_SH["AESDS (P16)"] & SecureUI_SH["Secure UI Kernel (P11)"]
             end
             direction LR
             subgraph IC["IES&nbsp;Cluster&nbsp;(P1)"]
-                IES1_IC["IES 1"] --&gt; App1_IC["Application 1"]
-                IESn_IC["IES n"] --&gt; AppN_IC["Application N"]
+                IES1_IC["IES 1"] --> App1_IC["Application 1"]
+                IESn_IC["IES n"] --> AppN_IC["Application N"]
                 IES1_IC -.- HESE_DAR_IC["HESE&#8209;DAR&nbsp;(P24)"]
                 IESn_IC -.- HESE_DAR_IC
-                IES1_IC --&gt; LSM1_IC["Local&nbsp;MSM&nbsp;(P2)"]
-                IESn_IC --&gt; LSMn_IC["Local&nbsp;MSM&nbsp;(P2)"]
-                LSM1_IC --&gt; MSM_IC["MSM&nbsp;(P2)"]
-                LSMn_IC --&gt; MSM_IC
-                IES1_IC --&gt;|"Secure&nbsp;Memory<br>Access&nbsp;(P25)"| DMNoC_IC["DMNoC"]
-                IESn_IC --&gt;|"Secure&nbsp;Memory<br>Access&nbsp;(P25)"| DMNoC_IC
-                IES1_IC --&gt;|"Secure&nbsp;Channel<br>Access&nbsp;(P2,&nbsp;P3)"| MCN_IC["MCN (P3)"]
-                IESn_IC --&gt;|"Secure&nbsp;Channel<br>Access&nbsp;(P2,&nbsp;P3)"| MCN_IC
+                IES1_IC --> LSM1_IC["Local&nbsp;MSM&nbsp;(P2)"]
+                IESn_IC --> LSMn_IC["Local&nbsp;MSM&nbsp;(P2)"]
+                LSM1_IC --> MSM_IC["MSM&nbsp;(P2)"]
+                LSMn_IC --> MSM_IC
+                IES1_IC -->|"Secure&nbsp;Memory<br>Access&nbsp;(P25)"| DMNoC_IC["DMNoC"]
+                IESn_IC -->|"Secure&nbsp;Memory<br>Access&nbsp;(P25)"| DMNoC_IC
+                IES1_IC -->|"Secure&nbsp;Channel<br>Access&nbsp;(P2,&nbsp;P3)"| MCN_IC["MCN (P3)"]
+                IESn_IC -->|"Secure&nbsp;Channel<br>Access&nbsp;(P2,&nbsp;P3)"| MCN_IC
                 subgraph DTaP["Dynamic&nbsp;Trust&nbsp;and&nbsp;Policy"]
-                    DTMS_SH["DTMS (P4)"] &lt;--&gt; PolicyEngine_SH["Policy Engine (P4)"]
-                    DTMS_SH --&gt; CapMgr_DTaP["Capability Manager (P25)"]
-                    PolicyEngine_SH --&gt; CapMgr_DTaP
-                    DTMS_SH &lt;--&gt; IES1_IC & IESn_IC & DMNoC_IC & MCN_IC
-                    PolicyEngine_SH --&gt; IES1_IC & IESn_IC & DMNoC_IC & MCN_IC
+                    DTMS_SH["DTMS (P4)"] <--> PolicyEngine_SH["Policy Engine (P4)"]
+                    DTMS_SH --> CapMgr_DTaP["Capability Manager (P25)"]
+                    PolicyEngine_SH --> CapMgr_DTaP
+                    DTMS_SH <--> IES1_IC & IESn_IC & DMNoC_IC & MCN_IC
+                    PolicyEngine_SH --> IES1_IC & IESn_IC & DMNoC_IC & MCN_IC
                 end
                 AI_Agent_SH["AI Agent (P36)"] -.-> DTaP & LSM1_IC & LSMn_IC & MSM_IC
             end
             subgraph DM["DMNoC&nbsp;(Decentralized&nbsp;Mesh)"]
-                DMNoC_IC --&gt; FC_Interface_DM["Fiber<br>Channel Interface"]
-                FC_Interface_DM --&gt; Ext_Mesh_DM["External<br>Mesh<br>Network<br>(Trusted)"]
-                AttestationDMNOC_DM["Attestation<br>(3D<br>Microstructures)"] --&gt; DMNoC_IC
+                DMNoC_IC --> FC_Interface_DM["Fiber<br>Channel Interface"]
+                FC_Interface_DM --> Ext_Mesh_DM["External<br>Mesh<br>Network<br>(Trusted)"]
+                AttestationDMNOC_DM["Attestation<br>(3D<br>Microstructures)"] --> DMNoC_IC
             end
             subgraph MN["MCN&nbsp;(Multi&#8209;Channel&nbsp;Network)"]
-                MCN_IC --&gt; MCI_MN["Multi&#8209;Channel<br>Interface<br>(P28)"]
-                MCI_MN --&gt; Ext_Net_MN["External<br>Networks<br>(Internet)"]
-                IAMA_MN["IAMA (P16)"] --&gt; MCN_IC
-                AttestationMCN_MN["Attestation<br>(3D<br>Microstructures)"] --&gt; MCN_IC
+                MCN_IC --> MCI_MN["Multi&#8209;Channel<br>Interface<br>(P28)"]
+                MCI_MN --> Ext_Net_MN["External<br>Networks<br>(Internet)"]
+                IAMA_MN["IAMA (P16)"] --> MCN_IC
+                AttestationMCN_MN["Attestation<br>(3D<br>Microstructures)"] --> MCN_IC
             end
-            AESDS_SH --&gt; IES1_IC & IESn_IC & DMNoC_IC & MCN_IC
-            SecureUI_SH --&gt; IES1_IC & IESn_IC
+            AESDS_SH --> IES1_IC & IESn_IC & DMNoC_IC & MCN_IC
+            SecureUI_SH --> IES1_IC & IESn_IC
             subgraph HR["Hardware&nbsp;Root&nbsp;of&nbsp;Trust"]
-               HRoT_HR["Hardware<br>Root of Trust"] --&gt; Hub_SH & DMNoC_IC & MCN_IC & IC & SecureUI_SH
+               HRoT_HR["Hardware<br>Root of Trust"] --> Hub_SH & DMNoC_IC & MCN_IC & IC & SecureUI_SH
             end
-            MDATS_SecI["MDATS<br>(P17)"] --&gt; DLT_SecI["Decentralized&nbsp;Ledger (P13,&nbsp;P15)"]
-            HRoT_HR --&gt; DLT_SecI
-            AttestationDMNOC_DM --&gt; DLT_SecI
-            AttestationMCN_MN --&gt; DLT_SecI
+            MDATS_SecI["MDATS<br>(P17)"] --> DLT_SecI["Decentralized&nbsp;Ledger (P13,&nbsp;P15)"]
+            HRoT_HR --> DLT_SecI
+            AttestationDMNOC_DM --> DLT_SecI
+            AttestationMCN_MN --> DLT_SecI
             DLT_SecI -.-> Hub_SH & DMNoC_IC & MCN_IC & IC
             subgraph KM["Key&nbsp;Management"]
-                KeyManager_KM["Key Manager"] --&gt; KeyStorage_KM["Key Storage"]
+                KeyManager_KM["Key Manager"] --> KeyStorage_KM["Key Storage"]
             end
         end
         subgraph External_Mesh_Sub["External&nbsp;Mesh"]
             direction LR
-            ExtZoneA_EM["SecureSphere&nbsp;Zone&nbsp;A"] &lt;--&gt; ExtZoneB_EM["SecureSphere&nbsp;Zone&nbsp;B"]
+            ExtZoneA_EM["SecureSphere&nbsp;Zone&nbsp;A"] <--> ExtZoneB_EM["SecureSphere&nbsp;Zone&nbsp;B"]
         end
         subgraph External_Networks_Sub["External&nbsp;Networks"]
             Untrusted_EN["Untrusted&nbsp;Network"]
@@ -350,36 +344,36 @@ SecureSphere represents a fundamental shift in secure computing architecture, ad
 graph LR
     subgraph SecureSphere["SecureSphere&nbsp;System"]
          subgraph SMR["Security&nbsp;Monitoring&nbsp;&amp;&nbsp;Response"]
-            MSM_SMR["MSM"] --&gt; DTMS_SMR["DTMS"]
-            MSM_SMR --&gt; PolicyEngine_SMR["Policy Engine"]
-            MSM_SMR --&gt; ResourceMgr_SMR["Resource Manager"]
+            MSM_SMR["MSM"] --> DTMS_SMR["DTMS"]
+            MSM_SMR --> PolicyEngine_SMR["Policy Engine"]
+            MSM_SMR --> ResourceMgr_SMR["Resource Manager"]
         end
         subgraph SH["SecureSphere&nbsp;Hub"]
-            Hub_SH["SecureSphere Hub"] --&gt; DTMS_Hub["DTMS (P4)"]
-            Hub_SH --&gt; PolicyEngine_Hub["Policy Engine (P4)"]
-            Hub_SH --&gt; ResourceMgr_Hub["Resource Manager (P9, P10)"]
-            Hub_SH --&gt; AESDS_Hub["AESDS (P16)"]
-            Hub_SH --&gt; MDATS_Hub["MDATS (P17)"]
-            Hub_SH --&gt; DLT_Hub["Decentralized Ledger (P13, P15)"]
+            Hub_SH["SecureSphere Hub"] --> DTMS_Hub["DTMS (P4)"]
+            Hub_SH --> PolicyEngine_Hub["Policy Engine (P4)"]
+            Hub_SH --> ResourceMgr_Hub["Resource Manager (P9, P10)"]
+            Hub_SH --> AESDS_Hub["AESDS (P16)"]
+            Hub_SH --> MDATS_Hub["MDATS (P17)"]
+            Hub_SH --> DLT_Hub["Decentralized Ledger (P13, P15)"]
         end
         subgraph AIA["AI&nbsp;Agent&nbsp;(P36)&nbsp;Dual&nbsp;Role"]
             subgraph UI["UI&nbsp;Monitoring&nbsp;&amp;&nbsp;User&nbsp;Assistance"]
-                SecureUI_UI["Secure<br>UI<br>Kernel<br>(P11)"] --&gt; DataDiode_UI["Data Diode (P2)"]
-                DataDiode_UI --&gt; UI_Monitor_UI["UI Monitor"]
-                UI_Monitor_UI --&gt; LLM_Engine_UI["LLM Engine"]
-                LLM_Engine_UI --&gt; UserInteraction_UI["User<br>Interaction"]
-                UserInteraction_UI --&gt; SecureUI_UI
-                UI_Monitor_UI --&gt; AI_Agent_AIA["AI<br>Agent"]
+                SecureUI_UI["Secure<br>UI<br>Kernel<br>(P11)"] --> DataDiode_UI["Data Diode (P2)"]
+                DataDiode_UI --> UI_Monitor_UI["UI Monitor"]
+                UI_Monitor_UI --> LLM_Engine_UI["LLM Engine"]
+                LLM_Engine_UI --> UserInteraction_UI["User<br>Interaction"]
+                UserInteraction_UI --> SecureUI_UI
+                UI_Monitor_UI --> AI_Agent_AIA["AI<br>Agent"]
             end
             subgraph AIS["SecureSphere&nbsp;App&nbsp;Integration&nbsp;&amp;&nbsp;Security"]
-                API_Agent_AIS["Agent API"] --&gt; AI_Agent_AIA
-                AI_Agent_AIA --&gt; LSM1_AIS["Local<br>MSM<br>(P2)"]
-                AI_Agent_AIA --&gt; MSM_AIS["MSM<br>(P2)"]
-                AI_Agent_AIA --&gt; DTMS_SMR
-                AI_Agent_AIA --&gt; PolicyEngine_SMR
-                AI_Agent_AIA --&gt; AESDS_Hub
-                App1_AIS["SecureSphere Application 1"] --&gt; API_Agent_AIS
-                AppN_AIS["SecureSphere Application N"] --&gt; API_Agent_AIS
+                API_Agent_AIS["Agent API"] --> AI_Agent_AIA
+                AI_Agent_AIA --> LSM1_AIS["Local<br>MSM<br>(P2)"]
+                AI_Agent_AIA --> MSM_AIS["MSM<br>(P2)"]
+                AI_Agent_AIA --> DTMS_SMR
+                AI_Agent_AIA --> PolicyEngine_SMR
+                AI_Agent_AIA --> AESDS_Hub
+                App1_AIS["SecureSphere Application 1"] --> API_Agent_AIS
+                AppN_AIS["SecureSphere Application N"] --> API_Agent_AIS
             end
         end
     end
@@ -491,23 +485,23 @@ graph LR
     subgraph AI_Agent_IES_P1["AI Agent IES (P1)"]
         direction LR
         subgraph User_Assistance_SubGraph["User Assistance"]
-            UIK_UA["Secure UI Kernel (P11)"] -- "UI Events (P2)" --&gt; Monitor_UA["UI Monitor"]
-            Monitor_UA --&gt; Agent_P36_UA["AI Agent (P36)"]
-            Agent_P36_UA --&gt; AggHub_UA["Aggregation &<br>Processing Hub"]
-            AggHub_UA -- "Assistance/Response" --&gt; UIK_UA
-            User_UA["User"] --&gt; UIK_UA
+            UIK_UA["Secure UI Kernel (P11)"] -- "UI Events (P2)" --> Monitor_UA["UI Monitor"]
+            Monitor_UA --> Agent_P36_UA["AI Agent (P36)"]
+            Agent_P36_UA --> AggHub_UA["Aggregation &<br>Processing Hub"]
+            AggHub_UA -- "Assistance/Response" --> UIK_UA
+            User_UA["User"] --> UIK_UA
         end
         subgraph App_Integration_SubGraph["App Integration"]
-            App_AI["SecureSphere App"] --&gt; API_AI["Secure API (P2, P25)"]
-            API_AI --&gt; Agent_P36_UA
+            App_AI["SecureSphere App"] --> API_AI["Secure API (P2, P25)"]
+            API_AI --> Agent_P36_UA
         end
         subgraph SecureSphere_Integration_SubGraph["SecureSphere Integration"]
-            Agent_P36_UA --&gt; DTMS_SI["DTMS (P4)"]
-            MSM_SI["MSM (P2)"] --&gt; Agent_P36_UA
-            Agent_P36_UA &lt;--&gt; AESDS_SI["AESDS (P16)"]
-            Agent_P36_UA --&gt; DLT_SI["Decentralized<br>Ledger (P13, P15)"]
-            Agent_P36_UA &lt;--&gt; DMN_SI["DMNoC"]
-            LLM_SI["LLM Engine"] --&gt; Agent_P36_UA
+            Agent_P36_UA --> DTMS_SI["DTMS (P4)"]
+            MSM_SI["MSM (P2)"] --> Agent_P36_UA
+            Agent_P36_UA <--> AESDS_SI["AESDS (P16)"]
+            Agent_P36_UA --> DLT_SI["Decentralized<br>Ledger (P13, P15)"]
+            Agent_P36_UA <--> DMN_SI["DMNoC"]
+            LLM_SI["LLM Engine"] --> Agent_P36_UA
         end
     end
     style AI_Agent_IES_P1 fill:#ccf,stroke:#333,stroke-width:2px
