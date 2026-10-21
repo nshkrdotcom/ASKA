@@ -1,6 +1,6 @@
 # 08 — Defensive structural disclosure
 
-[Start](README.md) · [Previous: prior art and sources](07_prior_art_and_sources.md) · [Next: critique and revision assessment](09_patent_claims_critique_and_revision.md)
+[Start](README.md) · [Previous: prior art and sources](07_prior_art_and_sources.md)
 
 **ASKA 2.0 · 20 October 2026 · Public technical disclosure**
 
@@ -10,9 +10,9 @@ This document publishes 35 formal structural statements describing selected ASKA
 
 The original text and diagrams are offered under [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/). That is a copyright license, not a public-domain dedication or a patent license. Publication does not guarantee that every described mechanism is unpatentable, eliminate existing patent rights, or establish freedom to operate. The effect of a disclosure depends on its actual content, public accessibility, relevant dates, and applicable law. [CC BY 4.0 legal terms](https://creativecommons.org/licenses/by/4.0/legalcode.en), [MPEP § 2128](https://www.uspto.gov/web/offices/pac/mpep/s2128.html).
 
-The numbered statements preserve the reviewed technical language. Their claim-like form does not establish novelty, sufficient enabling disclosure, a filing or priority date, or the validity of any later patent. No patent search or freedom-to-operate analysis has been completed. The architecture remains at the research stage described in the preceding documents.
+The numbered statements describe the proposed mechanisms. Their claim-like form does not establish novelty, sufficient enabling disclosure, a filing or priority date, or the validity of any later patent. No patent search or freedom-to-operate analysis has been completed. The architecture remains at the research stage described in the preceding documents.
 
-The emphasis is on concrete relationships between protected state, hardware access paths, payload snapshots, and acceptance decisions. Isolation, capabilities, information-flow labels, authenticated encryption, replay windows, and receiver-authorized networking already have substantial histories. [Document 09](09_patent_claims_critique_and_revision.md) records the earlier drafting review and explains the retained technical revisions.
+The emphasis is on concrete relationships between protected state, hardware access paths, payload snapshots, and acceptance decisions. Isolation, capabilities, information-flow labels, authenticated encryption, replay windows, and receiver-authorized networking already have substantial histories.
 
 ## Claim organization
 
@@ -28,7 +28,7 @@ These groups organize the disclosure; they do not assert that five patentable in
 
 The claims use one sentence per numbered claim. Each dependent claim refers to one earlier claim and adds a limitation. This follows the general claim-form and dependency framework described in [MPEP § 608.01](https://www.uspto.gov/web/offices/pac/mpep/s608.html). Here, that form makes dependencies explicit; it gives the publication no special legal status.
 
-## Terminology used in this draft
+## Terminology
 
 **Execution compartment** is the claim term for an IES. It includes a processing resource and an assigned relationship to memory and communication resources; it does not require a particular ISA, number of cores, or die-stacking arrangement.
 
@@ -192,7 +192,7 @@ These explanations accompany the formal statements. Their technical support and 
 
 **35.** The network forwarding apparatus of claim 31, further comprising a second hardware forwarding gate arranged in series with the hardware forwarding gate and having separately protected policy and authentication state, wherein transmission through the selected physical egress interface requires permission from both gates and either gate can prevent the transmission independently of an allow decision by the other gate.
 
-## Description support and unresolved drafting work
+## Implementation support and open questions
 
 The following map identifies passages that motivate the claim language. It is **not a finding of legally sufficient written description or enablement**. Those requirements concern what the application actually discloses and enables across the claimed scope. Adding a functional result to a claim does not supply a missing implementation. [MPEP § 2163](https://www.uspto.gov/web/offices/pac/mpep/s2163.html), [MPEP § 2164](https://www.uspto.gov/web/offices/pac/mpep/s2164.html).
 
@@ -214,7 +214,7 @@ Claims 31–35 are the least developed group in the current description. They sh
 
 The claims concerning exclusive ownership, immutable sharing, dynamic classification, and subdivision also span alternatives that ASKA 2.0 has not implemented. Their inclusion preserves those branches for examination; it does not establish that the current prose enables every covered implementation.
 
-The reviewed statements make additional relationships explicit. In particular, claim 33 applies the protected expiry and installation-replay rules to forwarding authorization, whose concrete installation protocol remains unspecified. These edits do not retroactively establish disclosure in an earlier document, a priority date, or a right to add the language to any previously filed application. The revision and remaining structural work are recorded in [Document 09](09_patent_claims_critique_and_revision.md).
+Claim 33 applies protected expiry and installation-replay rules to forwarding authorization. Its concrete installation protocol remains unspecified.
 
 ## Candidate distinctions to investigate against prior art
 

@@ -50,11 +50,10 @@ The diagram hides an essential distinction. Authenticated encryption can protect
 | [06 — Research plan and evidence](06_research_plan_and_evidence.md) | What useful work can be done before hardware, and what would falsify a candidate? |
 | [07 — Prior art and sources](07_prior_art_and_sources.md) | Which ideas already exist, and what comparisons remain necessary? |
 | [08 — Defensive structural disclosure](08_defensive_structural_disclosure.md) | Which precise structural relationships and alternatives are disclosed for public examination and reuse? |
-| [09 — Assessment of the claims critique and revisions](09_patent_claims_critique_and_revision.md) | Which external recommendations hold up, and why were the claim candidates revised? |
 
 Read 01–03 for the core argument. Read 05 before deciding whether its costs could be acceptable. Document 06 is a starting point for contributing an analysis, counterexample, or experiment.
 
-Document 08 is an open defensive structural disclosure. It retains 35 numbered, claim-form statements for precision; no patent application is being filed as part of this release. Document 09 preserves the earlier drafting review. Formal wording does not establish novelty, patentability, or additional technical evidence.
+Document 08 is an open defensive structural disclosure. It retains 35 numbered, claim-form statements for precision; no patent application is being filed as part of this release. Formal wording does not establish novelty, patentability, or additional technical evidence.
 
 ## What ASKA 2.0 commits to
 
