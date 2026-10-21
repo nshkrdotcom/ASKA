@@ -1,310 +1,83 @@
-# ASKA: Next-Generation Secure Computing Architecture
+# ASKA 2.0 — Research Architecture
 
-**Building Trust from the Ruins of Broken Promises**
+**ASKA 2.0 · 20 October 2026 · Conceptual design and research questions**
 
-## Overview
+ASKA explores a computer architecture in which the boundaries of authority are part of the machine: execution, memory, devices, internal communication, and external networking enforce explicit limits on what each participant may access, disclose, or cause. Its central unit is the **Isolated Execution Stack (IES)**, a proposed hardware-enforced compartment spanning computation and its relevant resources.
 
-ASKA is a revolutionary hardware-rooted secure computing architecture designed for high-assurance operation in complex environments, particularly relevant for the age of Advanced General Intelligence (AGI). It addresses fundamental vulnerabilities in current computing architectures through modularity, hardware-enforced isolation, dynamic adaptability, and decentralized governance.
+The long-term vision includes heterogeneous IES cells, protected on-chip and external fabrics, independently governed receiving systems, and constrained autonomous software. The immediate research question is smaller and concrete:
 
-This repository contains the architectural specifications, patent documentation, and technical designs for ASKA - a comprehensive framework for secure computing that reimagines how we build trustworthy systems from the ground up.
+> Can a system preserve the meaning of an authorization as data moves from protected computation, through memory and devices, into a network message, and into another independently governed machine—even when ordinary operating systems and routing controllers are compromised?
 
-### Key Innovations
+An affirmative answer would require more than an authenticated connection. It would require an account of where authority and data classification originate, how they survive each representation change, and which components remain trusted.
 
-- **Hardware-Enforced Isolation**: Modular Isolated Execution Stacks (IES) with complete hardware separation
-- **Dynamic Trust Management**: Real-time trust assessment and policy enforcement
-- **Automated Software Evolution**: Self-improving system with proactive security updates
-- **Quantum-Resistant Security**: Future-proof cryptographic protection
-- **Decentralized Governance**: Transparent, auditable decision-making processes
-- **Multi-Dimensional Auditing**: Digital and physical audit trails using 3D microstructures
+This is an independent architecture investigation. ASKA 2.0 contains **no fabricated silicon, implemented ASKA protocol, measured performance results, or completed security proof**. It claims no new cryptographic primitive or completed ISA. A new ISA remains a research option if the required execution semantics justify one. Existing instruction sets and components are comparison points and possible building blocks.
 
-## Table of Contents
+## The architecture in one view
 
-- [Architecture Overview](#architecture-overview)
-- [Core Components](#core-components)
-- [Key Technologies](#key-technologies)
-- [Patent Portfolio](#patent-portfolio)
-- [Security Features](#security-features)
-- [Technical Specifications](#technical-specifications)
-- [Documentation](#documentation)
-- [Research Papers](#research-papers)
-- [Contact](#contact)
+```mermaid
+flowchart LR
+  subgraph A[Administrative realm A]
+    AC[Protected policy and key authority]
+    IES[IES computation and protected memory]
+    EG[Memory, DMA, and egress enforcement]
+    AC -.-> EG
+    IES --> EG
+  end
+  EG --> N[External transport]
+  subgraph B[Administrative realm B]
+    BC[Independent receiving authority]
+    IG[Ingress and placement enforcement]
+    DST[Receiving IES]
+    BC -.-> IG
+    IG --> DST
+  end
+  N --> IG
+  U[Ordinary OS and route controllers] -.->|requests and route proposals| EG
+  U -.->|requests and route proposals| IG
+```
 
-## Architecture Overview
+The diagram hides an essential distinction. Authenticated encryption can protect a message over untrusted transport. Preventing that message from traversing a particular physical port requires enforcement at that port and an accurate account of the topology. These are separate claims, developed separately below.
 
-ASKA employs a defense-in-depth strategy combining multiple innovative technologies into a cohesive secure computing platform. The architecture is built around several core principles:
+## Reading the set
 
-### Core Principles
+| Document | Question it answers |
+|---|---|
+| [01 — Vision, problem, and threat model](01_vision_problem_and_threat_model.md) | What is ASKA trying to change, and against which adversary? |
+| [02 — IES execution and authority](02_ies_execution_and_authority.md) | What makes an IES a security boundary, and where does its authority come from? |
+| [03 — The protected handoff](03_protected_handoff.md) | How could a buffer become an authorized message without losing its restrictions? |
+| [04 — Network transport and independent realms](04_network_transport_and_realms.md) | What must travel on the wire, what state remains, and what can a receiver independently refuse? |
+| [05 — Costs, limits, and unresolved questions](05_costs_limits_and_open_questions.md) | Where can the architecture become too expensive, too restrictive, or incorrect? |
+| [06 — Research plan and evidence](06_research_plan_and_evidence.md) | What useful work can be done before hardware, and what would falsify a candidate? |
+| [07 — Prior art and sources](07_prior_art_and_sources.md) | Which ideas already exist, and what comparisons remain necessary? |
+| [08 — Defensive structural disclosure](08_defensive_structural_disclosure.md) | Which precise structural relationships and alternatives are disclosed for public examination and reuse? |
+| [09 — Assessment of the claims critique and revisions](09_patent_claims_critique_and_revision.md) | Which external recommendations hold up, and why were the claim candidates revised? |
 
-1. **Zero Trust by Design**: Every component must prove its trustworthiness continuously
-2. **Hardware Root of Trust**: Security anchored in tamper-resistant hardware
-3. **Compartmentalization**: Isolated execution environments limit blast radius
-4. **Adaptive Security**: Dynamic response to evolving threats
-5. **Auditability**: Complete transparency through immutable audit trails
+Read 01–03 for the core argument. Read 05 before deciding whether its costs could be acceptable. Document 06 is a starting point for contributing an analysis, counterexample, or experiment.
 
-### System Architecture
+Document 08 is an open defensive structural disclosure. It retains 35 numbered, claim-form statements for precision; no patent application is being filed as part of this release. Document 09 preserves the earlier drafting review. Formal wording does not establish novelty, patentability, or additional technical evidence.
 
-The ASKA system consists of interconnected zones, each containing:
+## What ASKA 2.0 commits to
 
-- **ASKA Hub**: Central orchestration and management
-- **IES Clusters**: Hardware-isolated execution environments
-- **Multi-Channel Network**: Secure communication infrastructure
-- **Security Mesh**: Hierarchical monitoring and response system
-- **Trust Management**: Dynamic policy enforcement and assessment
+ASKA retains the hardware-first IES direction. An ordinary host kernel is not the final authority over an IES boundary. A routing controller may select permitted routes; it cannot create permission merely by installing a route. A receiving realm retains its own decision. Recovery, debug, and device access must obey explicit boundaries too.
 
-## Core Components
+The architecture does **not** yet commit to one core design, a universal label format, a new Internet protocol, or dedicated hardware for every logical process. Those decisions depend on the properties and costs established through research. A small experiment can test an architectural requirement without fixing the final machine around that apparatus.
 
-### 🏛️ ASKA Hub
-The central orchestration and management entity that coordinates all system operations:
+The first candidate uses coarse compartment labels and a bounded message handoff. This gives the discussion a mechanism to examine. It is not evidence that the full IES vision is feasible, nor a decision to reduce ASKA to a network adapter.
 
-- **Orchestrator**: Manages IES lifecycle and resource allocation (P1, P10)
-- **Policy Engine**: Enforces security policies across the system (P4, P16)
-- **Resource Manager**: AI-powered dynamic resource allocation (P9, P10)
-- **DTMS Interface**: Dynamic Trust Management System integration (P4)
-- **AESDS Interface**: Automated Evolutionary Software Development System (P16)
-- **SIZCF Interface**: Secure Inter-Zone Collaboration Framework (P22)
+## How to interpret claims
 
-### 🏗️ Isolated Execution Stacks (IES)
-Hardware-isolated execution environments providing the foundation of ASKA's security:
+**Existing work** is attributed to sources. **Proposed mechanisms** describe designs to investigate. **Derived examples** show arithmetic under stated assumptions. **Open questions** identify missing decisions or evidence. None of these categories implies a measured ASKA result.
 
-- **Complete Hardware Isolation**: Dedicated CPU, memory, I/O, and network resources (P1)
-- **Dynamic Partitioning**: Child IES instances for granular control and resource optimization
-- **Hierarchical Zones**: Mini-TRCs (Trust Root Configurations) for localized trust management
-- **Secure Boot**: Hardware-verified initialization process with attestation (P1, P13, P33)
-- **Local Security Mesh**: Continuous monitoring within each IES instance (P2)
+A worthwhile outcome could be a better architecture, a useful component, a precise counterexample, or evidence that an existing system already satisfies the desired contract. The investigation does not depend on being first to imagine isolation, capabilities, hardware messaging, or distributed information-flow control.
 
-### 🌐 Multi-Channel Network (MCN)
-Secure communication infrastructure with quantum-resistant protection:
+The earlier repository, including its original README, is preserved in [ASKA_v1](ASKA_v1/ARCHIVE_NOTICE.md). It is historical material; its patent-portfolio language, performance assertions, and proposed specifications are not evidence of granted patents or validated results. The ASKA 2.0 documents at the repository root describe the current research position.
 
-- **Physical Channel Segregation**: Dedicated pathways for different trust levels (P3)
-- **Capability-Aware Forwarding**: Fine-grained access control at the network level (P2, P26)
-- **Dynamic Routing**: Adaptive path selection based on security posture and performance
-- **Out-of-Band Firewall**: Independent security enforcement (P3)
-- **Quantum-Resistant Gateways**: Future-proof cryptographic protection (P5)
-
-### 🤖 AI-Driven Systems
-Intelligent automation for security and system management:
-
-- **AESDS**: Automated Evolutionary Software Development System with IAMA module (P16)
-- **DTMS**: Dynamic Trust Management System with real-time assessment (P4)
-- **AI Agent**: Context-aware assistance and security monitoring (P36)
-- **Anomaly Detection**: Hardware-enforced threat identification and response (P7)
-
-### 🔐 Advanced Security Components
-
-- **HESE-DAR**: Hardware-Enforced Secure Encrypted Enclave for Data at Rest (P24)
-- **STN**: Sovereign Trust Network for highest security operations (P27)
-- **DTG**: Dynamic Trust Gateway mediating network communications (P28)
-- **ZKEE**: Zero-Knowledge Execution Environment for private computation (P6)
-- **QE-OTP**: Quantum-Entangled One-Time Pad for secure communications (P29)
-
-## Key Technologies
-
-### Core Patent Technologies
-
-**Patent 1: Modular Isolated Execution Stacks**
-- Hardware-enforced isolation with hierarchical zones
-- Dynamic partitioning and capability-based communication
-- Mini-TRCs for localized trust management
-
-**Patent 2: Secure Inter-IES Communication**  
-- Data diodes for unidirectional communication
-- Capability-enhanced packet forwarding (CE-PCFS)
-- Hierarchical security mesh architecture
-
-**Patent 3: Adaptive Multi-Channel Network**
-- Physically segregated communication channels
-- Declarative policy enforcement with capability-aware forwarding
-- Dynamic routing and legacy system integration
-
-**Patent 4: Dynamic Trust Management System**
-- Real-time trust assessment and policy updates
-- Decentralized zone management with distributed consensus
-- TRC-based trust relationships and policy negotiation
-
-**Patent 5: Quantum-Resistant Communication**
-- Quantum Key Distribution (QKD) and Distributed Key Management
-- Post-quantum cryptography implementation
-- Path-aware key distribution and dynamic endpoint discovery
-
-### Advanced Technologies
-
-**Patent 16: Automated Evolutionary Software Development**
-- AI-driven code generation and refinement
-- Secure deployment with TRC-based verification
-- IAMA module for legacy system monitoring and adaptation
-
-**Patent 27: Sovereign Trust Network**
-- Isolated data plane with minimal control plane coupling
-- Multi-level control system with key recovery capabilities
-- Isomorphic security stack for proactive protection
-
-**Patent 28: Dynamic Trust Gateway**
-- Dynamic channel provisioning between ATN and STN
-- Multi-path capability aggregation with deep packet inspection
-- Adaptive security measures with decentralized governance
-
-## Security Features
-
-### 🔒 Hardware-Enforced Security
-- **Secure Boot**: Hardware-verified initialization with attestation service
-- **Memory Protection**: Hardware-enforced segmentation and obfuscation (P8)
-- **Tamper Detection**: Physical security monitoring with automated response
-- **3D Microstructure Audit**: Physical audit trails for tamper evidence (P14, P17)
-
-### 🛡️ Defense in Depth
-- **Multiple Security Layers**: IES isolation, network segmentation, trust management
-- **Anomaly Detection**: AI-powered threat identification with hardware enforcement (P7)
-- **Automatic Response**: Self-healing and isolation capabilities with zonal policies
-- **Continuous Monitoring**: Hierarchical security mesh with real-time assessment (P2)
-
-### 🔐 Advanced Cryptography
-- **Post-Quantum Algorithms**: Future-proof encryption resistant to quantum attacks (P5)
-- **Hardware Security Modules**: Secure key management and cryptographic operations
-- **Zero-Knowledge Proofs**: Privacy-preserving computation and verification (P6)
-- **Homomorphic Encryption**: Computation on encrypted data within secure enclaves
-
-### 📊 Comprehensive Auditing
-- **Decentralized Ledger**: Immutable audit trails with blockchain technology (P13, P15)
-- **3D Microstructure Audit**: Physical tamper evidence and provenance tracking (P14, P17)
-- **MDATS**: Multi-Dimensional Audit Trail System correlating digital and physical logs (P17)
-- **Real-time Monitoring**: Continuous oversight with automated policy enforcement
-
-## Technical Specifications
-
-### Hardware Requirements
-- **Trusted Platform Module (TPM)**: Version 2.0 or higher for hardware root of trust
-- **Hardware Security Module (HSM)**: For cryptographic key management and operations
-- **Secure Boot**: UEFI Secure Boot with custom key management
-- **Memory Isolation**: Hardware-enforced memory segmentation capabilities
-- **Network Interfaces**: Multiple physical network interfaces for channel segregation
-
-### Supported Architectures
-- **x86-64**: Intel with TXT (Trusted Execution Technology)
-- **ARM**: ARMv8-A with TrustZone and Pointer Authentication
-- **RISC-V**: With custom security extensions for isolation
-- **Custom Chiplets**: Specialized hardware accelerators (P12)
-
-### Performance Characteristics
-- **IES Creation Latency**: Sub-millisecond hardware isolation setup
-- **Trust Assessment**: Real-time evaluation with microsecond response
-- **Network Overhead**: Minimal latency impact from security enforcement
-- **Throughput**: Near-native performance with hardware acceleration
-
-### Scalability Parameters
-- **IES Instances**: Thousands per physical node
-- **Zones**: Hierarchical organization supporting large deployments  
-- **Network Channels**: Multiple simultaneous secure pathways
-- **Audit Events**: High-volume logging with real-time processing
-
-## Patent Portfolio
-
-ASKA is protected by an extensive patent portfolio covering 36+ innovations:
-
-| Patent | Technology Area | Key Innovation |
-|--------|----------------|----------------|
-| P1 | Core Architecture | Modular Isolated Execution Stacks with hierarchical zones |
-| P2 | Communication | Secure inter-IES communication with capability-enhanced forwarding |
-| P3 | Networking | Adaptive multi-channel network with declarative policies |
-| P4 | Trust Management | Dynamic trust system with decentralized zone management |
-| P5 | Cryptography | Quantum-resistant communication with path-aware key distribution |
-| P6 | Privacy Computing | Zero-knowledge execution environment |
-| P7 | Security Monitoring | Hardware-enforced anomaly detection and self-healing |
-| P8 | Memory Protection | Hardware-based memory protection with dynamic obfuscation |
-| P9-P10 | Resource Management | Secure resource borrowing and AI-powered allocation |
-| P11 | User Interface | Secure UI kernel with hardware-enforced integrity |
-| P12 | Hardware Integration | Secure and adaptive chiplet architecture |
-| P13-P15 | Governance | Secure transparent governance with AI-driven auditing |
-| P16 | Software Evolution | Automated evolutionary software development with IAMA |
-| P17 | Auditing | Multi-dimensional audit trail system |
-| P18-P22 | Collaboration | Secure hyper-virtualization and inter-zone frameworks |
-| P23 | Authentication | Adaptive context-aware multi-factor authentication |
-| P24 | Data Protection | Hardware-enforced secure encrypted enclave for data at rest |
-| P25-P26 | Access Control | Dynamically reconfigurable capability-based communication |
-| P27 | Secure Networks | Sovereign trust network for key management |
-| P28 | Gateway Systems | Dynamic trust gateway for secure inter-zone communication |
-| P29-P32 | Advanced Security | Quantum-entangled OTP and spatiotemporal content verification |
-| P33-P36 | System Integration | Decentralized bootstrapping and auxiliary memory systems |
-
-## Documentation Structure
-
-### Core Documentation
-- [Architecture Specifications](docs/architecture/) - Detailed system design documents
-- [Patent Descriptions](docs/patents/) - Complete patent documentation and claims
-- [Security Analysis](docs/security/) - Threat models and security proofs
-- [Technical Diagrams](docs/diagrams/) - Visual architecture representations
-
-### Research Papers
-- [Hardware-Rooted Trust in Modern Computing](papers/hardware-trust.pdf)
-- [Dynamic Trust Management for Secure Systems](papers/dynamic-trust.pdf)
-- [Quantum-Resistant Security Architectures](papers/quantum-resistant.pdf)
-- [AI-Driven Automated Software Evolution](papers/ai-evolution.pdf)
-
-### Technical Deep Dives
-- [IES Implementation Details](docs/technical/ies-implementation.md)
-- [Trust Management Algorithms](docs/technical/trust-algorithms.md)
-- [Network Security Protocols](docs/technical/network-protocols.md)
-- [Cryptographic Implementations](docs/technical/cryptography.md)
-
-## Use Cases
-
-### Enterprise Security
-- **Zero Trust Networks**: Complete network segmentation with hardware isolation
-- **Secure Containers**: Hardware-isolated application execution environments
-- **Compliance Systems**: Auditable security controls with immutable logging
-- **Incident Response**: Automated threat containment and system recovery
-
-### Government and Defense
-- **Classified Processing**: Multi-level security with hardware-enforced separation
-- **Critical Infrastructure**: Resilient operations with self-healing capabilities
-- **Secure Communications**: Quantum-resistant channels with perfect forward secrecy
-- **Supply Chain Security**: Hardware-verified component integrity
-
-### Financial Services
-- **Transaction Processing**: Hardware-protected financial operations
-- **Regulatory Compliance**: Comprehensive auditing with tamper-evident trails
-- **Fraud Detection**: Real-time anomaly detection with automated response
-- **Data Protection**: Encrypted computation on sensitive financial data
-
-### Research and Development
-- **AI/ML Security**: Secure training and inference with privacy preservation
-- **Intellectual Property Protection**: Hardware-enforced code and model security
-- **Collaborative Research**: Secure multi-party computation and data sharing
-- **High-Performance Computing**: Isolated workloads with resource optimization
-
-## Research Collaboration
-
-ASKA represents cutting-edge research in secure computing. We welcome collaboration with:
-
-- **Academic Institutions**: Research partnerships and student projects
-- **Government Agencies**: Security research and standards development
-- **Industry Partners**: Implementation and commercialization opportunities
-- **Standards Bodies**: Contributing to security architecture standards
-
-### Current Research Areas
-- Quantum computing integration and post-quantum cryptography
-- Advanced AI security and privacy-preserving machine learning
-- Hardware security module optimization and custom chiplet development
-- Distributed systems consensus and decentralized governance mechanisms
-
-## Contact
-
-### Research Inquiries
-**Paul Lowndes**  
-Lead Architect & Inventor  
-Email: ZeroTrust@NSHkr.com
-
-### Technical Documentation
-For detailed technical specifications, patent documentation, and architecture diagrams, please refer to the documentation in this repository or contact the research team.
-
-### Licensing and Commercialization
-ASKA technologies are available for licensing. Please contact for information about:
-- Academic research licenses
-- Commercial implementation partnerships
-- Government and defense applications
-- Standards body collaboration
-
----
-
-**ASKA** - *Building Trust from the Ruins of Broken Promises*
-
-This repository contains the foundational research and architectural specifications for ASKA, representing a paradigm shift in secure computing design. The technologies described here address fundamental security challenges in modern computing systems and provide a framework for building trustworthy systems in an increasingly complex threat landscape.
+## License and reuse
+
+The original documentation and diagrams in this repository are licensed under [Creative Commons Attribution 4.0 International](LICENSE), including the historical archive except where separate terms are identified. You may share and adapt this material, including commercially, with attribution and an indication of changes. Third-party quotations, linked publications, and other separately attributed material retain their own terms.
+
+Suggested attribution: **Paul Lowndes and ASKA contributors, ASKA 2.0**, with a link to [this repository](https://github.com/nshkrdotcom/ASKA) and the commit used. This is a copyright license, not a public-domain dedication or a patent license. See [Document 08](08_defensive_structural_disclosure.md) for the defensive-publication intent and its limits.
+
+## Contributing
+
+Useful contributions include concrete counterexamples, missing references, corrected assumptions, and small models or measurements that test a stated property. Cite the relevant document and distinguish a proposal from an observed result. Original documentation contributions are accepted under the repository's CC BY 4.0 license; identify any third-party material and its terms.
