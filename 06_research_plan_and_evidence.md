@@ -6,15 +6,19 @@ Begin by comparing ASKA’s requirements and assumptions with existing systems. 
 
 The documents specify candidate state transitions, an experimental encoding and a research plan. The executable model and experiments remain to be done.
 
-The [source register](07_prior_art_and_sources.md) and [statement comparisons](08_defensive_structural_disclosure.md#prior-art-and-scope) identify the sources and requirements to compare. The three apparatus contracts cover lifecycle generation checks, freezing and copying at the source, and serialized receiver acceptance. Compare those required relationships against existing systems before treating any as an ASKA contribution. A contribution needs a demonstrated difference; a failed search for a complete match cannot supply that evidence.
+The [source register](07_prior_art_and_sources.md) and [statement comparisons](08_defensive_structural_disclosure.md#prior-art-and-scope) identify the sources and requirements to compare. The three apparatus contracts cover lifecycle generation checks, source binding and copying, and serialized receiver acceptance. Compare those required relationships against existing systems before treating any as an ASKA contribution. A contribution needs a demonstrated difference; a failed search for a complete match cannot supply that evidence.
+
+Prioritize the bounded model of source lifetime and receiver policy authority alongside those comparisons. Its traces can resolve the specified interleavings, while hardware construction and legal enablement remain separate questions.
 
 ## Begin with one question
 
-> Under the declared source-classification and hardware-isolation assumptions, can a compromised ordinary host cause an unauthorized explicit transfer by racing the buffer handoff, changing message meaning, replaying records, or exploiting session lifecycle transitions?
+> Can a compromised host or an attacker-controlled workload cause a forbidden delivery, an incoherent snapshot or an unauthorized policy change by racing source lifetime, copying, acceptance or session transitions?
 
 Use two confidentiality classes, two source contexts, one allowed restricted destination, one forbidden public destination, bounded queues, and one directional session. Initially omit release, migration, dynamic peering, and timing-channel claims. These bounds make the first question small enough to investigate.
 
-A model should include source writes, DMA attempts, freeze/copy completion, authorization, sequence allocation, send, receive, replay commit, expiry, policy withdrawal, and reset. An attacker controls ordinary requests and their interleavings. Give each assumed protected function a named interface so the model can deliberately weaken it.
+Model authority lookup and binding acquisition, owner and mapping changes, generation changes, individual alias-write attempts, alias disabling, write drain and copy steps separately. Include source and DMA writes, authorization, sequence allocation, send, preliminary replay checks, receiver acceptance, policy-installation requests, expiry, withdrawal and reset. An attacker controls requests and their interleavings, including workload writes within its assigned rights. Protected management changes retain their own authority checks but can race those requests.
+
+Model the binding, write exclusion, drain and copy transitions rather than assuming an atomic `freeze_and_copy`. Bound the number of cells, aliases, source bytes, queued records and transitions explicitly. Give each assumed protected function a named interface and state which behavior is assumed and which synchronization is being tested.
 
 Start from actual boundary contracts in [M³](07_prior_art_and_sources.md#a01), [untrusted-core isolation](07_prior_art_and_sources.md#a02), [TEEM³](07_prior_art_and_sources.md#a03), [Composite Enclaves](07_prior_art_and_sources.md#a12), [Ryoan](07_prior_art_and_sources.md#ry), [DStar](07_prior_art_and_sources.md#c05), [Elasticlave](07_prior_art_and_sources.md#b05), alongside the baseline of an ordinary host with all authority. For [TEEM³](07_prior_art_and_sources.md#a03), record that full text remains unavailable; its artifact and author descriptions provide leads that still need checking against the paper.
 
@@ -22,9 +26,19 @@ Start from actual boundary contracts in [M³](07_prior_art_and_sources.md#a01), 
 
 This is the proposed ASKA validation procedure; no result from the procedure is reported here.
 
-The oracle must describe allowed and forbidden effects independently of the gate's own allow/deny result. Checking only the gate’s `allow` result would repeat the decision being tested.
+The oracle checks allowed and forbidden effects independently of the gate’s decision. Checking only the gate’s `allow` result would repeat the decision being tested.
 
-Record the actual destination, payload version, operation, classification, session generation, and delivery event. Compare these against an independently stated policy and the source history. Include a deliberately broken model that permits a low-label substitution or a buffer race. The oracle must detect that violation before its results are trusted on the candidate design.
+Record source owner, physical extent and mapping, generations, classification, writes and bytes read during each copy step. At the receiver, record destination, operation, session, policy credential and update events, replay changes, allowance debit and publication. Compare these with an independently stated policy and source history.
+
+| Outcome | Independent condition to check |
+|---|---|
+| Delivery | The delivered bytes’ restriction and requested operation satisfy source authority and current receiver acceptance |
+| Snapshot coherence | The staged bytes equal the bound extent’s bytes after write drain and before source writes resume |
+| Source lifetime | Owner, mapping, generation and classification remain bound from authority lookup through staged-copy completion or safe abort |
+| Receiver authority | Only receiver-authorized installation can change receiver policy; source records and grants cannot expand it |
+| Acceptance atomicity | Concurrent records and policy changes have one acceptance order; replay, debit and classification commit before publication |
+
+Same-class mutation can fail snapshot coherence without causing forbidden delivery. Source coherence is checked against source history; the receiver cannot infer it from AEAD verification or an unverified version number. Include separate broken variants that release the source binding too early, retain a writable alias, accept a source credential at the receiver installer, or split duplicate checks from commit. Each broken variant must produce a trace that fails the relevant independent check. The protected candidate must also complete permitted transfers.
 
 Separate code is insufficient if the gate and oracle share the same mistaken assumption. Challenge their assumptions with counterexamples, independently stated properties and outside review.
 
@@ -49,7 +63,11 @@ For each baseline keep a matrix of source classification, plaintext access, DMA/
 |---|---|
 | Replace a restricted label with public | Protected classification prevails; transfer is denied |
 | Reuse a valid grant for another destination or operation | Source or receiver scope check rejects it |
-| Modify the buffer during freeze, copy, or authentication | Mutation is prevented, or the operation fails before unauthorized publication |
+| Reassign or remap an extent between authority lookup and copy completion | The change waits; completion or safe abort restores source permissions under the binding before releasing it |
+| In a later dynamic-label extension, admit input that would raise a bound source’s classification | Input waits until release of the binding; no lower-class copy includes the new restricted input |
+| In a weakened variant, reassign or remap after authority lookup, then introduce restricted bytes before freeze | Report forbidden delivery if stale public metadata survives the remaining checks; record the origin of the restricted bytes |
+| Mutate a fixed-class source through an in-cell workload or stale alias during copying | Reject the write or abort the transfer; a torn same-class snapshot is an integrity failure, not automatically a disclosure |
+| Change the source after staging completes | Staged bytes and metadata remain unchanged; the later source version cannot replace them |
 | Use an old handle after object reallocation | Generation mismatch rejects access |
 | Race duplicate records on two receive paths | At most one delivery for that sequence in the live session |
 | Forge a high sequence number | Failed authentication cannot advance the replay window |
@@ -57,12 +75,16 @@ For each baseline keep a matrix of source classification, plaintext access, DMA/
 | Withdraw policy while a record is queued | Outcome follows the declared serialization point; queued receive data is rechecked |
 | Replay a lease-installation message | Lifetime is not restarted |
 | Flood malformed or authenticated useless requests | Resource use stays within the declared local budget; loss of useful service is reported |
-| Compromise a source issuer while receiver policy stays fixed | Existing accepted scope may be abused; receiver scope is not enlarged |
+| Present a source-controlled record or grant outside receiver scope | Receiver rejects the operation without expanding policy |
+| Present a source credential to the receiver policy installer, attempting to expand each policy dimension | Installation fails and receiver policy remains unchanged |
+| Install a valid receiver-authorized policy update while records are queued or committing | Update succeeds and orders with acceptance; records use the policy current at their acceptance point |
+| Repeat an accepted record or a record below the replay window | Preliminary replay check rejects it without cryptographic work |
+| Repeat an authenticated, policy-invalid record whose sequence is still eligible | Accepted replay state remains unchanged; count repeated verification and policy work |
 | Add an unmodeled bypass | Topology-dependent result becomes unresolved or changes; it is not retained as a pass |
 
 Every campaign also sends permitted traffic.
 
-Attach each campaign to the relevant precedent and its difference: replay/window ([RFC 4303 / ESP](07_prior_art_and_sources.md#esp), [US8438641B2 replay hardware](07_prior_art_and_sources.md#arp)), nonce loss/failover ([RFC 5116](07_prior_art_and_sources.md#ae), [IPsec failover RFCs](07_prior_art_and_sources.md#ha)), reset-safe time ([TPM 2.0](07_prior_art_and_sources.md#tpm)), protected buffer mutation ([Elasticlave](07_prior_art_and_sources.md#b05)), and control-plane bypass ([Intel control-plane isolation](07_prior_art_and_sources.md#cpi), [Intel NIC control paths](07_prior_art_and_sources.md#cps), [ICING](07_prior_art_and_sources.md#d01)). Add an authenticated **policy-invalid** high sequence case: unlike a forged tag, it specifically tests ASKA’s policy-before-window-advance rule. Report successful authorized deliveries, latency, false denials, and resource use alongside forbidden outcomes. “No forbidden packet observed” with no useful work completed is insufficient.
+Attach each campaign to the relevant precedent and its difference: replay/window ([RFC 4303 / ESP](07_prior_art_and_sources.md#esp), [US8438641B2 replay hardware](07_prior_art_and_sources.md#arp)), nonce loss/failover ([RFC 5116](07_prior_art_and_sources.md#ae), [IPsec failover RFCs](07_prior_art_and_sources.md#ha)), reset-safe time ([TPM 2.0](07_prior_art_and_sources.md#tpm)), protected buffer mutation ([Elasticlave](07_prior_art_and_sources.md#b05)), and control-plane bypass ([Intel control-plane isolation](07_prior_art_and_sources.md#cpi), [Intel NIC control paths](07_prior_art_and_sources.md#cps), [ICING](07_prior_art_and_sources.md#d01)). Include an authenticated **policy-invalid** high sequence case to test policy-before-window-advance, and repeat it to measure the verification cost. A forged tag tests a different rejection path. Report successful authorized deliveries, latency, false denials, and resource use alongside forbidden outcomes. “No forbidden packet observed” with no useful work completed is insufficient.
 
 ## Compare mechanisms under the same assumptions
 

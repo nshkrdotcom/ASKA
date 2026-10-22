@@ -65,6 +65,8 @@ The [experimental record](04_network_transport_and_realms.md) adds a 64-byte hea
 | 256 bytes | 336 bytes | 76.2% | 66.7% |
 | 1024 bytes | 1104 bytes | 92.8% | 88.9% |
 
+These figures give the cost of the experimental encoding. The same security requirements may fit a smaller format. Removing the 12 bytes of repeated session state and four bytes of constant format fields would reduce the header from 64 to 48 bytes, and header-plus-tag overhead from 80 to 64 bytes. A 64-byte payload would then occupy 128 record bytes, for a 50% payload fraction. A smaller format would need its own framing, parser and compatibility rules.
+
 These figures exclude link-layer framing, inter-packet gaps, retransmissions, enrollment and transit-authorization fields. Comparing secure transports requires including each format’s full overhead. The 64-byte row means 64 bytes of application payload, not a 64-byte Ethernet frame or a particular TCP acknowledgment.
 
 Amortizing metadata over multiple application messages can improve efficiency. It can also add batching latency, couple release decisions, enlarge the damage of a dropped record, and complicate accounting. Removing repeated fields by keeping more session state exchanges wire cost for memory and synchronization cost.
@@ -85,7 +87,9 @@ Compare protected copying/exclusive-access costs with [Elasticlave §§3,6](07_p
 
 ## Availability is a separate design problem
 
-Authenticated senders can still abuse the service. A compromised source can spend its entire allowance, send useless data, or replay valid transit credentials. An unauthenticated source can consume parser, lookup, crypto, or upstream bandwidth before rejection.
+Authenticated senders can still abuse the service. A compromised source can spend its allowance, send useless data or replay valid transit credentials. An unauthenticated source can consume parser, lookup, cryptographic or upstream bandwidth before rejection.
+
+The receiver can reject accepted duplicates and below-window sequences before authentication, but an eligible sequence rejected by policy remains unmarked. Repeated copies may therefore consume cryptographic work. Measure those costs under changing policy, alongside accepted duplicates and failed tags. A rejection cache needs bounds and invalidation rules of its own.
 
 The system needs limits on outstanding work and on the work induced by one request. Candidate mechanisms include bounded queues, per-ingress budgets, class scheduling, and explicit backpressure. They have different fairness and state costs. Backpressure can propagate interference across a fabric or reveal activity; it must be modeled where timing is in scope.
 
@@ -123,14 +127,14 @@ The project treats substantial improvement in design automation as a plausible p
 
 Automation already helps at particular stages: DeepMind describes AlphaChip's use in chip floorplanning, and Tiny Tapeout provides an accessible route for small designs to reach fabrication. Neither provides an autonomous, verified process from an arbitrary concept to competitive hardware at scale ([AlphaChip](07_prior_art_and_sources.md#chip), [Tiny Tapeout](07_prior_art_and_sources.md#tt)). [AlphaChip](https://deepmind.google/blog/how-alphachip-transformed-computer-chip-design/), [Tiny Tapeout](https://tinytapeout.com/).
 
-The useful question is how the preferred architecture changes under different future costs:
+Use changes in cost and verification capacity to decide which designs to investigate:
 
-| Future condition | Effect on ASKA's choices |
+| Future condition | Decision criterion |
 |---|---|
-| Software generation becomes much cheaper; verification remains difficult | New interfaces become easier to build, while small enforceable contracts remain valuable |
-| Hardware verification and physical design become substantially more automated | More execution and interconnect candidates become practical to compare |
-| Fabrication, packaging, memory, or deployment remain expensive | Reuse, smaller components, and compatibility retain substantial value |
-| Automation improves slowly | A precise contract, comparative models, and negative results still advance the research |
+| Software generation becomes much cheaper; verification remains difficult | Prototype ISA extensions when external enforcement cannot express a required operation; retain the smaller trusted design unless the extension’s benefit survives verification and workload comparison |
+| Hardware verification and physical design become substantially more automated | Advance a component to RTL comparison only when synthesis and verification can test it against the existing-core baseline within available resources |
+| Fabrication, packaging, memory, or deployment remain expensive | Prefer an existing core with external enforcement unless measured benefits justify the added fabrication and maintenance costs; defer a full custom machine if they do not |
+| Automation improves slowly | Keep the first deliverable at the model and existing-component comparison stage; require a counterexample or measured shortfall before expanding the architecture |
 
 Automation may make some designs practical while other bottlenecks remain. State those dependencies explicitly, including the requirements whose consistency still needs checking.
 

@@ -16,7 +16,11 @@ Each party controls acceptance; no universal issuer can override both. Each must
 
 Independent trust/delegation and bilateral scope have precedents in [DStar](07_prior_art_and_sources.md#c05), [WAVE](07_prior_art_and_sources.md#e02), [Macaroons](07_prior_art_and_sources.md#e01), [IKEv2](07_prior_art_and_sources.md#ike). [RFC 9334 / RATS](07_prior_art_and_sources.md#e03), [RATS interaction draft](07_prior_art_and_sources.md#e09), [SPDM](07_prior_art_and_sources.md#e04), [attested TLS](07_prior_art_and_sources.md#e08) distinguish evidence, appraisal, device identity and channel binding. These precedents cover independent administration and authorization without a universal issuer.
 
-For the first experiment, admission is a trusted setup procedure that installs matching, bounded records and directional keys directly into protected endpoint state. Ordinary hosts never receive those keys. Online enrollment is outside the first experiment. An eventual deployment needs authenticated enrollment, negotiation, key establishment, rollback protection, and recovery; those are unfinished protocol work.
+For the first experiment, admission is a trusted setup procedure that installs matching, bounded records and directional keys directly into protected endpoint state. Ordinary hosts never receive those keys.
+
+The setup installs distinct source and receiver policy credentials. Only the receiver credential can install or expand receiver policy; possession of a source session key or grant credential cannot do so. The first model includes the receiver’s policy-installation interface, with credential checks and updates ordered against acceptance. It tests source-credential installation attempts and valid receiver updates as well as data records.
+
+Online discovery, negotiation and enrollment remain outside the first experiment. An eventual deployment needs authenticated enrollment, negotiation, key establishment, rollback protection, and recovery; those are unfinished protocol work.
 
 A session record contains at least:
 
@@ -72,6 +76,8 @@ The session authenticates a particular gate and its authorized assertions. Prove
 
 Binding selected metadata as authenticated associated data is established in [RFC5116 §§2.1–2.3](07_prior_art_and_sources.md#ae); [ESP §3.3.2](07_prior_art_and_sources.md#esp) authenticates its own specified record fields. [historical RFC2401 §8](07_prior_art_and_sources.md#mls) associates sensitivity with channels/data. The experiment chooses its own 64-byte layout, codes and 1024-byte cap.
 
+With immutable session mappings, `session_id` already selects the expected `policy_generation` and `policy_map`. Together, these fields repeat 12 bytes of session state for consistency checks. The constant `version`, `flags` and `header_bytes` fields use another four bytes for format checks. These fields serve format and consistency checks; the security requirements do not by themselves require their full wire widths. Any compact alternative must specify framing and mapping selection and face the same parser and state tests.
+
 ## Authentication and nonce discipline
 
 For this experiment, use the existing `AEAD_AES_256_GCM` construction with a 32-byte directional key, a 12-byte nonce, and the full 16-byte tag. The 64-byte header is associated data. The nonce is the session's protected 4-byte prefix followed by the header's 8-byte sequence value. The underlying primitive and the importance of nonce uniqueness are specified in [RFC 5116](https://www.rfc-editor.org/rfc/rfc5116.html).
@@ -92,11 +98,13 @@ For a known session, authentication and policy evaluation occur in bounded resou
 
 Unknown-association rejection is established in [ESP §3.4.2](07_prior_art_and_sources.md#esp); bounded record processing in [TLS §5.1](07_prior_art_and_sources.md#tls); authenticated-decryption failure semantics in [RFC5116 §2.2](07_prior_art_and_sources.md#ae). Hardware quarantine must additionally prevent DMA and receiving compartments from reading unaccepted plaintext.
 
-Use a 64-record replay window in the initial model: the highest accepted sequence and a bitmap track recent arrivals. Sequences below the retained window or already marked are rejected. Authentication must succeed before a packet can advance the window. Acceptance and replay-state update serialize with policy changes and destination publication, as described in [Document 03](03_protected_handoff.md).
+Use a 64-record replay window in the initial model: the highest accepted sequence and a bitmap track accepted records. Before cryptographic processing, perform a read-only check against a consistent snapshot of the accepted window. Reject sequences below the window or already marked. A preliminary pass grants no authority and changes no replay state. After authentication, recheck freshness within the serialized acceptance operation alongside current policy and allowance checks. This second check handles concurrent duplicates and window advancement. Only a successful acceptance updates replay state and enables publication, as described in [Document 03](03_protected_handoff.md).
 
-The highest-sequence and bitmap mechanism appears in [ESP §3.4.3/Appendix A](07_prior_art_and_sources.md#esp) and [hardware replay-window implementations](07_prior_art_and_sources.md#arp). ASKA additionally delays advancement until receiver policy passes. [RFC4301 §5.2 step4](07_prior_art_and_sources.md#ip) places selector checks after ESP processing, which differs from the ASKA commit order.
+The highest-sequence and bitmap mechanism appears in [ESP §3.4.3/Appendix A](07_prior_art_and_sources.md#esp) and [hardware replay-window implementations](07_prior_art_and_sources.md#arp). ASKA additionally delays advancement until receiver policy passes. [RFC4301 §5.2 step4](07_prior_art_and_sources.md#ip) places selector checks after ESP processing, which differs from the ASKA commit order. ESP also permits a preliminary replay check before integrity verification. Delaying the accepted-window update until policy succeeds preserves that early rejection of accepted duplicates and old sequences.
 
-This permits limited reordering. It cannot preserve delivery under arbitrary delay: a valid old record can fall outside the window. Retransmission may repeat the exact already-created ciphertext; it does not re-encrypt new data with the same nonce. A duplicate never produces a second mailbox delivery. Fresh application retries use new record numbers and separate application deduplication if needed.
+An authenticated record rejected by policy remains unmarked. If its sequence remains eligible, repeated copies can require repeated authentication and policy work. Measure this case separately from accepted duplicates. Any bounded rejection cache must account for policy changes and must not let unverified input poison accepted replay state.
+
+The replay window permits limited reordering. It cannot preserve delivery under arbitrary delay: a valid old record can fall outside the window. Retransmission may repeat the exact already-created ciphertext; it does not re-encrypt new data with the same nonce. A duplicate never produces a second mailbox delivery. Fresh application retries use new record numbers and separate application deduplication if needed.
 
 The record carries no fragmentation fields. A transport binding must reject or bound outer reassembly before the protected parser. In a controlled 1500-byte IPv6/UDP path with no extension headers, the largest record occupies `40 + 8 + 64 + 1024 + 16 = 1152` bytes at the IP layer. The record fits under those assumptions. Reassembly and the remaining transport and deployment details still need specification.
 

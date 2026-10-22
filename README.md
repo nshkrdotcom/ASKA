@@ -65,7 +65,7 @@ ASKA places IES enforcement in hardware. An ordinary host kernel is not the fina
 
 The architecture does **not** yet commit to one core design, a universal label format, a new Internet protocol, or dedicated hardware for every logical process. Those decisions depend on the properties and costs established through research. A small experiment can test a requirement while leaving the rest of the machine undecided.
 
-The first study uses coarse compartment labels and a bounded message handoff. The feasibility of the full IES architecture remains open.
+The first study uses coarse compartment labels and a bounded message handoff. It checks source ownership and mapping through copying, receiver-controlled policy installation, and acceptance ordering. The checks distinguish snapshot integrity and source lifetime from delivery permission, receiver authority and acceptance atomicity. The feasibility of the full IES architecture remains open.
 
 ## How to interpret claims
 

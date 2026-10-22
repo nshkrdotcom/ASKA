@@ -25,7 +25,8 @@ The example requires the following outcomes:
 | Restricted source cell sends to the receiver's approved restricted mailbox | Accept within the installed scope and resource budget |
 | The same cell sends restricted data to the public status mailbox | Deny unless an independently authorized release applies |
 | Host software changes a valid message's destination or operation | Deny |
-| A DMA device substitutes the buffer after validation | Prevent substitution or deny the transfer |
+| Ownership, mapping or generation changes during handoff | Hold the source binding through staging or safe abort |
+| A workload or DMA writer changes the bound extent during copying | Preserve a coherent snapshot; report integrity failure separately from forbidden disclosure |
 | An ordinary route controller selects an unauthorized protected egress | Deny at that egress, if the physical-fabric claim is being tested |
 | The source presents valid credentials after the receiver withdraws acceptance | Deny once the receiver's withdrawal is effective locally |
 
