@@ -4,7 +4,7 @@
 
 ASKA proposes a computing and networking architecture whose boundaries remain effective after a component is compromised. Its execution domains own physical compute and private memory. Explicit authority governs objects and effects, physical networks separate purposes, and independent authorities govern security domains. An AI-first operating environment connects these services to user tasks.
 
-Start with the [architecture and reading map](0300_architecture_and_reading_map.md).
+Start with the [architecture and reading map](01_architecture_and_reading_map.md).
 
 ## Architecture
 
@@ -22,15 +22,16 @@ This is an unvalidated research architecture. No complete ASKA hardware, protoco
 
 | Documents | Contents |
 |---|---|
-| [0300 — Overview](0300_architecture_and_reading_map.md) · [0301 — Requirements](0301_requirements_and_threat_model.md) · [0302 — Decisions](0302_architectural_candidates_and_decisions.md) | Organization, threat model, requirements, and competing designs |
-| [0303 — Physical substrate](0303_physical_substrate_and_frontier.md) · [0304 — Execution](0304_execution_and_instruction_semantics.md) · [0305 — Memory](0305_memory_ownership_and_lifecycle.md) | Physical profiles, processor semantics, ownership, and safe reuse |
-| [0306 — Persistence](0306_persistence_and_effects.md) · [0307 — Information flow](0307_authority_and_information_flow.md) | Durable effects, scoped grants, confinement, and release |
-| [0308 — Applications](0308_native_applications_and_development.md) · [0309 — AI environment](0309_ai_environment_and_trusted_interaction.md) | Component contracts, development, user interaction, and isolated agents |
-| [0310 — Purpose networks](0310_purpose_networks_and_gateways.md) · [0311 — Delivery](0311_admission_and_delivery.md) | Physical topology, gateways, admission, replay, and publication |
-| [0312 — Governance](0312_governance_updates_and_recovery.md) · [0313 — Failure cases](0313_compromise_and_failure_cases.md) | Independent management, updates, recovery, and adversarial scenarios |
-| [0314 — Validation](0314_validation_and_cost_models.md) · [0315 — Research program](0315_research_and_realizations.md) | Models, experiments, cost comparisons, and long-term dependencies |
-| [0316 — Traceability](0316_traceability_and_evolution.md) · [0317 — Sources](0317_sources_and_evidence.md) | Requirement-to-design mapping and primary-source evidence |
-| [0318 — Cross-domain security](0318_cross_domain_security_and_information_release.md) | Insider threats, adversarial bridges, information release, and observation limits |
+| [01 — Overview](01_architecture_and_reading_map.md) · [02 — Requirements](02_requirements_and_threat_model.md) · [03 — Decisions](03_architectural_candidates_and_decisions.md) | Organization, threat model, requirements, and competing designs |
+| [04 — Physical substrate](04_physical_substrate_and_frontier.md) · [05 — Execution](05_execution_and_instruction_semantics.md) · [06 — Memory](06_memory_ownership_and_lifecycle.md) | Physical profiles, processor semantics, ownership, and safe reuse |
+| [07 — Persistence](07_persistence_and_effects.md) · [08 — Information flow](08_authority_and_information_flow.md) | Durable effects, scoped grants, confinement, and release |
+| [09 — Applications](09_native_applications_and_development.md) · [10 — AI environment](10_ai_environment_and_trusted_interaction.md) | Component contracts, development, user interaction, and isolated agents |
+| [11 — Purpose networks](11_purpose_networks_and_gateways.md) | Physical topology and gateways |
+| [12 — Cross-domain security](12_cross_domain_security_and_information_release.md) | Insider threats, adversarial bridges, information release, and observation limits |
+| [13 — Delivery](13_admission_and_delivery.md) | Admission, replay, and publication |
+| [14 — Governance](14_governance_updates_and_recovery.md) · [15 — Failure cases](15_compromise_and_failure_cases.md) | Independent management, updates, recovery, and adversarial scenarios |
+| [16 — Validation](16_validation_and_cost_models.md) · [17 — Research program](17_research_and_realizations.md) | Models, experiments, cost comparisons, and long-term dependencies |
+| [18 — Traceability](18_traceability_and_evolution.md) · [19 — Sources](19_sources_and_evidence.md) | Requirement-to-design mapping and primary-source evidence |
 
 ## Earlier versions
 

@@ -1,6 +1,6 @@
 # ASKA v4 — Governance, software evolution, and recovery
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0311_admission_and_delivery.md) · [Next](0313_compromise_and_failure_cases.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](13_admission_and_delivery.md) · [Next](15_compromise_and_failure_cases.md)
 
 **Requirements:** R01, R08, R09, R10, R11, R12, R14, R16, R21, R22.
 
@@ -32,7 +32,7 @@ A behavioral trust score can recommend restrictions. It cannot use observations 
 
 No ordinary role can unilaterally create a forbidden cross-domain flow. Installing a cable, adding a route, enabling a peripheral, or changing a release rule cannot supply the approvals held by other affected authorities. Installation interfaces enforce both the installer's maximum scope and the independent prerequisites. Distinct accounts controlled by the same service do not satisfy that separation.
 
-Exceptional release and maintenance authority is itself bounded by object/category, destination, method, expiry, and use limits. Emergency mode must not introduce a universal export, debug, or recovery path. If an ultimate root can replace its local release guard, disclose that authority and the data at risk. Another independent domain still controls its own admission. [0318](0318_cross_domain_security_and_information_release.md) defines the topology and policy-change failure cases.
+Exceptional release and maintenance authority is itself bounded by object/category, destination, method, expiry, and use limits. Emergency mode must not introduce a universal export, debug, or recovery path. If an ultimate root can replace its local release guard, disclose that authority and the data at risk. Another independent domain still controls its own admission. [12](12_cross_domain_security_and_information_release.md) defines the topology and policy-change failure cases.
 
 ## Software evolution
 

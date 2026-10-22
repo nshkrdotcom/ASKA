@@ -1,6 +1,6 @@
 # ASKA v4 — Physical substrate and technological frontier
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0302_architectural_candidates_and_decisions.md) · [Next](0304_execution_and_instruction_semantics.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](03_architectural_candidates_and_decisions.md) · [Next](05_execution_and_instruction_semantics.md)
 
 **Requirements:** R03, R04, R07, R11, R12, R16, R17, R19, R21.
 
@@ -21,13 +21,13 @@ Each physical boundary has an inventory: wires, ports, DMA paths, debug, reset, 
 | P2: independent root domain | Separate physical enforcement, boot/update authority, keys, and management; declared shared facilities | Sovereign policy, recovery, and boundaries needing resistance to one management compromise |
 | P3: controlled physical environment | P2 plus a specified enclosure, probing/fault threat model, physical controls, and tested leakage limits | High-consequence deployment requiring physical-attack assurance |
 
-These profiles declare resources and threats. They are not certification levels. P2 does not imply P3. Two P2 domains may still share a supplier defect. The dependency record in [0312](0312_governance_updates_and_recovery.md) determines their claimed independence.
+These profiles declare resources and threats. They are not certification levels. P2 does not imply P3. Two P2 domains may still share a supplier defect. The dependency record in [14](14_governance_updates_and_recovery.md) determines their claimed independence.
 
 ## Exposed connections and physical bypass
 
 An attachable endpoint must terminate at its mandatory guard. Port identity, device enrollment, and attestation are evidence inputs; none grants access merely because equipment is attached. Unused interfaces remain electrically disabled or terminate in a bounded encounter domain. Hot-plug, alternate device modes, management links, and maintenance boot paths must not expose plaintext or raw DMA around that boundary.
 
-Record the last guarded point for every exposed signal and the physical intervention needed to bypass it. A rogue bridge on the outside remains subject to admission and release policy; a tap on an unprotected plaintext bus can violate confidentiality directly. P3 claims require apparatus-specific enclosure, probing, emanation, and device-replacement evidence. Adding an identity chip does not establish those physical-attack claims for P1. [0318](0318_cross_domain_security_and_information_release.md) supplies the corresponding adversarial cases.
+Record the last guarded point for every exposed signal and the physical intervention needed to bypass it. A rogue bridge on the outside remains subject to admission and release policy; a tap on an unprotected plaintext bus can violate confidentiality directly. P3 claims require apparatus-specific enclosure, probing, emanation, and device-replacement evidence. Adding an identity chip does not establish those physical-attack claims for P1. [12](12_cross_domain_security_and_information_release.md) supplies the corresponding adversarial cases.
 
 ## Packaging choices
 

@@ -1,6 +1,6 @@
 # ASKA v4 — Sources and evidence register
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0316_traceability_and_evolution.md) · [Next](0318_cross_domain_security_and_information_release.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](18_traceability_and_evolution.md)
 
 **Research cut-off: 22 October 2026.** This register records primary sources used to compare mechanisms and investigate enabling technologies. ASKA's selected composition, requirements, state machines, and hypothetical calculations are proposals in this set. No cited result demonstrates the complete architecture.
 
@@ -15,7 +15,7 @@ Inspection means reading the identified primary record, abstract, specification,
 | S03 | [Project Zero: FORCEDENTRY initial execution](https://projectzero.google/2021/12/a-deep-dive-into-nso-zero-click.html) | Primary analysis, December 2021; parser-path discussion consulted. Supports complete mediation across format classification and helper paths. |
 | S04 | [Project Zero: FORCEDENTRY sandbox escape](https://projectzero.google/2022/03/forcedentry-sandbox-escape.html) | Primary analysis, March 2022; logic-escape discussion consulted. Distinguishes memory-exploit prevention from authority containment. |
 
-The case studies in 0313 are ASKA-designed tests derived from these failure mechanisms. They are not reported executions of the original exploits on ASKA.
+The case studies in 15 are ASKA-designed tests derived from these failure mechanisms. They are not reported executions of the original exploits on ASKA.
 
 ## Isolation, execution, and software construction
 

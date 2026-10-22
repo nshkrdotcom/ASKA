@@ -1,6 +1,6 @@
 # ASKA v4 — Memory, ownership, and lifecycle
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0304_execution_and_instruction_semantics.md) · [Next](0306_persistence_and_effects.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](05_execution_and_instruction_semantics.md) · [Next](07_persistence_and_effects.md)
 
 **Requirements:** R03, R05, R07, R12, R17, R21, R23.
 
@@ -48,13 +48,13 @@ A transfer allocation can serve one message or a sealed batch manifest. The mani
 
 An allocation remains pinned while any pending or active child can read its bytes. Cancellation blocks new child work, resolves in-flight accesses, and disposes of retained state before reclaim. Already emitted children cannot be recalled. Policy and expiry are checked for each emission, not only once when the batch begins.
 
-Streaming a single application object additionally needs an object/version identifier, authenticated total length, chunk offsets/indices, bounded assembly, integrity commitment, and publication transaction. Partial chunks stay quarantined. [0311](0311_admission_and_delivery.md) defines the transport contract; receiver publication and durable storage are separate commits.
+Streaming a single application object additionally needs an object/version identifier, authenticated total length, chunk offsets/indices, bounded assembly, integrity commitment, and publication transaction. Partial chunks stay quarantined. [13](13_admission_and_delivery.md) defines the transport contract; receiver publication and durable storage are separate commits.
 
 ## Release bindings and removable objects
 
 An approved disclosure pins an immutable output version, its category metadata, destination, and representation through final emission. A descriptor that can change after approval cannot bind the approved bytes. The release enforcer holds a protected binding or its own coherent copy; reclassification and ownership changes serialize with that binding. Cancellation resolves device reads before releasing it.
 
-A removable medium remains an external recipient even when no live network connects it. Export writes only through its device service under the crossing contract in [0318](0318_cross_domain_security_and_information_release.md). Reimport does not revive saved capabilities, retired generations, or release allowances. Filesystem metadata, filenames, unused blocks, device firmware commands, and residual storage are included in the selected output representation and threat model.
+A removable medium remains an external recipient even when no live network connects it. Export writes only through its device service under the crossing contract in [12](12_cross_domain_security_and_information_release.md). Reimport does not revive saved capabilities, retired generations, or release allowances. Filesystem metadata, filenames, unused blocks, device firmware commands, and residual storage are included in the selected output representation and threat model.
 
 ## Cell retirement and reuse
 

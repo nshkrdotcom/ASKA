@@ -1,6 +1,6 @@
 # ASKA v4 — Requirements and threat model
 
-[Start](0300_architecture_and_reading_map.md) · [Next](0302_architectural_candidates_and_decisions.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](01_architecture_and_reading_map.md) · [Next](03_architectural_candidates_and_decisions.md)
 
 The target computing environment remains useful while its security boundaries survive complete compromise of the code they confine. Containment must remain effective when prevention of a particular memory exploit fails. Preventing the exploit still reduces exposure. The requirements below govern every subsystem and intermediate realization.
 
@@ -33,7 +33,7 @@ The target computing environment remains useful while its security boundaries su
 | R23 | Release control independently enforces the exact approved output or verified output contract | Approved content, destination, representation, or use limits can change before emission |
 | R24 | Intermediaries cannot inherit both domains' authority through participation | A parser, transformer, or gateway can turn one admitted crossing into an unrestricted bridge |
 
-Requirement identifiers are stable. [0316](0316_traceability_and_evolution.md) maps each to designs, evidence obligations, and regression tests. An implementation can leave a requirement unestablished; it cannot mark it satisfied merely by excluding the difficult case from its report.
+Requirement identifiers are stable. [18](18_traceability_and_evolution.md) maps each to designs, evidence obligations, and regression tests. An implementation can leave a requirement unestablished; it cannot mark it satisfied merely by excluding the difficult case from its report.
 
 ## Adversaries
 
@@ -53,7 +53,7 @@ The insider adversary may legitimately read selected objects, operate devices, o
 
 Adding a connection at a guarded interface changes physical reachability without authorizing a new operation. Attaching a probe after the last mandatory guard, replacing that guard, or photographing an authorized screen changes the assumptions instead. Each claim states which physical intervention it covers. Human perception is an authorized disclosure to a person; digital confinement cannot guarantee that the person will not reproduce it.
 
-[0318](0318_cross_domain_security_and_information_release.md) defines transfer paths, release enforcement, and the distinction between guarded connection and physical bypass. An ordinary administrator is a scoped role under 0312; an explicitly declared ultimate local root can defeat its own boundary. It must not thereby control another independent root.
+[12](12_cross_domain_security_and_information_release.md) defines transfer paths, release enforcement, and the distinction between guarded connection and physical bypass. An ordinary administrator is a scoped role under 14; an explicitly declared ultimate local root can defeat its own boundary. It must not thereby control another independent root.
 
 ## Trust and failure dependencies
 

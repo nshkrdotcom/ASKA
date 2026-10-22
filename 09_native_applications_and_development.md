@@ -1,6 +1,6 @@
 # ASKA v4 — Native applications and development
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0307_authority_and_information_flow.md) · [Next](0309_ai_environment_and_trusted_interaction.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](08_authority_and_information_flow.md) · [Next](10_ai_environment_and_trusted_interaction.md)
 
 **Requirements:** R01, R02, R05, R06, R07, R08, R15, R17, R18, R20, R21, R24.
 
@@ -59,7 +59,7 @@ Before deployment, the graph checker verifies schema compatibility, permitted ca
 
 An operation handle is supplied by task admission, not resolved from a global service directory inside the worker. Discovery results are data until a protected authority approves an endpoint. Application modules cannot receive a new capability merely because a schema includes a field called `service`.
 
-The application package separates code from deployment authority. Code declares what it needs; a user or administrator decides what a particular installation receives. Updating a binary under the same name does not inherit every grant of the old binary automatically. Contract changes follow [0312](0312_governance_updates_and_recovery.md).
+The application package separates code from deployment authority. Code declares what it needs; a user or administrator decides what a particular installation receives. Updating a binary under the same name does not inherit every grant of the old binary automatically. Contract changes follow [14](14_governance_updates_and_recovery.md).
 
 Static checks establish structural properties. They do not establish that arbitrary component output is true. Runtime guards remain effective against admitted malicious machine code. Proof-carrying components may receive fewer runtime checks only if the proof, verifier, machine model, and substitution argument are part of the accepted assurance profile.
 
@@ -77,7 +77,7 @@ The analysis agent receives only user-authorized document/context views. Its res
 
 Application manifests enumerate import and export separately. Each edge names the source object/view, transformation, output schema and categories, destination effect, release contract if needed, device owner, observation profile, and quota parent. A request/response pair is two directed edges. An import parser cannot gain an export handle merely because it generates the response.
 
-The review workflow must support an authorized collaborator export through [0318](0318_cross_domain_security_and_information_release.md): isolate preparation, seal the result, obtain the required independent approval, and emit that exact result. Also test an insider with legitimate read access who requests raw media export, clipboard copy, printing, or a hidden response channel. Denial should identify a concrete missing right and an available authorized workflow. Recommending an unrestricted bridge is not an acceptable repair.
+The review workflow must support an authorized collaborator export through [12](12_cross_domain_security_and_information_release.md): isolate preparation, seal the result, obtain the required independent approval, and emit that exact result. Also test an insider with legitimate read access who requests raw media export, clipboard copy, printing, or a hidden response channel. Denial should identify a concrete missing right and an available authorized workflow. Recommending an unrestricted bridge is not an acceptable repair.
 
 ## Persistent and interactive applications
 

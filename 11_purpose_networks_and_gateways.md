@@ -1,6 +1,6 @@
 # ASKA v4 — Purpose networks and cross-domain gateways
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0309_ai_environment_and_trusted_interaction.md) · [Next](0311_admission_and_delivery.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](10_ai_environment_and_trusted_interaction.md) · [Next](12_cross_domain_security_and_information_release.md)
 
 **Requirements:** R01, R03, R04, R05, R06, R10, R11, R12, R15, R19, R21–R24.
 
@@ -55,7 +55,7 @@ Gateway failure before commit publishes nothing on the target side. Failure afte
 
 ## Adversarial interconnections
 
-A DTG is a transfer pipeline with source-side disclosure enforcement and independently owned destination enforcement. A single gateway instance must not hold both domains' unrestricted policy authority or bypass their guards. Parsing, transformation, release proposal, release control, and carriage have distinct contracts and failure scopes. The detailed transaction is in [0318](0318_cross_domain_security_and_information_release.md).
+A DTG is a transfer pipeline with source-side disclosure enforcement and independently owned destination enforcement. A single gateway instance must not hold both domains' unrestricted policy authority or bypass their guards. Parsing, transformation, release proposal, release control, and carriage have distinct contracts and failure scopes. The detailed transaction is in [12](12_cross_domain_security_and_information_release.md).
 
 A newly attached cable, dual-connected endpoint, or rogue switch changes reachability only. Its traffic still needs a valid source effect, permitted release, path contract, and receiver consent. The added connection can create load and new observations; it must not create permissions. Report a physical tap behind a guard and an authorized unrestricted export as distinct failure modes; each must be identified explicitly.
 

@@ -1,6 +1,6 @@
 # ASKA v4 — Authority and information flow
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0306_persistence_and_effects.md) · [Next](0308_native_applications_and_development.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](07_persistence_and_effects.md) · [Next](09_native_applications_and_development.md)
 
 **Requirements:** R01, R05, R06, R09, R10, R13, R17, R19, R20, R23.
 
@@ -70,7 +70,7 @@ Reading a protected object authorizes computation within its confinement. A disc
 
 Encryption preserves the restrictions of plaintext and its dependencies. An authorized transport key cannot turn an impermissible disclosure into a permissible one. If an application creates opaque ciphertext, the boundary needs a binding to an approved pre-encryption object and protected encryption path, or an explicitly authorized opaque-transfer contract. Scanning ciphertext cannot establish its plaintext meaning. Chosen encryption randomness, padding, record sizes, and error behavior are observations when the sender can influence them.
 
-[0318](0318_cross_domain_security_and_information_release.md) defines independent release control, cumulative disclosure accounting, and the limits of semantic review.
+[12](12_cross_domain_security_and_information_release.md) defines independent release control, cumulative disclosure accounting, and the limits of semantic review.
 
 ## Confused deputies and policy currentness
 

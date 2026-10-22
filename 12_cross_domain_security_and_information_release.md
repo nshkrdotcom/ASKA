@@ -1,6 +1,6 @@
 # ASKA v4 — Cross-domain security and information release
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0317_sources_and_evidence.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](11_purpose_networks_and_gateways.md) · [Next](13_admission_and_delivery.md)
 
 **Requirements:** R01, R04–R06, R08–R13, R18–R24. **Decision:** D09.
 
@@ -79,7 +79,7 @@ CANDIDATE -> SEALED -> APPROVED -> RESERVED -> EMITTING -> CLOSED
 3. The release enforcer resolves its own protected bindings and current policy, checks destination, versions, approval scope, lifetime, and aggregate allowance, then reserves bounded engine capacity. Withdrawal and reservation serialize locally.
 4. Before the first irreversible emission, commit consumption of the required allowance and recheck current local permission in the emission order. Future emissions or chunks recheck policy as defined by the contract. A withdrawal that wins that order denies them; an emitted prefix cannot be recalled.
 5. The engine emits only the bound representation through the admitted endpoint. Any encryption layer is independently bound to that plaintext and destination. A workload cannot replace it with opaque ciphertext or choose unaccounted padding and metadata.
-6. The receiver independently checks its current policy before publication, then checks application effects separately. Source-side commit and destination-side policy decisions occur separately. Partitions and lost receipts produce the outcomes defined in 0306/0311.
+6. The receiver independently checks its current policy before publication, then checks application effects separately. Source-side commit and destination-side policy decisions occur separately. Partitions and lost receipts produce the outcomes defined in 07/13.
 
 Reserve/charge state must survive a crash whenever reopening it could duplicate a release. A crash after charging can waste allowance; safety takes precedence over refunding an uncertain emission. Refund only when protected evidence establishes that the irreversible point was never reached. Retrying identical protected content is permitted only under its explicit retry/byte envelope; a new destination or candidate requires new authority. Receiver deduplication limits repeated application effects but cannot undo repeated wire observations.
 
@@ -155,7 +155,7 @@ Every campaign records initial authority, intended forbidden observation/effect,
 | X11 | Secret encoded in status, timing, packet size, errors, or repeat queries | Enforce and measure the chosen O-profile; an uncontrolled status/omission channel defeats an O2 claim |
 | X12 | Authorized viewer prints, captures, photographs, or transcribes | Digital export needs separate rights; permitted perception exposes the declared human limit; a granted collaborator release still completes |
 
-The media, insider-output, and cross-domain cases complement the PHP and Apple campaigns in [0313](0313_compromise_and_failure_cases.md). The Marine Corps' [2010 removable-media directive](https://www.marines.mil/News/Messages/MARADMINS/Article/888508/protection-of-classified-information-on-department-of-defense-dod-secret-intern/) is a historical example of separating write privileges from network access. It does not establish ASKA efficacy or a complete account of the incidents that motivated it.
+The media, insider-output, and cross-domain cases complement the PHP and Apple campaigns in [15](15_compromise_and_failure_cases.md). The Marine Corps' [2010 removable-media directive](https://www.marines.mil/News/Messages/MARADMINS/Article/888508/protection-of-classified-information-on-department-of-defense-dod-secret-intern/) is a historical example of separating write privileges from network access. It does not establish ASKA efficacy or a complete account of the incidents that motivated it.
 
 ## Useful release and remaining research
 

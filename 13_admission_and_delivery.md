@@ -1,6 +1,6 @@
 # ASKA v4 — Admission, transport, and protected delivery
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0310_purpose_networks_and_gateways.md) · [Next](0312_governance_updates_and_recovery.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](12_cross_domain_security_and_information_release.md) · [Next](14_governance_updates_and_recovery.md)
 
 **Requirements:** R01, R04, R05, R06, R07, R08, R12, R13, R19, R20, R23.
 
@@ -59,13 +59,13 @@ Directional key/nonce spaces are disjoint. The protected source allocator burns 
 5. At publication, serialize with current receiver-policy updates and destination generation changes. Recheck permission, lifetime, category/release, complete-object integrity, and allowance. Reserve all fallible destination resources before charging delivery and assigning restrictions.
 6. Publish only after that commit succeeds. Then a separately confined application parser may read the delivered object. Holding authenticated data in quarantine does not establish the safety of image/PDF/text parsing.
 
-For atomic object publication, no partial assembly reaches the destination. A streaming method can authorize chunk-level effects explicitly, with its own partial-failure semantics. Application effect commit and durable storage still follow [0306](0306_persistence_and_effects.md).
+For atomic object publication, no partial assembly reaches the destination. A streaming method can authorize chunk-level effects explicitly, with its own partial-failure semantics. Application effect commit and durable storage still follow [07](07_persistence_and_effects.md).
 
 ## Release and transport are separate commits
 
 A transport session can carry an output only after source-side flow and effect checks establish that output's authority. The authenticated contract binds its release reference and immutable representation where release is required. Session authentication does not assert that an attachment is harmless or that its sender is permitted to disclose arbitrary plaintext.
 
-Release-use consumption, transport sequence consumption, object publication, and application effects are distinct events. A source can spend a one-use release and then crash before emission; it must not recover by silently reopening that allowance. Exact retransmissions need an explicitly bounded retry rule and receiver operation deduplication. Neither replay protection nor a signature prevents a compromised semantic release authority from approving forbidden information. The surviving controls and residual dependency are specified in [0318](0318_cross_domain_security_and_information_release.md).
+Release-use consumption, transport sequence consumption, object publication, and application effects are distinct events. A source can spend a one-use release and then crash before emission; it must not recover by silently reopening that allowance. Exact retransmissions need an explicitly bounded retry rule and receiver operation deduplication. Neither replay protection nor a signature prevents a compromised semantic release authority from approving forbidden information. The surviving controls and residual dependency are specified in [12](12_cross_domain_security_and_information_release.md).
 
 ## Replay, denial, and recovery
 

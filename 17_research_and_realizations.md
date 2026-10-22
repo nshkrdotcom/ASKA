@@ -1,6 +1,6 @@
 # ASKA v4 — Research program and intermediate realizations
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0314_validation_and_cost_models.md) · [Next](0316_traceability_and_evolution.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](16_validation_and_cost_models.md) · [Next](18_traceability_and_evolution.md)
 
 **Requirements:** R02–R04, R09–R12, R14–R18, R19–R24.
 
@@ -23,7 +23,7 @@ All tracks use the same reference application: admitted document import, isolate
 
 ## Cross-domain research obligations
 
-The common application is also tested with an authorized insider, an infected removable device, a rogue connection outside the guards, and compromised import/release components. Its export path must remain useful while enforcing [0318](0318_cross_domain_security_and_information_release.md). Compare the crossing contract with NCSC guidance and NIST AC-4; public program descriptions do not establish compliance with inaccessible requirements.
+The common application is also tested with an authorized insider, an infected removable device, a rogue connection outside the guards, and compromised import/release components. Its export path must remain useful while enforcing [12](12_cross_domain_security_and_information_release.md). Compare the crossing contract with NCSC guidance and NIST AC-4; public program descriptions do not establish compliance with inaccessible requirements.
 
 Phase A adds separate reachability and authority graphs plus release-use/crash interleavings. Phase B instruments removable-media and physical-port crossings and independently controls both domain boundaries. Phase C compares disclosure/metadata service guarantees, including bidirectional processor compromise. Phases D and E revisit physical taps, maintenance paths, human exposure, recovery, and actual custodians. No phase can claim the insider problem solved by an air gap or authenticated fabric alone.
 
@@ -49,7 +49,7 @@ The selected binary ISA or transport can change when evidence warrants it. The p
 
 ## Phase D: integrated substrate and toolchain
 
-Investigate planar islands, chiplets, private memory tiers, 3D bonding, and optical links using component results from [0303](0303_physical_substrate_and_frontier.md). Build a compiler/checker chain and physical integration flow with explicit refinement boundaries. Evaluate fabrication testing, debug control, yield, repair, heat, power, and replacement.
+Investigate planar islands, chiplets, private memory tiers, 3D bonding, and optical links using component results from [04](04_physical_substrate_and_frontier.md). Build a compiler/checker chain and physical integration flow with explicit refinement boundaries. Evaluate fabrication testing, debug control, yield, repair, heat, power, and replacement.
 
 Advances can make currently expensive isolation practical. They may also add shared management or thermal dependencies. An integration gain is accepted only if it preserves the corresponding requirement or is labeled as a weaker realization. Forecasts of transistor density do not eliminate memory-movement or cooling costs.
 

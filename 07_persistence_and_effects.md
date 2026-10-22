@@ -1,6 +1,6 @@
 # ASKA v4 — Persistent state and external effects
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0305_memory_ownership_and_lifecycle.md) · [Next](0307_authority_and_information_flow.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](06_memory_ownership_and_lifecycle.md) · [Next](08_authority_and_information_flow.md)
 
 **Requirements:** R01, R05, R06, R07, R08, R10, R12, R20, R21.
 
@@ -64,7 +64,7 @@ A parser's output is never directly a privileged device command. A separate meth
 
 Display, printing, audio, clipboard, screen capture, backup, diagnostic bundles, and removable storage have distinct effect owners and grants. Read access to a document is insufficient to invoke any of them. A print grant binds the immutable rendered job, printer identity, copy count, labels, and output policy; the physical release point precedes a success receipt. A print with an uncertain outcome can already have disclosed information. Reporting a safe rollback would be incorrect.
 
-Import media is parsed in an encounter domain with no firmware-install or native-memory privilege. Device identity and valid signatures do not establish content safety. Export approval covers metadata as well as document bytes. The same information-flow rules govern backup restoration and maintenance, including during emergencies. [0318](0318_cross_domain_security_and_information_release.md) gives the path register and release transaction.
+Import media is parsed in an encounter domain with no firmware-install or native-memory privilege. Device identity and valid signatures do not establish content safety. Export approval covers metadata as well as document bytes. The same information-flow rules govern backup restoration and maintenance, including during emergencies. [12](12_cross_domain_security_and_information_release.md) gives the path register and release transaction.
 
 ## Keys, deletion, and retention
 

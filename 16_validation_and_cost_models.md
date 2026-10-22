@@ -1,6 +1,6 @@
 # ASKA v4 — Validation and cost models
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0313_compromise_and_failure_cases.md) · [Next](0315_research_and_realizations.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](15_compromise_and_failure_cases.md) · [Next](17_research_and_realizations.md)
 
 **Requirements:** R03–R08, R11–R14, R16–R18, R19–R24.
 
@@ -37,7 +37,7 @@ Add two domains with independent policy, a malicious reader, import/export worke
 
 Check that no topology change mints authority; read access does not install export; each emitted prefix belongs to an approved representation; and consumed release rights cannot reopen after reset. Separately model a compromised semantic approver: exact binding alone must not be asserted to prove permitted content. Include a broken variant that accepts any bytes under an approved label.
 
-The observation profile includes status codes, response existence, metadata, and scheduling choices where claimed. For a channel with at most `k` independently selectable visible outcomes per fixed opportunity, the simple upper bound is `log2(k)` bits per opportunity; a one-bit status once per second can carry one bit per second before other observations. This is illustrative arithmetic, not a measured covert-channel capacity. Correlations, adaptive queries, timing resolution, and noisy physical channels require their own models. [0318](0318_cross_domain_security_and_information_release.md) defines the profiles and campaign matrix.
+The observation profile includes status codes, response existence, metadata, and scheduling choices where claimed. For a channel with at most `k` independently selectable visible outcomes per fixed opportunity, the simple upper bound is `log2(k)` bits per opportunity; a one-bit status once per second can carry one bit per second before other observations. This is illustrative arithmetic, not a measured covert-channel capacity. Correlations, adaptive queries, timing resolution, and noisy physical channels require their own models. [12](12_cross_domain_security_and_information_release.md) defines the profiles and campaign matrix.
 
 ## Physical verification
 
@@ -65,7 +65,7 @@ For unborrowable time slots, a domain with fraction `f` of a resource's schedule
 
 ## Measurement matrix
 
-Compare A/B/C from [0302](0302_architectural_candidates_and_decisions.md) with the same inputs, authority graph, output policy, and observation assumptions. Report private-memory utilization, useful throughput, latency distribution, data movement, context lifecycle, energy, area, wiring/packaging assumptions, and operator/developer effort.
+Compare A/B/C from [03](03_architectural_candidates_and_decisions.md) with the same inputs, authority graph, output policy, and observation assumptions. Report private-memory utilization, useful throughput, latency distribution, data movement, context lifecycle, energy, area, wiring/packaging assumptions, and operator/developer effort.
 
 For AI, include context access breadth, unauthorized effects denied, in-scope abuse, proof/checker costs, private inference state, and usable task completion. For networking, include admission/recovery work, per-hop state/bytes, replay before rejection, useful bandwidth under overload, and physical paths actually controlled.
 

@@ -1,6 +1,6 @@
 # ASKA v4 — Execution and instruction semantics
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0303_physical_substrate_and_frontier.md) · [Next](0305_memory_ownership_and_lifecycle.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](04_physical_substrate_and_frontier.md) · [Next](06_memory_ownership_and_lifecycle.md)
 
 **Requirements:** R01, R02, R03, R07, R12, R15, R17, R19, R20.
 
@@ -37,7 +37,7 @@ A native cell has no inherited host credential, global object namespace, raw phy
 | Spawn | Request a child with attenuated handles and explicit resource reservation |
 | Yield/finish/abort | End or suspend computation under controller-defined ownership and sanitation rules |
 
-These operation names define semantics; their binary encodings remain unspecified. [0308](0308_native_applications_and_development.md) gives developer-facing contracts. [0306](0306_persistence_and_effects.md) defines when submission becomes a durable or physical effect.
+These operation names define semantics; their binary encodings remain unspecified. [09](09_native_applications_and_development.md) gives developer-facing contracts. [07](07_persistence_and_effects.md) defines when submission becomes a durable or physical effect.
 
 ## Memory safety inside the cell
 
@@ -63,13 +63,13 @@ Instruction-level information-flow architectures such as [HyperFlow](https://www
 
 Cells receive bounded memory, execution fuel, elapsed time, queue occupancy, and output allowance. Fuel counts defined execution steps. It does not guarantee constant real-time service. The elapsed deadline is enforced independently of workload cooperation. Blocking sends reserve no unbounded downstream chain.
 
-Exclusive ownership can span several hardware engines for a large task. Reusing an engine for a new cell requires the lifecycle transition in [0305](0305_memory_ownership_and_lifecycle.md). Shared scheduling within one declared trust domain is permitted. A P0 shared-core prototype cannot claim the physical or timing properties of P1 execution.
+Exclusive ownership can span several hardware engines for a large task. Reusing an engine for a new cell requires the lifecycle transition in [06](06_memory_ownership_and_lifecycle.md). Shared scheduling within one declared trust domain is permitted. A P0 shared-core prototype cannot claim the physical or timing properties of P1 execution.
 
 The scheduler can choose among already authorized placements. It cannot read private objects, change confinement, broaden grants, or move a computation onto a weaker physical profile to recover capacity. If no admissible placement exists, admission waits under a bound or denies the task.
 
 ## External observations are effects
 
-A cell's output authority covers its selected device surface, not all uses of that device. Viewing an object does not install printing, clipboard, recording, removable-media, or network-export handles. A worker that reads restricted inputs cannot return unrestricted status, timing choices, or generated code through a lower-category channel merely because the payload type is small. Such observations follow the selected flow profile in [0318](0318_cross_domain_security_and_information_release.md).
+A cell's output authority covers its selected device surface, not all uses of that device. Viewing an object does not install printing, clipboard, recording, removable-media, or network-export handles. A worker that reads restricted inputs cannot return unrestricted status, timing choices, or generated code through a lower-category channel merely because the payload type is small. Such observations follow the selected flow profile in [12](12_cross_domain_security_and_information_release.md).
 
 The controller threat model includes fully malicious network and peripheral controllers. The cell's guards must still mediate its resource accesses. A newly discovered endpoint stays untrusted until an independent local installation authorizes a bounded contract.
 

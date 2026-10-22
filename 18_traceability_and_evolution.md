@@ -1,10 +1,10 @@
 # ASKA v4 — Traceability, decisions, and architectural evolution
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0315_research_and_realizations.md) · [Next](0317_sources_and_evidence.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](17_research_and_realizations.md) · [Next](19_sources_and_evidence.md)
 
 **Requirements:** R01–R24; this document governs their maintenance.
 
-The requirement register in [0301](0301_requirements_and_threat_model.md) takes precedence over a subsystem choice or an intermediate realization. A future change must show whether it preserves a requirement, implements it differently, leaves it unestablished, or violates it. Lower implementation cost does not establish equivalent security.
+The requirement register in [02](02_requirements_and_threat_model.md) takes precedence over a subsystem choice or an intermediate realization. A future change must show whether it preserves a requirement, implements it differently, leaves it unestablished, or violates it. Lower implementation cost does not establish equivalent security.
 
 ## Requirements-to-design matrix
 
@@ -12,36 +12,36 @@ All target claims below remain unvalidated as an integrated system. The evidence
 
 | Requirement | Principal design | Responsible documents | Required evidence / regression |
 |---|---|---|---|
-| R01: explicit authority and mediation | Protected object/effect handles and unavoidable guards | 0304, 0307, 0310–0312, 0318 | Malicious caller, helper/fallback, raw DMA/transmit, and broker-path tests; crossing cases X01–X12 |
-| R02: granular applications | Component graph, ephemeral workers, narrow state owners | 0308–0309 | Useful application with narrow default grants and manageable developer effort |
-| R03: physical compute ownership | P1 islands; P2/P3 where the threat requires them | 0302–0305 | Resource/path inventory, malicious-engine containment, shared-fault analysis |
-| R04: physical purpose networks | ATN/STN/encounter/observation separation and explicit DTGs | 0303, 0310–0311 | Physical topology and forbidden-crossing observations under controller compromise |
-| R05: transformation continuity | Confinement and immutable metadata through compute, storage, AI, and transport | 0305–0309, 0311 | Derived-code, logs, renderer, accelerator, index, and network-flow checks |
-| R06: independent recipient effects | Method/parameter grants and current receiver checks | 0306–0308, 0311 | Confused-deputy and cached-allow/withdrawal counterexamples |
-| R07: lifetime correctness | Source bindings, revoke/drain, generations, sanitation | 0304–0306, 0311 | Late DMA/writeback, alias, reset, abort, and allocation-reuse models |
-| R08: protected persistence | Owned versions, durable commits, receipts and uncertainty | 0306, 0312 | Crash/restore/deduplication and uncertain-device-effect traces |
-| R09: AI without ambient authority | Trusted interaction, context ownership, isolated planning/building | 0308–0309, 0312 | Full planner takeover, forged approval, private-context/artifact export tests |
-| R10: scoped management | Separate allocator, policy, signer, updater, recovery, and observer roles | 0309, 0312 | One-role takeover cannot acquire another role or another realm's scope |
-| R11: common-cause resistance | Dependency graph and independently rooted high-consequence domains | 0302–0303, 0310, 0312 | Actual custodians/build/reset/supply dependencies and minimal failure sets |
-| R12: bounded resources and useful service | Admission budgets, local slots, reserved control, bounded recovery | 0304–0306, 0310–0312, 0314 | Overload, deadlock, targeted-session flood, and useful-progress measurements |
-| R13: distinct security outcomes | Separate prevention, containment, abuse, propagation, and availability reports | 0301, 0313–0314 | Deliberate in-cell compromise and malicious use of valid authority |
-| R14: no silent target drift | Requirement/decision records and realization ledger | 0302, 0315–0316 | Every change identifies impacted IDs and revised evidence |
-| R15: native independence | Object/effect execution, own application/UI/network model | 0300, 0304, 0308–0310, 0315 | Native workflow operates with compatibility and IP gateways disconnected |
-| R16: attributable evidence | Source register and explicit claim status | 0303, 0314–0317 | Reproducible artifacts; no reported run/proof without records |
-| R17: native memory semantics | Checked region references and separate persistent allocator safety | 0304–0305 | Bounds, retained references, in-lifetime temporal errors, and compiler refinement |
-| R18: whole-application assurance | Document-review graph with compromised parser, planner, services, and insider | 0308–0309, 0313–0315, 0318 | Every import/fallback/device path; useful authorized release; malicious intermediaries |
-| R19: no authority from membership | Independent operation checks on all fabrics and exposed endpoints | 0301, 0303, 0310–0311, 0318 | Authenticated malicious peer and rogue guarded connection gain no new rights |
-| R20: no implicit export | Separate read, release, carriage, device, and receiving grants | 0304, 0306–0309, 0318 | Read-authorized insider cannot export through media, output devices, or encryption |
-| R21: every modeled path | Path register spans digital, peripheral, management, and physical outputs | 0303, 0305–0306, 0312, 0318 | Enumerated bypass tests and declared physical/human exclusions |
-| R22: no unilateral forbidden flow | Scoped installers and independent cross-root prerequisites | 0301, 0310, 0312, 0318 | Cable/route/peripheral edits and one-role takeover cannot mint permissions |
-| R23: independently bound release | Immutable output binding, local current policy, durable use accounting | 0305, 0307, 0311, 0318 | Substitution, destination change, replay, withdrawal, crash, and retry traces |
-| R24: bounded intermediaries | Separate import/export workers and independently owned controls | 0302, 0308, 0310, 0318 | Transformer/proposer takeover preserves declared independent ceilings |
+| R01: explicit authority and mediation | Protected object/effect handles and unavoidable guards | 05, 08, 11–14 | Malicious caller, helper/fallback, raw DMA/transmit, and broker-path tests; crossing cases X01–X12 |
+| R02: granular applications | Component graph, ephemeral workers, narrow state owners | 09–10 | Useful application with narrow default grants and manageable developer effort |
+| R03: physical compute ownership | P1 islands; P2/P3 where the threat requires them | 03–06 | Resource/path inventory, malicious-engine containment, shared-fault analysis |
+| R04: physical purpose networks | ATN/STN/encounter/observation separation and explicit DTGs | 04, 11, 13 | Physical topology and forbidden-crossing observations under controller compromise |
+| R05: transformation continuity | Confinement and immutable metadata through compute, storage, AI, and transport | 06–10, 13 | Derived-code, logs, renderer, accelerator, index, and network-flow checks |
+| R06: independent recipient effects | Method/parameter grants and current receiver checks | 07–09, 13 | Confused-deputy and cached-allow/withdrawal counterexamples |
+| R07: lifetime correctness | Source bindings, revoke/drain, generations, sanitation | 05–07, 13 | Late DMA/writeback, alias, reset, abort, and allocation-reuse models |
+| R08: protected persistence | Owned versions, durable commits, receipts and uncertainty | 07, 14 | Crash/restore/deduplication and uncertain-device-effect traces |
+| R09: AI without ambient authority | Trusted interaction, context ownership, isolated planning/building | 09–10, 14 | Full planner takeover, forged approval, private-context/artifact export tests |
+| R10: scoped management | Separate allocator, policy, signer, updater, recovery, and observer roles | 10, 14 | One-role takeover cannot acquire another role or another realm's scope |
+| R11: common-cause resistance | Dependency graph and independently rooted high-consequence domains | 03–04, 11, 14 | Actual custodians/build/reset/supply dependencies and minimal failure sets |
+| R12: bounded resources and useful service | Admission budgets, local slots, reserved control, bounded recovery | 05–07, 11, 13–14, 16 | Overload, deadlock, targeted-session flood, and useful-progress measurements |
+| R13: distinct security outcomes | Separate prevention, containment, abuse, propagation, and availability reports | 02, 15–16 | Deliberate in-cell compromise and malicious use of valid authority |
+| R14: no silent target drift | Requirement/decision records and realization ledger | 03, 17–18 | Every change identifies impacted IDs and revised evidence |
+| R15: native independence | Object/effect execution, own application/UI/network model | 01, 05, 09–11, 17 | Native workflow operates with compatibility and IP gateways disconnected |
+| R16: attributable evidence | Source register and explicit claim status | 04, 16–19 | Reproducible artifacts; no reported run/proof without records |
+| R17: native memory semantics | Checked region references and separate persistent allocator safety | 05–06 | Bounds, retained references, in-lifetime temporal errors, and compiler refinement |
+| R18: whole-application assurance | Document-review graph with compromised parser, planner, services, and insider | 09–10, 12, 15–17 | Every import/fallback/device path; useful authorized release; malicious intermediaries |
+| R19: no authority from membership | Independent operation checks on all fabrics and exposed endpoints | 02, 04, 11–13 | Authenticated malicious peer and rogue guarded connection gain no new rights |
+| R20: no implicit export | Separate read, release, carriage, device, and receiving grants | 05, 07–10, 12 | Read-authorized insider cannot export through media, output devices, or encryption |
+| R21: every modeled path | Path register spans digital, peripheral, management, and physical outputs | 04, 06–07, 12, 14 | Enumerated bypass tests and declared physical/human exclusions |
+| R22: no unilateral forbidden flow | Scoped installers and independent cross-root prerequisites | 02, 11–12, 14 | Cable/route/peripheral edits and one-role takeover cannot mint permissions |
+| R23: independently bound release | Immutable output binding, local current policy, durable use accounting | 06, 08, 12–13 | Substitution, destination change, replay, withdrawal, crash, and retry traces |
+| R24: bounded intermediaries | Separate import/export workers and independently owned controls | 03, 09, 11–12 | Transformer/proposer takeover preserves declared independent ceilings |
 
-The crossing-specific acceptance cases X01–X12 and observation profiles O1–O3 are defined in [0318](0318_cross_domain_security_and_information_release.md). They extend the original requirements while retaining physical ownership and purpose segregation. All twenty-four requirements remain obligations of the native target.
+The crossing-specific acceptance cases X01–X12 and observation profiles O1–O3 are defined in [12](12_cross_domain_security_and_information_release.md). They extend the original requirements while retaining physical ownership and purpose segregation. All twenty-four requirements remain obligations of the native target.
 
 ## Decision records
 
-Major choices D01–D09 are recorded in [0302](0302_architectural_candidates_and_decisions.md). A replacement record contains the old/new choice, affected requirements, alternatives, assumptions, expected benefit, evidence, remaining counterexamples, and reopening criteria. It preserves the earlier record rather than erasing why a design changed.
+Major choices D01–D09 are recorded in [03](03_architectural_candidates_and_decisions.md). A replacement record contains the old/new choice, affected requirements, alternatives, assumptions, expected benefit, evidence, remaining counterexamples, and reopening criteria. It preserves the earlier record rather than erasing why a design changed.
 
 A requirement change is a separate architectural action. It must explain which original property is relinquished, who accepts that departure, and how the resulting architecture is named. Omitting a property from a realization's benchmark does not authorize its removal from the requirements.
 

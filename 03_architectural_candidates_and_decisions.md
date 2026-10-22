@@ -1,6 +1,6 @@
 # ASKA v4 — Architectural candidates and decisions
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0301_requirements_and_threat_model.md) · [Next](0303_physical_substrate_and_frontier.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](02_requirements_and_threat_model.md) · [Next](04_physical_substrate_and_frontier.md)
 
 Architectural choices must account for failure propagation, remaining authority paths, and useful computation. ISA familiarity, small prototypes, and market availability are secondary considerations. Four candidates expose different tradeoffs.
 
@@ -24,7 +24,7 @@ Dataflow is not inherently a security mechanism. The [TRIPS project](https://www
 | Decision | Selection and reason | What would reopen it |
 |---|---|---|
 | D01: Whole-system organization | A, with D for sovereign policy/recovery and high-consequence objects; makes physical and administrative boundaries explicit | Another organization demonstrates the same access, physical, and common-cause properties with a clearer contract |
-| D02: Native execution | Object/effect semantics defined in 0304; no global address or ambient syscall authority | A semantic counterexample or evidence that a different contract better expresses the invariants |
+| D02: Native execution | Object/effect semantics defined in 05; no global address or ambient syscall authority | A semantic counterexample or evidence that a different contract better expresses the invariants |
 | D03: Binary ISA | Unselected; compare minimal object instructions, a capability extension to an existing ISA, and dataflow engines | Completion of the ISA study and refinement evidence, not compatibility pressure |
 | D04: Mutable state | Private request regions; persistent owners expose transactions; cross-island exchange uses immutable values or exclusive transfer | A sharing mechanism establishes equivalent confinement, lifetime, observation, and physical ownership properties |
 | D05: Communication | Separate physical purpose fabrics and explicit gateway effects | Different physical implementation passes the same topology and independence checks |
@@ -47,7 +47,7 @@ Near-memory or analog compute is considered for numerical acceleration; approxim
 
 ## Cross-domain alternatives
 
-A monolithic gateway with both realms' plaintext, policy keys, and raw interfaces concentrates the failure scope and fails R24 unless another independent boundary contains it. A label-only overlay can enforce useful logical policy but does not meet R04. A diode restricts direction and needs separate disclosure control in that direction. The selected construction uses distinct source release control and destination effect enforcement, with confined transformations between them. [0318](0318_cross_domain_security_and_information_release.md) compares it with established cross-domain guidance and states what remains unproved.
+A monolithic gateway with both realms' plaintext, policy keys, and raw interfaces concentrates the failure scope and fails R24 unless another independent boundary contains it. A label-only overlay can enforce useful logical policy but does not meet R04. A diode restricts direction and needs separate disclosure control in that direction. The selected construction uses distinct source release control and destination effect enforcement, with confined transformations between them. [12](12_cross_domain_security_and_information_release.md) compares it with established cross-domain guidance and states what remains unproved.
 
 One component can perform several noncritical functions within a declared compromise domain. It cannot be counted as multiple independent barriers against its own compromise. Separating semantic approval from emission prevents substitution. A malicious semantic approver can still authorize the wrong content.
 
@@ -59,4 +59,4 @@ An alternative passes R03 only if it provides the required physical ownership an
 
 **Hypothesis H01:** private request memory plus typed object messages can make granular isolation the ordinary programming path without pervasive trusted application brokers. **H02:** a heterogeneous physical fabric can recover enough utilization through explicit batching and safe reuse to support useful general workloads. Neither has been demonstrated for ASKA.
 
-The first decision experiments compare A/B/C on identical task contracts; D provides a physically separate boundary for testing common management failure. [0315](0315_research_and_realizations.md) defines what each realization may claim and the evidence required to change a decision.
+The first decision experiments compare A/B/C on identical task contracts; D provides a physically separate boundary for testing common management failure. [17](17_research_and_realizations.md) defines what each realization may claim and the evidence required to change a decision.

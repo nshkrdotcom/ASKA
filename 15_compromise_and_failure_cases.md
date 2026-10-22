@@ -1,6 +1,6 @@
 # ASKA v4 — Compromise and failure cases
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0312_governance_updates_and_recovery.md) · [Next](0314_validation_and_cost_models.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](14_governance_updates_and_recovery.md) · [Next](16_validation_and_cost_models.md)
 
 **Requirements:** R01–R13, R17, R18, R19–R24.
 
@@ -45,7 +45,7 @@ The display guard must prevent application surfaces from covering the trusted ap
 
 The Air Force's [2010 account](https://www.af.mil/News/Article/115277/cyberspace-is-the-new-domain-of-warfare/) describes a flash drive introducing malware into classified military networks in 2008. This supports a removable-media import case; it does not establish a particular live Internet-to-SIPRNet bridge or every exfiltration stage. The Air Force's [Teixeira investigation summary](https://www.usafe.af.mil/News/Article-Display/Article/3613146/results-of-investigation-into-a1c-texieras-unit-following-unauthorized-disclosu/) documents failures involving insider access and supervision. These mechanisms provide complementary tests. They do not establish a common topology for all classified networks.
 
-Start with an insider authorized to read a restricted collection and control one endpoint. Attempt bulk media writes, printing, screen capture, clipboard export, diagnostic export, a dual-homed bridge, and an authenticated response carrying a secret. Then compromise a cross-domain transformer and a release proposer separately. [0318](0318_cross_domain_security_and_information_release.md) specifies the approvals and independent observers for each case.
+Start with an insider authorized to read a restricted collection and control one endpoint. Attempt bulk media writes, printing, screen capture, clipboard export, diagnostic export, a dual-homed bridge, and an authenticated response carrying a secret. Then compromise a cross-domain transformer and a release proposer separately. [12](12_cross_domain_security_and_information_release.md) specifies the approvals and independent observers for each case.
 
 A read grant alone must not authorize machine-mediated export. A bridge attached outside intact guards must not create operation rights. Exact approved content must resist substitution, destination changes, replay, policy withdrawal, and reset. A compromised proposer must remain inside independently enforced release ceilings; if it is the sole semantic approver, report that approved malicious disclosure remains possible.
 

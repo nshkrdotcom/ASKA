@@ -1,6 +1,6 @@
 # ASKA v4 — AI operating environment and trusted interaction
 
-[Start](0300_architecture_and_reading_map.md) · [Previous](0308_native_applications_and_development.md) · [Next](0310_purpose_networks_and_gateways.md)
+[Start](01_architecture_and_reading_map.md) · [Previous](09_native_applications_and_development.md) · [Next](11_purpose_networks_and_gateways.md)
 
 **Requirements:** R01, R02, R05, R06, R09, R10, R11, R18, R20, R21, R23.
 
@@ -53,7 +53,7 @@ A planner may prepare a collaborator report, identify source versions, propose r
 
 The trusted approval surface must show the actual destination, output commitment, audience/device, reuse limits, and scope of any declassification. Display permission is distinct from permission to print, capture the screen, or copy to an external clipboard. A person permitted to view a secret can still remember or photograph it. The architecture reports that exposure and the required physical protections. Digital revocation cannot undo perception.
 
-Useful authorized release is part of the operating environment. Test time to complete legitimate sharing and whether failures encourage removable-media workarounds, alongside the compromised-planner tests in [0318](0318_cross_domain_security_and_information_release.md).
+Useful authorized release is part of the operating environment. Test time to complete legitimate sharing and whether failures encourage removable-media workarounds, alongside the compromised-planner tests in [12](12_cross_domain_security_and_information_release.md).
 
 ## Confidential inference and persistent context
 
