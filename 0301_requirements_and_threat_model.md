@@ -2,7 +2,7 @@
 
 [Start](0300_architecture_and_reading_map.md) · [Next](0302_architectural_candidates_and_decisions.md)
 
-The target is a useful computing environment whose security boundaries survive complete compromise of the code they confine. Preventing a particular memory exploit helps, but containment must also work when that prevention fails. The requirements below govern every subsystem and intermediate realization.
+The target computing environment remains useful while its security boundaries survive complete compromise of the code they confine. Containment must remain effective when prevention of a particular memory exploit fails. Preventing the exploit still reduces exposure. The requirements below govern every subsystem and intermediate realization.
 
 ## Governing requirements
 
@@ -49,7 +49,7 @@ Fabrication subversion, invasive probing, electromagnetic coupling, and power/th
 
 ## Insiders, bridges, and disclosure
 
-The insider adversary may legitimately read selected objects, operate devices, or administer one subsystem. It tries to export bulk data, carry media between disconnected systems, connect an unauthorized bridge, or exploit an approved output path. The compromised-authority adversary may additionally control a release proposer or a scoped installer. Tests start with those rights already present; no memory exploit is required.
+The insider adversary may legitimately read selected objects, operate devices, or administer one subsystem. It tries to export bulk data, carry media between disconnected systems, connect an unauthorized bridge, or exploit an approved output path. The compromised-authority adversary may additionally control a release proposer or a scoped installer. Tests give the adversary those rights at the start. They do not require a memory exploit.
 
 Adding a connection at a guarded interface changes physical reachability without authorizing a new operation. Attaching a probe after the last mandatory guard, replacing that guard, or photographing an authorized screen changes the assumptions instead. Each claim states which physical intervention it covers. Human perception is an authorized disclosure to a person; digital confinement cannot guarantee that the person will not reproduce it.
 
@@ -61,7 +61,7 @@ Each claim names its trusted functions: local identity attachment, memory owners
 
 An independent realm does not need to trust another realm's administrator to define its receiving rights. It may still depend on that realm's enforcement to protect data legitimately disclosed there. Once information is released to a recipient, revocation cannot make the recipient forget it.
 
-A grant is permission, not proof of good intent. A legitimate analysis service can return false answers. A compromised allowed recipient can misuse data within the scope already granted. Avoiding that outcome requires a narrower operation contract, an accepted release computation, independent approvals, or keeping the information out of that domain.
+A grant permits an operation without establishing the holder's intent. A legitimate analysis service can return false answers. A compromised allowed recipient can misuse data within the scope already granted. Avoiding that outcome requires a narrower operation contract, an accepted release computation, independent approvals, or keeping the information out of that domain.
 
 ## Observations and information flow
 
@@ -84,12 +84,12 @@ publish_or_execute(e) implies
   and required_physical_path_permission(e)
 ```
 
-The predicates need different evidence; one signature does not establish them all. They must be checked at the point where the effect becomes irreversible, with the concurrency rules specified in the relevant subsystem.
+Each predicate requires its own evidence. One signature does not establish them all. They must be checked at the point where the effect becomes irreversible, with the concurrency rules specified in the relevant subsystem.
 
 Progress is conditional on admitted load, surviving resources, scheduling fairness, and sufficient communication. A network that may drop forever cannot support unconditional eventual delivery. A security result must report permitted operations completed, false denials, bounded recovery work, and service lost under the specified attack.
 
 ## Systemic compromise
 
-A common parser flaw may give an attacker control of the same small component on many machines. The intended result is containment at each component's authority boundary, not a claim that widespread exploitation cannot occur. Shared signing infrastructure, gate logic, or physical facilities can defeat that containment across many domains. Independence is an explicit dependency graph, never an assumed probability multiplier.
+A common parser flaw may give an attacker control of the same small component on many machines. The intended result is containment at each component's authority boundary, not a claim that widespread exploitation cannot occur. Shared signing infrastructure, gate logic, or physical facilities can defeat that containment across many domains. Claims of independence use an explicit dependency graph. They cannot rely on multiplying assumed independent-failure probabilities.
 
 **Open questions:** the achievable temporal/physical observation boundary, practical independence between guard implementations, and the workload cost of default physical granularity remain research obligations. These questions do not authorize weakening R03, R04, or R11 in an intermediate build.

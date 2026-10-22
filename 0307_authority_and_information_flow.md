@@ -4,7 +4,7 @@
 
 **Requirements:** R01, R05, R06, R09, R10, R13, R17, R19, R20, R23.
 
-ASKA distinguishes access to data, permission for an effect, information-flow restrictions, receiver consent, and transport authority. A participant must satisfy all relevant constraints. Authenticating one credential does not collapse those decisions into a single trust score.
+ASKA distinguishes access to data, permission for an effect, information-flow restrictions, receiver consent, and transport authority. Every participant must satisfy all relevant constraints. Authenticating one credential does not collapse those decisions into a single trust score.
 
 ## Scoped authority
 
@@ -30,15 +30,15 @@ The reference label is a set of realm-scoped categories. Public is the empty set
 
 Categories have issuer-defined meanings. Admission installs explicit mappings between realms; unknown categories deny flow. Maps cannot silently change under a live contract. A low-integrity sender cannot attach a “public” code and override a source restriction obtained from protected metadata.
 
-The fixed worker rule is conservative. A constant computed after secret input still inherits the worker's confinement. Fresh workers and smaller task graphs reduce unnecessary category accumulation. Dynamic value/control-flow tracking is an alternative only when its compiler, hardware, devices, and output interfaces implement a sound contract.
+The fixed worker rule conservatively labels derived output. A constant computed after secret input still inherits the worker's confinement. Fresh workers and smaller task graphs reduce unnecessary category accumulation. Dynamic value/control-flow tracking is an alternative only when its compiler, hardware, devices, and output interfaces implement a sound contract.
 
-The distributed-policy comparisons are [DStar](https://www.scs.stanford.edu/~nickolai/papers/zeldovich-dstar.pdf) and [Fabric](https://www.cs.cornell.edu/andru/papers/fabric-sosp09.html). These are established mechanisms with different trusted runtimes; ASKA still needs a composition argument across its physical and device boundaries.
+The distributed-policy comparisons are [DStar](https://www.scs.stanford.edu/~nickolai/papers/zeldovich-dstar.pdf) and [Fabric](https://www.cs.cornell.edu/andru/papers/fabric-sosp09.html). The two systems use established mechanisms with different trusted runtimes. Applying them to ASKA requires a composition argument across its physical and device boundaries.
 
 ## Integrity and endorsement
 
 Integrity assertions identify a producer, validator, measurement, or computation and the evidence supporting it. They are separate from confidentiality categories. Combining an authenticated value with attacker-controlled input does not preserve a trusted semantic assertion automatically.
 
-A decoder may produce `PixelBuffer` with a validated shape, but that says nothing about whether the picture is truthful. A financial parser may validate an amount's syntax without endorsing the transaction. Endorsement is a separately authorized operation over a specific immutable input and stated property.
+A decoder may produce `PixelBuffer` with a validated shape. That validation says nothing about whether the picture is truthful. A financial parser may validate an amount's syntax without endorsing the transaction. Endorsement is a separately authorized operation over a specific immutable input and stated property.
 
 ## Transformation obligations
 
@@ -60,13 +60,13 @@ An object reference can carry authority; copying its raw representation is not a
 
 A release record binds the source categories, allowed input selection, release-service identity/revision, immutable output commitment, resulting categories, destination, method, validity interval, and reuse/aggregate limits. Source and receiver policies independently accept that service and scope. Use accounting commits before emission or effect.
 
-Release semantics must address repeated queries, chosen inputs, error behavior, and timing. A bounded numeric field can still encode a secret through valid values. An AI summary is not automatically a safe declassification. The semantic release decision belongs to the relevant trusted computing base unless an independent checker establishes the required output relation. A separate release enforcer checks binding, scope, currentness, and use accounting before emitting bytes. It cannot prove an arbitrary report safe merely by comparing its digest with an approval. The failure scope of each function must be declared.
+Release semantics must address repeated queries, chosen inputs, error behavior, and timing. Valid values in a bounded numeric field can still encode a secret. An AI summary is not automatically a safe declassification. The semantic release decision belongs to the relevant trusted computing base unless an independent checker establishes the required output relation. A separate release enforcer checks binding, scope, currentness, and use accounting before emitting bytes. It cannot prove an arbitrary report safe merely by comparing its digest with an approval. The failure scope of each function must be declared.
 
-The initial no-release model denies all downward category flows. A later release implementation must extend the properties and tests explicitly; it cannot enable an ambient `declassify` permission for every application.
+The initial model has no release mechanism and denies all downward category flows. A later release implementation must extend the properties and tests explicitly; it cannot enable an ambient `declassify` permission for every application.
 
 ## Access, disclosure, and encryption
 
-Reading a protected object authorizes computation within its confinement. A disclosure to another category set, device, human audience, or realm requires the corresponding flow and effect permissions. Being on the same fabric, using a certified device, or sharing an administrator supplies no missing grant.
+Reading a protected object authorizes computation within its confinement. A disclosure to another category set, device, human audience, or realm requires the corresponding flow and effect permissions. Neither fabric membership, device certification, nor a shared administrator provides a missing grant.
 
 Encryption preserves the restrictions of plaintext and its dependencies. An authorized transport key cannot turn an impermissible disclosure into a permissible one. If an application creates opaque ciphertext, the boundary needs a binding to an approved pre-encryption object and protected encryption path, or an explicitly authorized opaque-transfer contract. Scanning ciphertext cannot establish its plaintext meaning. Chosen encryption randomness, padding, record sizes, and error behavior are observations when the sender can influence them.
 
@@ -82,6 +82,6 @@ Permission checks and the effect commit share an order with policy changes. Prel
 
 An explicit-transfer model checks whether delivered bytes and effects satisfy the rules. Stronger noninterference compares executions differing in secret input while preserving the declared public observations. Termination, object existence, queue pressure, and timing must be included or excluded explicitly.
 
-Physical ownership can reduce shared timing dependencies but does not eliminate power, thermal, clock, or management channels. The target's secrecy contract must be matched to its observation profile. A proof limited to values cannot establish zero leakage through everything else.
+Physical ownership can reduce shared timing dependencies but does not eliminate power, thermal, clock, or management channels. The target's secrecy contract must be matched to its observation profile. A proof covering values alone cannot establish that other observations reveal nothing.
 
-**Open research:** scalable category interpretation without global trust, sound labels through accelerators and synthesis, usable narrow release services, and formal composition of source ownership with receiver effects. Counterexamples should include malicious authorized producers, not only forged credentials.
+**Open research:** scalable category interpretation without global trust, sound labels through accelerators and synthesis, usable narrow release services, and formal composition of source ownership with receiver effects. Counterexamples should cover malicious authorized producers as well as forged credentials.

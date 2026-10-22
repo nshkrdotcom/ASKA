@@ -4,7 +4,7 @@
 
 **Requirements:** R03, R04, R07, R11, R12, R16, R17, R19, R21.
 
-The target machine assigns physical resources to security domains. Resource sharing is an explicit, evaluated choice within a domain or a separately identified approximation. Manufacturing density can make segregation less costly; it cannot establish segregation by itself.
+The target machine assigns each physical resource set to a security domain. Resource sharing is an explicit, evaluated choice within a domain or a separately identified approximation. Higher manufacturing density can reduce the cost of segregation. It does not establish the boundary.
 
 ## Physical ownership
 
@@ -21,13 +21,13 @@ Each physical boundary has an inventory: wires, ports, DMA paths, debug, reset, 
 | P2: independent root domain | Separate physical enforcement, boot/update authority, keys, and management; declared shared facilities | Sovereign policy, recovery, and boundaries needing resistance to one management compromise |
 | P3: controlled physical environment | P2 plus a specified enclosure, probing/fault threat model, physical controls, and tested leakage limits | High-consequence deployment requiring physical-attack assurance |
 
-These are declarations of resources and threats, not certification levels. P2 does not imply P3. Two P2 domains may still share a supplier defect. The dependency record in [0312](0312_governance_updates_and_recovery.md) determines their claimed independence.
+These profiles declare resources and threats. They are not certification levels. P2 does not imply P3. Two P2 domains may still share a supplier defect. The dependency record in [0312](0312_governance_updates_and_recovery.md) determines their claimed independence.
 
 ## Exposed connections and physical bypass
 
 An attachable endpoint must terminate at its mandatory guard. Port identity, device enrollment, and attestation are evidence inputs; none grants access merely because equipment is attached. Unused interfaces remain electrically disabled or terminate in a bounded encounter domain. Hot-plug, alternate device modes, management links, and maintenance boot paths must not expose plaintext or raw DMA around that boundary.
 
-Record the last guarded point for every exposed signal and the physical intervention needed to bypass it. A rogue bridge on the outside remains subject to admission and release policy; a tap on an unprotected plaintext bus can violate confidentiality directly. P3 claims require apparatus-specific enclosure, probing, emanation, and device-replacement evidence. P1 does not acquire those claims from an identity chip. [0318](0318_cross_domain_security_and_information_release.md) supplies the corresponding adversarial cases.
+Record the last guarded point for every exposed signal and the physical intervention needed to bypass it. A rogue bridge on the outside remains subject to admission and release policy; a tap on an unprotected plaintext bus can violate confidentiality directly. P3 claims require apparatus-specific enclosure, probing, emanation, and device-replacement evidence. Adding an identity chip does not establish those physical-attack claims for P1. [0318](0318_cross_domain_security_and_information_release.md) supplies the corresponding adversarial cases.
 
 ## Packaging choices
 
@@ -35,7 +35,7 @@ A planar many-island die offers short local wires and a uniform manufacturing fl
 
 The selected target permits all three at different boundaries: dense P1 islands for routine work, P2 modules for sovereign services, and physically separate network appliances where shared package management would violate R11. A fixed die count or a mature-node “security chiplet” is not required.
 
-Research in 3D integration is relevant to private local memory and short object-transfer paths. Imec/EVG reported a 200 nm-pitch wafer-to-wafer hybrid-bonding test vehicle in 2026. That is a process demonstration, not a working ASKA memory fabric or a production yield estimate. [Primary report](https://www.imec-int.com/en/press/imec-and-ev-group-demonstrate-wafer-wafer-hybrid-bonding-200nm-interconnect-pitch-and-record).
+Research in 3D integration is relevant to private local memory and short object-transfer paths. Imec/EVG reported a 200 nm-pitch wafer-to-wafer hybrid-bonding test vehicle in 2026. The result demonstrates a process. It establishes neither a working ASKA memory fabric nor a production yield estimate. [Primary report](https://www.imec-int.com/en/press/imec-and-ev-group-demonstrate-wafer-wafer-hybrid-bonding-200nm-interconnect-pitch-and-record).
 
 Backside connectivity and CFET research could change routing area, local memory placement, and power distribution. They also introduce testability, thermal, defect, and repair questions. [Imec's connectivity research](https://www.imec-int.com/en/articles/path-high-density-front-and-backside-wafer-connectivity) is a trajectory to investigate, not a dated promise of affordable isolation. [DARPA NGMM](https://www.darpa.mil/events/2025/ngmm-summit) documents an enabling 3D heterogeneous-integration program; ASKA does not assume its targets have already been achieved.
 
@@ -45,7 +45,7 @@ Short electrical links are candidates within an island or package. Dedicated opt
 
 Intel reported an optical compute-interconnect chiplet demonstration with live CPU data in 2024. It supports investigating optical I/O, not a claim of ASKA path security or optical logic replacing digital guards. [Intel demonstration](https://www.intel.com/content/www/us/en/newsroom/news/intel-unveils-first-integrated-optical-io-chiplet.html).
 
-A shared laser, fiber, wavelength mux, photonic switch, or control circuit can couple domains. Separate wavelengths on one fiber do not satisfy a requirement for separate physical facilities. The topology contract names which resources must be distinct. Optics still needs authenticated endpoints, reliable framing, fault detection, and a gate before irreversible transmission.
+Domains can remain coupled through a shared laser, fiber, wavelength mux, photonic switch, or control circuit. Separate wavelengths on one fiber do not satisfy a requirement for separate physical facilities. The topology contract names which resources must be distinct. Optics still needs authenticated endpoints, reliable framing, fault detection, and a gate before irreversible transmission.
 
 ## Alternative computing substrates
 
@@ -59,12 +59,12 @@ A shared laser, fiber, wavelength mux, photonic switch, or control circuit can c
 
 Sources: [IBM AIMC paper record](https://research.ibm.com/publications/a-64-core-mixed-signal-in-memory-compute-chip-based-on-phase-change-memory-for-deep-neural-network-inference), [Loihi 2 technical brief](https://www.intel.com/content/dam/www/central-libraries/us/en/documents/neuromorphic-computing-loihi-2-brief.pdf), [Sandia reversible-computing research](https://www.sandia.gov/news/publications/hpc-annual-reports/article/stretching-the-thermodynamic-limits-of-hpc-efficiency/), [TRIPS](https://www.cs.utexas.edu/~cart/trips/overview.html).
 
-These directions can host confined acceleration without becoming part of the authorization decision. An erroneous inference is a bad proposed result; it must not rewrite a grant.
+These technologies can implement confined acceleration while authorization remains separately enforced. An erroneous inference produces a bad proposed result; it must not rewrite a grant.
 
 ## Physical limits and acceptance work
 
 Private memory increases area and data movement; 3D stacking adds heat and defect interactions; optical transmission still pays serialization and conversion costs. Propagation across distance, cooling, memory endurance, finite energy, and finite verification throughput remain constraints even if fabrication improves substantially.
 
-A substrate study must measure useful work per area/energy, isolation granule, data movement, thermal interference, sanitation latency, and fault containment. Inject shared reset, supply droop, link errors, and configuration failures. Observe forbidden memory and egress effects externally. A netlist with a gate symbol is insufficient: check the manufactured or synthesized paths it is supposed to control.
+A substrate study must measure useful work per area/energy, isolation granule, data movement, thermal interference, sanitation latency, and fault containment. Inject shared reset, supply droop, link errors, and configuration failures. Observe forbidden memory and egress effects externally. Check the manufactured or synthesized paths the gate is supposed to control. A gate symbol in a netlist is insufficient evidence.
 
 **Unproven hypothesis H03:** future integration can provide enough private memory and inexpensive guarded links for default granular physical execution. **Open research:** manufacturable boundary verification, safe field replacement, analog-state sanitation, and measurable independence among physically adjacent islands. If these remain expensive, the target remains valid; the realizations must report the cost or the unmet requirement.

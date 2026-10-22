@@ -4,7 +4,7 @@
 
 **Requirements:** R02–R04, R09–R12, R14–R18, R19–R24.
 
-The program advances a whole computing environment while investigating the technologies it needs. It has no promised fabrication date or assumption that processor, optical, AI, or verification progress will arrive on schedule. The destination is governed by requirements; intermediate builds carry explicit limitations.
+The program advances a whole computing environment while investigating the technologies it needs. The program promises no fabrication date and assumes no schedule for processor, optical, AI, or verification advances. Requirements govern the target, and each intermediate build records its limitations.
 
 ## Research tracks
 
@@ -19,11 +19,11 @@ The program advances a whole computing environment while investigating the techn
 | Governance | Scoped installation, independent updates/recovery, common-cause analysis | Compromised-role tests and actual dependency cut sets |
 | Frontier integration | Better density, memory proximity, energy, and communication | Reproducible component/process demonstrations and an ASKA-specific integration argument |
 
-All tracks use the same reference application: admitted document import, isolated parsing, protected state, AI-assisted review, constrained display, and explicit export. A networking-only or processor-only result cannot become the definition of project completion.
+All tracks use the same reference application: admitted document import, isolated parsing, protected state, AI-assisted review, constrained display, and explicit export. A networking-only or processor-only result does not complete the project.
 
 ## Cross-domain research obligations
 
-The common application also includes an authorized insider, an infected removable device, a rogue connection outside the guards, and compromised import/release components. Its export path must remain useful while enforcing [0318](0318_cross_domain_security_and_information_release.md). Compare the crossing contract with NCSC guidance and NIST AC-4; public program descriptions do not establish compliance with inaccessible requirements.
+The common application is also tested with an authorized insider, an infected removable device, a rogue connection outside the guards, and compromised import/release components. Its export path must remain useful while enforcing [0318](0318_cross_domain_security_and_information_release.md). Compare the crossing contract with NCSC guidance and NIST AC-4; public program descriptions do not establish compliance with inaccessible requirements.
 
 Phase A adds separate reachability and authority graphs plus release-use/crash interleavings. Phase B instruments removable-media and physical-port crossings and independently controls both domain boundaries. Phase C compares disclosure/metadata service guarantees, including bidirectional processor compromise. Phases D and E revisit physical taps, maintenance paths, human exposure, recovery, and actual custodians. No phase can claim the insider problem solved by an air gap or authenticated fabric alone.
 
@@ -51,7 +51,7 @@ The selected binary ISA or transport can change when evidence warrants it. The p
 
 Investigate planar islands, chiplets, private memory tiers, 3D bonding, and optical links using component results from [0303](0303_physical_substrate_and_frontier.md). Build a compiler/checker chain and physical integration flow with explicit refinement boundaries. Evaluate fabrication testing, debug control, yield, repair, heat, power, and replacement.
 
-Advances can make currently expensive isolation practical. They may also add shared management or thermal dependencies. An integration gain is accepted only if it preserves the corresponding requirement or is labeled as a weaker realization. No forecasted transistor density erases memory movement or cooling costs.
+Advances can make currently expensive isolation practical. They may also add shared management or thermal dependencies. An integration gain is accepted only if it preserves the corresponding requirement or is labeled as a weaker realization. Forecasts of transistor density do not eliminate memory-movement or cooling costs.
 
 ## Phase E: independent realms and long-lived operation
 
@@ -76,6 +76,6 @@ Each experiment records satisfied, assumed, unestablished, and violated requirem
 
 If 3D integration progresses slowly, larger modules can preserve the target at greater cost. If optical I/O remains difficult, dedicated electrical links can support shorter distances. If new ISA/compiler work is too uncertain, an existing core can test the execution contract without making its conventions normative. If physical granularity remains expensive, measure the cost and investigate coarser owned domains explicitly; do not rename shared logical isolation as physical separation.
 
-Stop a mechanism when it depends on an unmodeled bypass, cannot bound resource use, or requires a universally trusted broker. Reopen it when a concrete mechanism or corrected assumption addresses the failure. Continue frontier work only when it has a plausible path to a named requirement or measurable cost improvement; novelty alone is not a milestone.
+Stop a mechanism when it depends on an unmodeled bypass, cannot bound resource use, or requires a universally trusted broker. Reopen it when a concrete mechanism or corrected assumption addresses the failure. Continue frontier research only when it can plausibly meet a named requirement or measurably reduce cost. Novelty alone is insufficient.
 
-Maintain a changing research backlog, stable requirements, and archived decision evidence. This arrangement permits decades of experimentation without allowing a convenient prototype to replace the architecture it was built to investigate.
+Maintain a changing research backlog, stable requirements, and archived decision evidence. These records keep the target requirements distinct from prototype limitations throughout long-term experimentation.

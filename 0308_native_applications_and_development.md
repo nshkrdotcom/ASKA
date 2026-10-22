@@ -4,7 +4,7 @@
 
 **Requirements:** R01, R02, R05, R06, R07, R08, R15, R17, R18, R20, R21, R24.
 
-A native application is a graph of components, protected objects, and authorized effects. It does not receive a general-purpose environment and then attempt to subtract dangerous privileges. The development tools make small request workers and narrow service interfaces the normal path.
+A native application is a graph of components, protected objects, and authorized effects. Admission supplies only the objects and effects the graph is authorized to use, rather than a general-purpose environment with privileges removed afterward. The development tools make small request workers and narrow service interfaces the normal path.
 
 ## Component contract
 
@@ -51,7 +51,7 @@ Admission must replace every supplied limit with a concrete finite value. A desc
 | `task.spawn(contract, inputs, attenuated_handles)` | Request a child under parent budgets and the required physical profile |
 | `task.finish(outputs)` | Offer sealed outputs and begin local retirement |
 
-These are semantic SDK interfaces. Their implementation can use instructions, queues, or local calls. A monolithic kernel is not required, but scheduling, allocation, and lifecycle control still exist as separate protected services.
+These SDK interfaces specify semantics. Implementations can use instructions, queues, or local calls. Separate protected services provide scheduling, allocation, and lifecycle control without requiring a monolithic kernel.
 
 ## Composition and authority checking
 
@@ -61,7 +61,7 @@ An operation handle is supplied by task admission, not resolved from a global se
 
 The application package separates code from deployment authority. Code declares what it needs; a user or administrator decides what a particular installation receives. Updating a binary under the same name does not inherit every grant of the old binary automatically. Contract changes follow [0312](0312_governance_updates_and_recovery.md).
 
-Static checks establish structural properties, not the truth of arbitrary component output. Runtime guards remain effective against admitted malicious machine code. Proof-carrying components may receive fewer runtime checks only if the proof, verifier, machine model, and substitution argument are part of the accepted assurance profile.
+Static checks establish structural properties. They do not establish that arbitrary component output is true. Runtime guards remain effective against admitted malicious machine code. Proof-carrying components may receive fewer runtime checks only if the proof, verifier, machine model, and substitution argument are part of the accepted assurance profile.
 
 ## End-to-end example: private document review
 
@@ -69,7 +69,7 @@ The user asks the AI environment to review a document received from an admitted 
 
 The classifier selects only from already installed decoder contracts. Claimed file type is untrusted. Every fallback decoder runs under the same or stronger confinement and physical profile; unsupported formats are rejected or offered as uninterpreted data. No convenience helper parses the file in a privileged UI or storage service.
 
-Decoders return bounded typed representations. Validators check dimensions, integer ranges, lengths, nesting, references, and the absence of executable callbacks or capability imports. A validator asserts only the property it actually checks. The renderer receives bounded surfaces and cannot draw over the trusted approval region.
+Decoders return bounded typed representations. Validators check dimensions, integer ranges, lengths, nesting, references, and the absence of executable callbacks or capability imports. A validator's assertion covers only the property it checks. The renderer receives bounded surfaces and cannot draw over the trusted approval region.
 
 The analysis agent receives only user-authorized document/context views. Its result carries their confidentiality restrictions. Saving a review invokes a version-checked method on the document owner. Exporting it requires a distinct destination-bound operation grant and any needed release. A malicious decoder or agent cannot obtain export authority through a well-formed result.
 
@@ -83,9 +83,9 @@ The review workflow must support an authorized collaborator export through [0318
 
 The graph supports long-running protected services and ephemeral workers. A collaboration session can persist while each edit, import, or query executes in a fresh cell. State owners preserve versions and operation receipts. A worker crash does not erase committed application state.
 
-Local scoped namespaces, caches, and library abstractions are permitted when they preserve the contract. They have explicit owners and invalidation rules. The architecture does not depend on banning every concept resembling a file or a call; it prevents those conveniences from carrying undeclared authority.
+Local scoped namespaces, caches, and library abstractions are permitted when they preserve the contract. They have explicit owners and invalidation rules. Abstractions resembling files and calls are permitted when they carry no undeclared authority.
 
-Large numerical jobs can own a multi-engine island or compose streamed task graphs. Splitting every arithmetic operation into a separate physical cell is unnecessary. Granularity follows the consequence of compromise and explicit authority boundaries, with costs measured rather than assumed negligible.
+Large numerical jobs can own a multi-engine island or compose streamed task graphs. Splitting every arithmetic operation into a separate physical cell is unnecessary. Granularity follows the consequences of compromise and the explicit authority boundaries. Its costs require measurement.
 
 ## Development environment
 
@@ -93,6 +93,6 @@ The AI-assisted environment provides contract templates, effect previews, graph 
 
 Developers can inspect the effective graph before deployment and compare authority changes during an update. Debuggers operate on a paused owned domain with separately authorized access. Production debug cannot become a global memory reader.
 
-[capDL](https://docs.sel4.systems/projects/capdl/lang-spec.html) is a comparison for explicit authority descriptions. [CakeML](https://cakeml.org/index.html) is a comparison for verified compilation, and [Calyx](https://calyxir.org/) for compiling accelerator designs. Each supplies part of a toolchain problem; none establishes ASKA application correctness or physical placement by itself.
+[capDL](https://docs.sel4.systems/projects/capdl/lang-spec.html) is a comparison for explicit authority descriptions. [CakeML](https://cakeml.org/index.html) is a comparison for verified compilation, and [Calyx](https://calyxir.org/) for compiling accelerator designs. Each addresses part of the toolchain problem. None alone establishes ASKA application correctness or physical placement.
 
 **Hypothesis H04:** a compositional contract system can make the least-authority application easier to construct than a privileged broker. Evaluate developer effort, grant breadth, trusted application code, denied useful work, debugging access, lifecycle cost, and whether the compromised-parser test survives ordinary feature development.

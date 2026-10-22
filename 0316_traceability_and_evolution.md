@@ -4,11 +4,11 @@
 
 **Requirements:** R01–R24; this document governs their maintenance.
 
-The requirement register in [0301](0301_requirements_and_threat_model.md) takes precedence over a subsystem choice or an intermediate realization. A future change must show whether it preserves a requirement, implements it differently, leaves it unestablished, or violates it. “More practical” is a cost observation, not evidence of equivalent security.
+The requirement register in [0301](0301_requirements_and_threat_model.md) takes precedence over a subsystem choice or an intermediate realization. A future change must show whether it preserves a requirement, implements it differently, leaves it unestablished, or violates it. Lower implementation cost does not establish equivalent security.
 
 ## Requirements-to-design matrix
 
-All target claims below remain unvalidated as an integrated system. The evidence column names what must be produced, not a result already obtained.
+All target claims below remain unvalidated as an integrated system. The evidence column identifies what must be produced. It does not report completed results.
 
 | Requirement | Principal design | Responsible documents | Required evidence / regression |
 |---|---|---|---|
@@ -37,17 +37,17 @@ All target claims below remain unvalidated as an integrated system. The evidence
 | R23: independently bound release | Immutable output binding, local current policy, durable use accounting | 0305, 0307, 0311, 0318 | Substitution, destination change, replay, withdrawal, crash, and retry traces |
 | R24: bounded intermediaries | Separate import/export workers and independently owned controls | 0302, 0308, 0310, 0318 | Transformer/proposer takeover preserves declared independent ceilings |
 
-The crossing-specific acceptance cases X01–X12 and observation profiles O1–O3 are defined in [0318](0318_cross_domain_security_and_information_release.md). They extend the original requirements rather than superseding physical ownership or purpose segregation. All twenty-four requirements remain obligations of the native target.
+The crossing-specific acceptance cases X01–X12 and observation profiles O1–O3 are defined in [0318](0318_cross_domain_security_and_information_release.md). They extend the original requirements while retaining physical ownership and purpose segregation. All twenty-four requirements remain obligations of the native target.
 
 ## Decision records
 
 Major choices D01–D09 are recorded in [0302](0302_architectural_candidates_and_decisions.md). A replacement record contains the old/new choice, affected requirements, alternatives, assumptions, expected benefit, evidence, remaining counterexamples, and reopening criteria. It preserves the earlier record rather than erasing why a design changed.
 
-A requirement change is a separate architectural action. It must explain which original property is relinquished, who accepts that departure, and how the resulting architecture is named. A realization cannot approve that change by simply omitting the property from a benchmark.
+A requirement change is a separate architectural action. It must explain which original property is relinquished, who accepts that departure, and how the resulting architecture is named. Omitting a property from a realization's benchmark does not authorize its removal from the requirements.
 
 ## Recovery and correction of earlier ideas
 
-The earlier material is used critically. Foundational discussion, speculative brainstorms, and measured external work have different status. The following departures explain the reconstructed target; they are not a claim that every earlier passage held one consistent position.
+Earlier proposals are evaluated against the current requirements. Foundational discussion, speculative brainstorms, and measured external work have different status. The following departures explain the reconstructed target; they are not a claim that every earlier passage held one consistent position.
 
 | Earlier idea or decision | Treatment here | Reason |
 |---|---|---|
@@ -65,7 +65,7 @@ The earlier material is used critically. Foundational discussion, speculative br
 | Quantum-entangled memory/OTP, speculative physical audit, and unrelated futuristic extensions | Not dependencies of the target | No demonstrated enforcement contract justifies placing them on the critical path |
 | Blanket exploit/global-hack impossibility | Replaced by scoped containment and correlated-failure claims | Valid authority, shared defects, physical attacks, and service loss remain distinct risks |
 
-The original material also included legacy integration and centralized management proposals. The redesign does not treat a uniformly uncompromising earlier architecture as a historical fact. It recovers the governing purpose and corrects tensions within those proposals.
+The original material also included legacy integration and centralized management proposals. The redesign does not assume the earlier architecture consistently satisfied its own aims. It recovers the governing purpose and corrects tensions within those proposals.
 
 For source provenance, the historical repository at commit `23203ca5db55089bbda6e30b7ab943f37f438355` preserves [v1's detailed overview](https://github.com/nshkrdotcom/ASKA/blob/23203ca5db55089bbda6e30b7ab943f37f438355/v1/DOC.md), [v1's application discussion](https://github.com/nshkrdotcom/ASKA/blob/23203ca5db55089bbda6e30b7ab943f37f438355/v1/8.md), [v2's handoff contract](https://github.com/nshkrdotcom/ASKA/blob/23203ca5db55089bbda6e30b7ab943f37f438355/v2/03_protected_handoff.md), and [v3's reading map](https://github.com/nshkrdotcom/ASKA/blob/23203ca5db55089bbda6e30b7ab943f37f438355/0010_architecture_and_reading_map_gpt.md). These establish what the project proposed, not external proof that it worked.
 
@@ -83,10 +83,10 @@ model/proof/test/measurement evidence
 useful work completed; denial and uncertainty behavior
 ```
 
-“Established” always names its scope, such as one finite model or one board configuration. It never means the entire target follows from a component result. A negative test that invalidates a guard updates every dependent conformance entry.
+“Established” always names its scope, such as one finite model or one board configuration. A component result cannot establish the entire target. When a negative test invalidates a guard, update every conformance entry that depends on it.
 
 ## Change review questions
 
 Before accepting a revision, ask whether a previously separate resource is now shared; whether a new broker, update role, or AI context owner has acquired broad authority; whether a new fallback parses untrusted content outside confinement; whether a carrier experiment has been promoted to a physical-path claim; and whether convenient recovery resurrects stale rights.
 
-Then replay the complete application stress cases and the relevant weakened variants. A change can simplify implementation or improve cost while preserving every requirement. If it cannot, the departure must remain visible rather than disappearing into a new architecture diagram.
+Then replay the complete application stress cases and the relevant weakened variants. A change can simplify implementation or improve cost while preserving every requirement. If it cannot, the departure must be documented explicitly, including in revised architecture diagrams.

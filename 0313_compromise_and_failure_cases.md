@@ -4,7 +4,7 @@
 
 **Requirements:** R01–R13, R17, R18, R19–R24.
 
-The primary test starts after the attacker controls a component. Exploit prevention is measured separately. For each case, record the attacker's legitimate starting grants, the forbidden effect, the guards that should deny it, the authority or further failure needed to succeed, and useful work preserved.
+The primary test gives the attacker control of a component at the start. Exploit prevention is measured separately. For each case, record the attacker's legitimate starting grants, the forbidden effect, the guards that should deny it, the authority or further failure needed to succeed, and useful work preserved.
 
 ## PHP: memory exhaustion during incomplete initialization
 
@@ -19,7 +19,7 @@ Required outcomes:
 - The worker cannot read unrelated objects, invoke an uninstalled database method, emit to an unadmitted destination, or change policy.
 - Already authorized/committed effects remain visible as such; an abort does not claim to roll them back.
 
-The attacker can corrupt the current computation, consume its allowance, return malicious permitted values, and prevent its own completion. Reports must include those remaining harms. Native containment is not a patch for a vulnerable conventional PHP installation.
+The attacker can corrupt the current computation, consume its allowance, return malicious permitted values, and prevent its own completion. Reports must include those remaining harms. Native containment does not repair a vulnerable conventional PHP installation.
 
 ## PHP: stale state across requests
 
@@ -43,7 +43,7 @@ The display guard must prevent application surfaces from covering the trusted ap
 
 ## Protected-network transfers and insider bridges
 
-The Air Force's [2010 account](https://www.af.mil/News/Article/115277/cyberspace-is-the-new-domain-of-warfare/) describes a flash drive introducing malware into classified military networks in 2008. This supports a removable-media import case; it does not establish a particular live Internet-to-SIPRNet bridge or every exfiltration stage. The Air Force's [Teixeira investigation summary](https://www.usafe.af.mil/News/Article-Display/Article/3613146/results-of-investigation-into-a1c-texieras-unit-following-unauthorized-disclosu/) documents failures involving insider access and supervision. These are complementary mechanisms, not evidence that all classified networks share one topology.
+The Air Force's [2010 account](https://www.af.mil/News/Article/115277/cyberspace-is-the-new-domain-of-warfare/) describes a flash drive introducing malware into classified military networks in 2008. This supports a removable-media import case; it does not establish a particular live Internet-to-SIPRNet bridge or every exfiltration stage. The Air Force's [Teixeira investigation summary](https://www.usafe.af.mil/News/Article-Display/Article/3613146/results-of-investigation-into-a1c-texieras-unit-following-unauthorized-disclosu/) documents failures involving insider access and supervision. These mechanisms provide complementary tests. They do not establish a common topology for all classified networks.
 
 Start with an insider authorized to read a restricted collection and control one endpoint. Attempt bulk media writes, printing, screen capture, clipboard export, diagnostic export, a dual-homed bridge, and an authenticated response carrying a secret. Then compromise a cross-domain transformer and a release proposer separately. [0318](0318_cross_domain_security_and_information_release.md) specifies the approvals and independent observers for each case.
 
@@ -67,9 +67,9 @@ For each case, identify whether narrower object/method grants, release semantics
 
 Compromise an application signer and attempt to install gate firmware, broaden admission, recover another realm's keys, and change the physical network purpose. Compromise the AI builder and attempt to approve its own artifact. Compromise one recovery custodian and attempt to replace a sovereign root alone.
 
-Then attack shared dependencies: the build system serving two signers, a package debug controller, a common reset line, and a fleet-wide firmware image. A single successful common dependency may invalidate several nominally separate boundaries. The result changes the independence graph; it cannot remain a multi-failure success claim.
+Then attack shared dependencies: the build system serving two signers, a package debug controller, a common reset line, and a fleet-wide firmware image. A single successful common dependency may invalidate several nominally separate boundaries. Update the independence graph when one dependency defeats several boundaries. The result can no longer be reported as requiring multiple independent failures.
 
-Test a deliberately malicious execution engine issuing arbitrary bus requests. Its island's external guard must deny foreign memory and uninstalled endpoints. Separately fail that guard: disclose the affected scope and require the next independently enforced boundary to contain propagation. The test does not assume hardware infallibility.
+Test a deliberately malicious execution engine issuing arbitrary bus requests. Its island's external guard must deny foreign memory and uninstalled endpoints. Separately fail that guard: disclose the affected scope and require the next independently enforced boundary to contain propagation. The test includes hardware failure.
 
 ## Protocol and availability cases
 
@@ -83,4 +83,4 @@ For persistence, crash before/after durable commit, restore an old snapshot, and
 
 Each campaign includes a deliberately weakened variant that produces the intended failure: retained DMA access, skipped generation check, privileged decoder fallback, cached allow after withdrawal, forged UI approval, or raw transmit bypass. If the observer cannot detect it, the campaign is not valid evidence.
 
-Report prevention, containment, in-scope abuse, cross-domain propagation, and service loss separately. A common vulnerability can still affect many cells. The target is that their existing narrow rights do not automatically become control over unrelated systems, management, or purpose networks. No ASKA result from these campaigns exists yet.
+Report prevention, containment, in-scope abuse, cross-domain propagation, and service loss separately. A common vulnerability can still affect many cells. The target is that their existing narrow rights do not automatically become control over unrelated systems, management, or purpose networks. These campaigns have not yet produced ASKA results.

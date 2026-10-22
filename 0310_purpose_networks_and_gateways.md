@@ -16,7 +16,7 @@ The native network is a collection of purpose-specific physical fabrics. There i
 | Observation fabrics | Bounded audit/health reporting | Explicit one-way or guarded export interfaces; classified logs remain protected |
 | Dynamic Trust Gateways (DTGs) | Specific cross-purpose transactions | Terminate both sides and create a separately authorized effect; no transparent bridge |
 
-ATN and STN are roles instantiated per realm or federation, not one worldwide “trusted network.” Membership does not make a peer honest or grant an operation. Every fabric, including an STN, can contain compromised endpoints and controllers. An endpoint still checks each operation against its own authority. The encounter boundary is a new explicit role for unavoidable public entry; its compromise must not reconfigure an ATN or STN.
+ATN and STN are roles instantiated per realm or federation, not one worldwide “trusted network.” Membership establishes neither a peer's honesty nor permission for an operation. Every fabric, including an STN, can contain compromised endpoints and controllers. Each endpoint checks each operation against its own authority. The encounter boundary is a new explicit role for unavoidable public entry; its compromise must not reconfigure an ATN or STN.
 
 ## Physical topology contract
 
@@ -30,7 +30,7 @@ Dynamic provisioning may allocate a previously unused path or safely reassign a 
 
 ## Admission and routing
 
-Route services discover candidate paths inside the allowed topology. Protected gates admit only paths/resources approved by their owners and accepted by the endpoints. A route proposal is not permission. Session consent does not give a sender arbitrary forwarding rights, and a forwarding grant does not establish permission to disclose its payload.
+Route services discover candidate paths inside the allowed topology. Protected gates admit only paths/resources approved by their owners and accepted by the endpoints. A route proposal grants no permission. Session consent does not give a sender arbitrary forwarding rights, and a forwarding grant does not establish permission to disclose its payload.
 
 The architecture permits packet-carried authorization, installed per-channel state, or admitted circuits. Selection depends on replay, reservation, key distribution, failure, and physical enforcement properties. No custom hop header is fixed here before comparison with existing protocols.
 
@@ -47,7 +47,7 @@ The architecture permits packet-carried authorization, installed per-channel sta
 
 A DTG consists of separately confined ingress parsing, a small effect/release checker, and an egress constructor. High-consequence crossings use independently controlled enforcement on both sides. Sharing one signing key, firmware installer, or reset controller would defeat the claimed independence and must be reported.
 
-The gateway receives an admitted typed request, binds immutable inputs and their restrictions, validates the permitted transformation, resolves the destination's independent acceptance, and prepares a new target-side operation. Each local boundary commits under its own current policy. Those commits are separate: no gateway assumes a simultaneous policy snapshot across partitioned realms. The target sees the specific gateway service's assertion, not the original sender's unrestricted authority.
+The gateway receives an admitted typed request, binds immutable inputs and their restrictions, validates the permitted transformation, resolves the destination's independent acceptance, and prepares a new target-side operation. Each local boundary commits under its own current policy. Those commits are separate: no gateway assumes a simultaneous policy snapshot across partitioned realms. The target receives an assertion scoped to the specific gateway service. The original sender's unrestricted authority does not cross with it.
 
 Allow only explicit operations such as importing a bounded document object or returning an approved policy decision. A gateway does not expose arbitrary STN RPC, raw packet forwarding, or broad memory sharing. Decrypting and scanning a payload is not a general proof that it is harmless. Narrow schemas, release semantics, budgets, and recipient checks remain necessary.
 
@@ -57,7 +57,7 @@ Gateway failure before commit publishes nothing on the target side. Failure afte
 
 A DTG is a transfer pipeline with source-side disclosure enforcement and independently owned destination enforcement. A single gateway instance must not hold both domains' unrestricted policy authority or bypass their guards. Parsing, transformation, release proposal, release control, and carriage have distinct contracts and failure scopes. The detailed transaction is in [0318](0318_cross_domain_security_and_information_release.md).
 
-A newly attached cable, dual-connected endpoint, or rogue switch changes reachability only. Its traffic still needs a valid source effect, permitted release, path contract, and receiver consent. It can create load and new observations; it must not create permissions. A physical tap behind a guard or an authorized unrestricted export is a different failure mode and must be reported as such.
+A newly attached cable, dual-connected endpoint, or rogue switch changes reachability only. Its traffic still needs a valid source effect, permitted release, path contract, and receiver consent. The added connection can create load and new observations; it must not create permissions. Report a physical tap behind a guard and an authorized unrestricted export as distinct failure modes; each must be identified explicitly.
 
 Analyze paired directions together. Reusing a compromised import transformer for unrestricted responses can expose response plaintext and create command-and-control even if every outer session authenticates. Separate the workers and their state, then mediate any necessary correlation through bounded typed identifiers. No raw return path is implied by a request.
 
@@ -67,8 +67,8 @@ Data diodes are appropriate where the required operation truly has one direction
 
 ## Availability and intermediates
 
-Admission must act upstream of a protected bottleneck to preserve its capacity. Finite queues cannot repair sustained excess load. Reserve control/recovery service and police admitted senders, including valid replays. Exact per-sender allowances require accounting; “stateless transit” cannot remember every use of a copyable token.
+Admission must act upstream of a protected bottleneck to preserve its capacity. Finite queues cannot accommodate sustained excess load. Reserve control/recovery service and police admitted senders, including valid replays. Exact per-sender allowances require accounting; “stateless transit” cannot remember every use of a copyable token.
 
 An IP overlay can test endpoint authority and ciphertext integrity through hostile transit. It is an interoperability/testing realization and establishes no native physical-purpose separation. A legacy gateway occupies an encounter domain and receives no native administrative authority. The native system must remain operable with that gateway disconnected.
 
-**Open research:** scalable purpose-specific infrastructure, circuit/grant tradeoffs, independently enforceable gateway composition, physical inventory assurance, and affordable bandwidth isolation under admitted abuse. Success requires both forbidden-crossing tests and useful inter-domain applications.
+**Open research:** scalable purpose-specific infrastructure, circuit/grant tradeoffs, independently enforceable gateway composition, physical inventory assurance, and affordable bandwidth isolation under admitted abuse. Successful validation requires both forbidden-crossing tests and useful inter-domain applications.

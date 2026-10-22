@@ -4,7 +4,7 @@
 
 **Requirements:** R01, R02, R03, R07, R12, R15, R17, R19, R20.
 
-Native software runs through an object/effect execution contract. It receives bounded values, local memory, and explicitly delegated operation handles. Persistent state and external devices belong to other domains. The contract defines what every execution engine must enforce before an ISA is selected.
+Native software runs through an object/effect execution contract. It receives bounded values, local memory, and explicitly delegated operation handles. Persistent state and external devices belong to other domains. The contract defines the obligations every execution engine must enforce before ISA selection.
 
 ## Cell admission
 
@@ -37,13 +37,13 @@ A native cell has no inherited host credential, global object namespace, raw phy
 | Spawn | Request a child with attenuated handles and explicit resource reservation |
 | Yield/finish/abort | End or suspend computation under controller-defined ownership and sanitation rules |
 
-These names are semantic operations, not invented binary opcodes. [0308](0308_native_applications_and_development.md) gives developer-facing contracts. [0306](0306_persistence_and_effects.md) defines when submission becomes a durable or physical effect.
+These operation names define semantics; their binary encodings remain unspecified. [0308](0308_native_applications_and_development.md) gives developer-facing contracts. [0306](0306_persistence_and_effects.md) defines when submission becomes a durable or physical effect.
 
 ## Memory safety inside the cell
 
-The reference worker model uses region lifetimes. Admitted inputs are immutable; local scratch regions remain allocated until the cell ends; outputs remain unpublished until sealed. The initial worker language does not expose arbitrary free/reallocate within a region. This reduces request-lifetime aliasing without claiming that whole-cell reset solves every temporal-safety problem.
+The reference worker model uses region lifetimes. Admitted inputs are immutable; local scratch regions remain allocated until the cell ends; outputs remain unpublished until sealed. The initial worker language does not expose arbitrary free/reallocate within a region. This reduces request-lifetime aliasing. Whole-cell reset does not solve every temporal-safety problem.
 
-Bounds, reference provenance, and region liveness must be checked or established by an accepted compiler/verifier argument. Persistent services and engines that need fine-grained allocation require a separate temporal-safety mechanism. A malicious cell can retain any bit pattern it likes, but its references cannot survive retirement as usable authority.
+The implementation must check bounds, reference provenance, and region liveness, or establish them through an accepted compiler/verifier argument. Persistent services and engines that need fine-grained allocation require a separate temporal-safety mechanism. A malicious cell can retain any bit pattern it likes, but its references cannot survive retirement as usable authority.
 
 A fault halts the offending cell and begins protected cancellation. Cleanup does not depend on the workload running an exception handler correctly. Unpublished output is discarded. Effects committed before the fault remain committed and are reported through operation receipts; cell abort cannot undo a payment or actuator movement.
 
@@ -61,7 +61,7 @@ Instruction-level information-flow architectures such as [HyperFlow](https://www
 
 ## Scheduling and resource termination
 
-Cells receive bounded memory, execution fuel, elapsed time, queue occupancy, and output allowance. Fuel counts defined execution steps; it is not a claim of constant real-time service. The elapsed deadline is enforced independently of workload cooperation. Blocking sends reserve no unbounded downstream chain.
+Cells receive bounded memory, execution fuel, elapsed time, queue occupancy, and output allowance. Fuel counts defined execution steps. It does not guarantee constant real-time service. The elapsed deadline is enforced independently of workload cooperation. Blocking sends reserve no unbounded downstream chain.
 
 Exclusive ownership can span several hardware engines for a large task. Reusing an engine for a new cell requires the lifecycle transition in [0305](0305_memory_ownership_and_lifecycle.md). Shared scheduling within one declared trust domain is permitted. A P0 shared-core prototype cannot claim the physical or timing properties of P1 execution.
 
@@ -71,12 +71,12 @@ The scheduler can choose among already authorized placements. It cannot read pri
 
 A cell's output authority covers its selected device surface, not all uses of that device. Viewing an object does not install printing, clipboard, recording, removable-media, or network-export handles. A worker that reads restricted inputs cannot return unrestricted status, timing choices, or generated code through a lower-category channel merely because the payload type is small. Such observations follow the selected flow profile in [0318](0318_cross_domain_security_and_information_release.md).
 
-A network or peripheral controller can be fully malicious. The cell's guards must still mediate its resource accesses. A newly discovered endpoint stays untrusted until an independent local installation authorizes a bounded contract.
+The controller threat model includes fully malicious network and peripheral controllers. The cell's guards must still mediate its resource accesses. A newly discovered endpoint stays untrusted until an independent local installation authorizes a bounded contract.
 
 ## Device and accelerator work
 
 An accelerator receives an explicit input/output contract, owned memory, and bounded command queues. Device firmware is untrusted unless the claimed computation depends on it. Its external guard enforces DMA extent, source identity, generations, and allowed output endpoints. Accelerator-local scratch, weights, caches, and pending transactions belong in retirement.
 
-Model and test a compute engine that submits arbitrary requests, even if a memory-safe language would normally prevent them. P1 physical and endpoint boundaries must contain those requests. Internal instruction-level safety may fail with a malicious core, but it must not be the only defense protecting another island.
+Model and test a compute engine that submits arbitrary requests, even if a memory-safe language would normally prevent them. P1 physical and endpoint boundaries must contain those requests. Internal instruction-level safety may fail with a malicious core. It must not be the only defense protecting another island.
 
 **Open questions:** cost of region-only programming for interactive workloads; evidence required to accept a compiler-generated bounds proof; exception and vector semantics for a minimal ISA; and preemption of accelerators that lack a reliable stop interface.

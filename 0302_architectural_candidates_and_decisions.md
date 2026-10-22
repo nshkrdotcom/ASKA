@@ -2,7 +2,7 @@
 
 [Start](0300_architecture_and_reading_map.md) · [Previous](0301_requirements_and_threat_model.md) · [Next](0303_physical_substrate_and_frontier.md)
 
-The architecture must be chosen by how failures propagate, which authority paths remain, and what useful computation it supports. ISA familiarity, small prototypes, and market availability are secondary considerations. Four candidates expose different tradeoffs.
+Architectural choices must account for failure propagation, remaining authority paths, and useful computation. ISA familiarity, small prototypes, and market availability are secondary considerations. Four candidates expose different tradeoffs.
 
 ## Candidate comparison
 
@@ -13,11 +13,11 @@ The architecture must be chosen by how failures propagate, which authority paths
 | C. Spatial/dataflow fabric | Task graphs occupy reconfigurable regions; values move along scheduled edges | Region ownership, typed edge endpoints, configuration guard | Candidate execution engine within A; whole-system safety depends on trusted configuration and persistent-effect gates |
 | D. Independent appliances | Separate boards/enclosures, local memory and roots, narrow links | Physical reachability limits and separately administered gateways | Selected for high-consequence sovereign functions; larger integration and communication cost |
 
-These are not different names for the same chiplet assembly. B changes the memory-sharing assumption; C changes instruction scheduling and computation placement; D moves important boundaries out of a common package. A can use C internally and D between critical realms without weakening its own physical ownership rule.
+The candidates differ in their memory sharing, execution, and physical boundaries. B changes the memory-sharing assumption; C changes instruction scheduling and computation placement; D moves important boundaries out of a common package. A can use C internally and D between critical realms without weakening its own physical ownership rule.
 
-[OctopOS](https://ics.uci.edu/~ardalan/papers/Yao_MobiSys23.pdf) supplies an exclusive-use, physically partitioned hardware/OS comparison with a prototype. [M³](https://os.inf.tu-dresden.de/papers_ps/asmussen-m3-asplos16.pdf) supplies heterogeneous execution behind communication enforcement. Neither demonstrates the complete ASKA application, AI, or purpose-network contract.
+[OctopOS](https://ics.uci.edu/~ardalan/papers/Yao_MobiSys23.pdf) provides a prototype comparison for exclusive-use, physically partitioned hardware/OS design. [M³](https://os.inf.tu-dresden.de/papers_ps/asmussen-m3-asplos16.pdf) provides a comparison for heterogeneous execution behind communication enforcement. Neither demonstrates the complete ASKA application, AI, or purpose-network contract.
 
-Dataflow is not inherently a security mechanism. The [TRIPS project](https://www.cs.utexas.edu/~cart/trips/overview.html) demonstrates spatial/EDGE execution as a processor design direction. ASKA would additionally need ownership, effect authority, sanitization, and configuration validation. A malicious graph must not be able to synthesize a wire to an unauthorized resource.
+Dataflow is not inherently a security mechanism. The [TRIPS project](https://www.cs.utexas.edu/~cart/trips/overview.html) demonstrates spatial/EDGE execution as a processor design direction. ASKA would additionally need ownership, effect authority, sanitization, and configuration validation. A malicious graph must not create a physical connection to an unauthorized resource.
 
 ## Selected decisions
 
@@ -39,17 +39,17 @@ No chosen ISA is needed to decide that an image decoder gets no storage, network
 
 A minimal new instruction family could expose local region allocation, checked object access, typed sends, budgeted calls, and explicit effect preparation. It could eliminate globally meaningful addresses and capability manipulation that the native application model does not need. Its cost is a new compiler target, runtime, verification model, and hardware implementation.
 
-A CHERI-like core could implement local references while the island guard enforces external authority. This reuses substantial instruction/toolchain work but needs temporal safety and proof that privileged modes, debug, and page walks cannot bypass external ownership. Its capability tag does not supply information-flow policy.
+A CHERI-like core could implement local references while the island guard enforces external authority. This reuses substantial instruction/toolchain work but needs temporal safety and proof that privileged modes, debug, and page walks cannot bypass external ownership. Its capability tag does not enforce information-flow policy.
 
 A dataflow engine could map a bounded component graph directly onto local execution resources, reducing shared mutable state. Dynamic recursion, exceptions, graph reconfiguration, and interactive workloads may require sequential control islands. That heterogeneity is permitted when the external contract is uniform.
 
-Near-memory or analog compute is considered for numerical acceleration; approximate arithmetic is unsuitable as the sole policy decision mechanism. Reversible or neuromorphic engines remain research candidates for particular workloads. Selection requires defined correctness and failure semantics, not a promise of future efficiency.
+Near-memory or analog compute is considered for numerical acceleration; approximate arithmetic is unsuitable as the sole policy decision mechanism. Reversible or neuromorphic engines remain research candidates for particular workloads. Selection requires defined correctness and failure semantics. Expected future efficiency is insufficient.
 
 ## Cross-domain alternatives
 
 A monolithic gateway with both realms' plaintext, policy keys, and raw interfaces concentrates the failure scope and fails R24 unless another independent boundary contains it. A label-only overlay can enforce useful logical policy but does not meet R04. A diode restricts direction and needs separate disclosure control in that direction. The selected construction uses distinct source release control and destination effect enforcement, with confined transformations between them. [0318](0318_cross_domain_security_and_information_release.md) compares it with established cross-domain guidance and states what remains unproved.
 
-One component can perform several noncritical functions within a declared compromise domain. It cannot be counted as multiple independent barriers against its own compromise. Separating semantic approval and emission prevents substitution; it does not make a malicious semantic approver correct.
+One component can perform several noncritical functions within a declared compromise domain. It cannot be counted as multiple independent barriers against its own compromise. Separating semantic approval from emission prevents substitution. A malicious semantic approver can still authorize the wrong content.
 
 ## Evaluation method
 
@@ -59,4 +59,4 @@ An alternative passes R03 only if it provides the required physical ownership an
 
 **Hypothesis H01:** private request memory plus typed object messages can make granular isolation the ordinary programming path without pervasive trusted application brokers. **H02:** a heterogeneous physical fabric can recover enough utilization through explicit batching and safe reuse to support useful general workloads. Neither has been demonstrated for ASKA.
 
-The first decision experiments compare A/B/C on identical task contracts; D supplies a deliberately separate boundary for testing common management failure. [0315](0315_research_and_realizations.md) defines what each realization may claim and the evidence required to change a decision.
+The first decision experiments compare A/B/C on identical task contracts; D provides a physically separate boundary for testing common management failure. [0315](0315_research_and_realizations.md) defines what each realization may claim and the evidence required to change a decision.

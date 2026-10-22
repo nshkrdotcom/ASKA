@@ -4,9 +4,9 @@
 
 **Requirements:** R01, R04–R06, R08–R13, R18–R24. **Decision:** D09.
 
-A protected domain can contain malicious endpoints, validly credentialed insiders, compromised controllers, and hostile content. Physical separation removes paths and reduces shared failures. It grants no permission to read, invoke, disclose, or receive. A permitted crossing remains an attack surface, including when it uses authenticated ASKA equipment.
+A protected domain can contain malicious endpoints, validly credentialed insiders, compromised controllers, and hostile content. Physical separation removes paths and reduces shared failures. It grants no permission to read, invoke, disclose, or receive. Permitted crossings remain attack surfaces even when they use authenticated ASKA equipment.
 
-This contract applies inside a package, between purpose fabrics, across independent realms, and through devices that carry information without a live network. It preserves the physical target in R03/R04 while requiring authority enforcement on every remaining modeled path. No cross-domain safety result exists for ASKA yet.
+This contract applies inside a package, between purpose fabrics, across independent realms, and through devices that carry information without a live network. The contract retains the physical target in R03/R04 and requires authority enforcement on every remaining modeled path. No cross-domain safety result exists for ASKA yet.
 
 ## Reachability and authority
 
@@ -15,9 +15,9 @@ Maintain two distinct graphs:
 - `G_path` records possible physical and logical transfers, including memory, ports, devices, media, management, output surfaces, and declared side channels.
 - `G_auth` records permitted operations and disclosures. An edge binds source/destination identities and generations, input/output categories, method, object scope, representation, prerequisites, observation profile, expiry, and budget.
 
-Actual effects require a permitted edge plus the guards and resources implementing it. Adding an edge to `G_path` must not add an edge to `G_auth`. An installed grant is necessary evidence within a local policy, not proof that its issuer can authorize every effect named in it. Removing a physical path can stop progress without revoking the corresponding right; revoking the right must stop new commits even while a path remains.
+Actual effects require a permitted edge plus the guards and resources implementing it. Adding an edge to `G_path` must not add an edge to `G_auth`. Local policy treats an installed grant as necessary evidence and separately checks whether its issuer can authorize each named effect. Removing a physical path can stop progress without revoking the corresponding right; revoking the right must stop new commits even while a path remains.
 
-A dual-connected endpoint can receive only its admitted inputs and emit only its authorized outputs. Its two interfaces do not imply forwarding authority. An unauthorized switch can carry or disrupt signals outside the guards, but cannot manufacture a source release or receiver grant. The claim assumes the attacker has not tapped plaintext after the last guard, replaced an enforcement root, or obtained an already sufficient release right. Those are separate tests and failure dependencies.
+A dual-connected endpoint can receive only its admitted inputs and emit only its authorized outputs. Its two interfaces do not imply forwarding authority. An unauthorized switch can carry or disrupt signals outside the guards, but cannot manufacture a source release or receiver grant. The claim assumes the attacker has not tapped plaintext after the last guard, replaced an enforcement root, or obtained an already sufficient release right. Each requires a separate test and failure-dependency record.
 
 ## Separated functions
 
@@ -45,7 +45,7 @@ B: protected ingress -> transport quarantine -> receiver publication
                      -> confined parsing -> independently checked effect
 ```
 
-Transformation may precede approval or occur in a separately checked stage. The pipeline is not necessarily one device. High-consequence boundaries use separately owned source and destination controls; a single DTG cannot reprogram both. Even a properly released, authenticated object can exploit its destination parser. The receiver must retain containment after parser takeover.
+Transformation may precede approval or occur in a separately checked stage. The pipeline can span several devices. High-consequence boundaries use separately owned source and destination controls; a single DTG cannot reprogram both. Even a properly released, authenticated object can exploit its destination parser. The receiver must retain containment after parser takeover.
 
 Imports and exports have different obligations. Import processing constrains hostile code/data and grants no authority from admission. Export processing preserves source restrictions and enforces explicit disclosure decisions. An import transformer must not share response plaintext or export handles by convenience. Required request/response correlation passes bounded typed identifiers through a guarded service. Responses, errors, acknowledgment presence, and retries are separate information-flow edges.
 
@@ -66,7 +66,7 @@ use/byte/query ceilings and shared allowance parent
 policy/revocation versions; validity and recovery context
 ```
 
-A purpose identifier constrains a defined operation; it cannot prove a recipient's private intention. An output commitment covers the representation actually emitted, including relevant metadata, not merely the main file body. A signature on a mutable descriptor is insufficient. Commitments assume the selected cryptography; the enforcer still needs a protected binding from those commitments to actual bytes.
+A purpose identifier constrains a defined operation; it cannot prove a recipient's private intention. An output commitment covers the entire emitted representation, including the main file body and relevant metadata. A signature on a mutable descriptor is insufficient. Commitments assume the selected cryptography; the enforcer still needs a protected binding from those commitments to actual bytes.
 
 ```text
 CANDIDATE -> SEALED -> APPROVED -> RESERVED -> EMITTING -> CLOSED
@@ -79,7 +79,7 @@ CANDIDATE -> SEALED -> APPROVED -> RESERVED -> EMITTING -> CLOSED
 3. The release enforcer resolves its own protected bindings and current policy, checks destination, versions, approval scope, lifetime, and aggregate allowance, then reserves bounded engine capacity. Withdrawal and reservation serialize locally.
 4. Before the first irreversible emission, commit consumption of the required allowance and recheck current local permission in the emission order. Future emissions or chunks recheck policy as defined by the contract. A withdrawal that wins that order denies them; an emitted prefix cannot be recalled.
 5. The engine emits only the bound representation through the admitted endpoint. Any encryption layer is independently bound to that plaintext and destination. A workload cannot replace it with opaque ciphertext or choose unaccounted padding and metadata.
-6. The receiver independently checks its current policy before publication, then checks application effects separately. A source-side commit is not a simultaneous destination-side policy decision. Partitions and lost receipts produce the outcomes defined in 0306/0311.
+6. The receiver independently checks its current policy before publication, then checks application effects separately. Source-side commit and destination-side policy decisions occur separately. Partitions and lost receipts produce the outcomes defined in 0306/0311.
 
 Reserve/charge state must survive a crash whenever reopening it could duplicate a release. A crash after charging can waste allowance; safety takes precedence over refunding an uncertain emission. Refund only when protected evidence establishes that the irreversible point was never reached. Retrying identical protected content is permitted only under its explicit retry/byte envelope; a new destination or candidate requires new authority. Receiver deduplication limits repeated application effects but cannot undo repeated wire observations.
 
@@ -120,7 +120,7 @@ For O2, compare paired executions differing in protected inputs under the exact 
 
 Repeated narrow outputs may reveal more than one result suggests. Query allowances have a protected shared parent across workers, sessions, and restart. Numeric range checks, redaction, and format normalization alone do not establish a disclosure bound. Differential privacy, where appropriate, is a candidate with an explicit adjacent-dataset model and protected cumulative accounting; no such mechanism is selected or claimed proved here.
 
-A diode restricts physical direction. In its permitted direction it can carry malicious inputs or secrets. A status cable creates another edge. Optical and electrical paths need the same accounting. Human and physical exclusions must appear in conformance reports, not only in footnotes.
+A diode restricts physical direction. In its permitted direction it can carry malicious inputs or secrets. A status cable creates another edge. Optical and electrical paths need the same accounting. Conformance reports must state human and physical exclusions explicitly; footnotes alone are insufficient.
 
 ## Comparison with established practice
 
@@ -132,9 +132,9 @@ A diode restricts physical direction. In its permitted direction it can carry ma
 | [NIST SP 800-53 revision 5](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-53r5.pdf) | AC-4 addresses information flows; SC-31 addresses covert channels | Map specific controls below to concrete guards, observable commits, and conformance records |
 | [NSA NCDSMO](https://www.nsa.gov/Cybersecurity/Partnership/National-Cross-Domain-Strategy-Management-Office/) | Cross-domain requirements, testing, and Raise the Bar program | Compare public scope only; detailed restricted standards were not inspected and compliance is unestablished |
 
-The cited NIST edition distinguishes encrypted flow control in AC-4(4), one-way mechanisms in (7), metadata validation in (19), physical or logical separation in (21), normalized formats in (24), redundant/independent filtering in (27), and failed-content prevention in (31). ASKA maps these to plaintext-to-output binding, direction guards, whole-representation checks, physical purpose paths, confined conversion, declared independent checks, and quarantine until checks pass. SC-31 motivates explicit channel analysis and bandwidth evaluation. These are mappings to research obligations, not certification or novelty claims.
+The cited NIST edition distinguishes encrypted flow control in AC-4(4), one-way mechanisms in (7), metadata validation in (19), physical or logical separation in (21), normalized formats in (24), redundant/independent filtering in (27), and failed-content prevention in (31). ASKA maps these to plaintext-to-output binding, direction guards, whole-representation checks, physical purpose paths, confined conversion, declared independent checks, and quarantine until checks pass. SC-31 motivates explicit channel analysis and bandwidth evaluation. These mappings identify research obligations. They establish neither certification nor novelty.
 
-ASKA requires physical separation in places where the cited catalog allows physical or logical mechanisms. Whether its selected composition delivers a stronger useful system remains unproved. It does not claim to invent independent release, information-flow control, or multi-stage cross-domain processing.
+ASKA requires physical separation in places where the cited catalog allows physical or logical mechanisms. Whether its selected composition delivers a stronger useful system remains unproved. Independent release, information-flow control, and multi-stage cross-domain processing are established techniques.
 
 ## Adversarial acceptance cases
 
@@ -159,6 +159,6 @@ The media, insider-output, and cross-domain cases complement the PHP and Apple c
 
 ## Useful release and remaining research
 
-Measure legitimate sharing completion, denial explanation, time awaiting approvals, authority breadth, recovery work, and attempts to resort to uncontrolled media. The planner can propose a narrower view or approved transformation, and the trusted interface can explain the exact remaining permission. Usability must improve the authorized path; it cannot silently broaden it.
+Measure legitimate sharing completion, denial explanation, time awaiting approvals, authority breadth, recovery work, and attempts to resort to uncontrolled media. The planner can propose a narrower view or an approved transformation. The trusted interface can identify the exact remaining permission. Usability must improve the authorized path; it cannot silently broaden it.
 
-Required research includes a small release-control implementation refined to actual emission, durable cumulative accounting across independent services, transform-relation checking, useful O2 schedules, malicious-approver failure analysis, protected multi-domain displays, and apparatus-level path completeness. Approval and output binding can be modeled before custom silicon, but a host simulation establishes neither physical guard integrity nor protection from a host administrator. Each experiment retains the distinction between requirement, assumption, model result, physical observation, and unresolved mechanism.
+Required research includes a small release-control implementation refined to actual emission, durable cumulative accounting across independent services, transform-relation checking, useful O2 schedules, malicious-approver failure analysis, protected multi-domain displays, and apparatus-level path completeness. Approval and output binding can be modeled before custom silicon. A host simulation establishes neither physical guard integrity nor protection from a host administrator. Each experiment retains the distinction between requirement, assumption, model result, physical observation, and unresolved mechanism.

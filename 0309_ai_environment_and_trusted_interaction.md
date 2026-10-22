@@ -4,7 +4,7 @@
 
 **Requirements:** R01, R02, R05, R06, R09, R10, R11, R18, R20, R21, R23.
 
-AI is the native interface for assistance, search, application construction, and task coordination. It can interpret a request, explain alternatives, build a component graph, and propose operations. Trusted mechanisms determine which data it may observe and which effects the proposed graph may perform. The model's reasoning is outside the security decision's trusted base.
+AI is the native interface for assistance, search, application construction, and task coordination. It can interpret a request, explain alternatives, build a component graph, and propose operations. Trusted mechanisms determine which data it may observe and which effects the proposed graph may perform. Security decisions do not rely on the model's reasoning.
 
 ## Separation of roles
 
@@ -18,7 +18,7 @@ AI is the native interface for assistance, search, application construction, and
 | Local orchestrators | Admitted task descriptors and reserved resources | Allocate only delegated islands and endpoints; cannot expand scope |
 | Protected services | Scoped effect requests | Independently authorize current methods and commit |
 
-The planner and builder can share a user workflow without sharing administrative keys. A management assistant is a separate task with separately admitted context; the personal assistant does not become a firmware administrator through a new prompt.
+The planner and builder can share a user workflow without sharing administrative keys. A management assistant runs as a separate task with separately admitted context. Prompting the personal assistant cannot give it firmware-administration rights.
 
 ## User interaction path
 
@@ -35,23 +35,23 @@ Routine work need not require a confirmation for every call. A user can establis
 
 The display service assigns surfaces to owners and constrains dimensions, rates, composition, and device access. A protected region or independently indicated approval surface cannot be covered by application pixels. Rendering inputs contain bounded values rather than code, callbacks, or imported capabilities. Complex formatting and codecs run in disposable cells before reaching the small compositor/device service.
 
-A syntactically valid image can still deceive a human. The UI distinguishes application content from authoritative effect parameters and displays identities in an unambiguous canonical form. User misunderstanding remains possible; hardware cannot infer intent from a click. The guarantee is that approval cannot be forged or rebound by the AI or application under the trusted interaction assumptions.
+A syntactically valid image can still deceive a human. The UI distinguishes application content from authoritative effect parameters and displays identities in an unambiguous canonical form. User misunderstanding remains possible; hardware cannot infer intent from a click. Under the trusted interaction assumptions, the AI and applications cannot forge or rebind approval.
 
 Physical input hardware, its routing, and the approval service are part of that guarantee. A compromised input device or approval implementation is a separate failure case. Remote UI sessions require an explicitly authenticated interaction domain and cannot impersonate local physical presence where local presence is required.
 
 ## Data diodes and context observation
 
-The target supports a one-way observation path from approved UI/context views to an isolated agent. A separate guarded proposal path carries assistance back to an untrusted application surface or to the intent checker. These are two distinct interfaces with different permissions; together they are not an air gap.
+The target supports a one-way observation path from approved UI/context views to an isolated agent. A separate guarded proposal path carries assistance back to an untrusted application surface or to the intent checker. The two interfaces have distinct permissions. Because they carry information in both directions, the combined arrangement is not an air gap.
 
 An observation diode prevents reverse signaling on its own physical channel. It does not decide which secrets may leave, remove malicious instructions from documents, or make a response safe. The context owner applies release/access policy before observation, and response effects pass the checker afterward. Timing and event rates remain observations requiring policy.
 
-Sanitization can reduce format complexity or redact fields. It is not a proof that natural-language content contains no prompt injection. A fully compromised planner remains subject to the same endpoint and effect restrictions as any malicious component.
+Sanitization can reduce format complexity or redact fields. It does not establish that natural-language content is free of prompt injection. A fully compromised planner remains subject to the same endpoint and effect restrictions as any malicious component.
 
 ## Assisted release and human exposure
 
 A planner may prepare a collaborator report, identify source versions, propose redactions, and explain a denial. Its report and explanation retain the context restrictions until an accepted release decision permits a narrower output. A confidence score or another unconstrained model's agreement is not independent release authority. Arbitrary natural-language review remains fallible, even when a trusted user approves the exact bytes.
 
-The trusted approval surface must show the actual destination, output commitment, audience/device, reuse limits, and scope of any declassification. Display permission is distinct from permission to print, capture the screen, or copy to an external clipboard. A person permitted to view a secret can still remember or photograph it; the architecture reports that exposure and the physical protections required rather than claiming digital revocation can undo perception.
+The trusted approval surface must show the actual destination, output commitment, audience/device, reuse limits, and scope of any declassification. Display permission is distinct from permission to print, capture the screen, or copy to an external clipboard. A person permitted to view a secret can still remember or photograph it. The architecture reports that exposure and the required physical protections. Digital revocation cannot undo perception.
 
 Useful authorized release is part of the operating environment. Test time to complete legitimate sharing and whether failures encourage removable-media workarounds, alongside the compromised-planner tests in [0318](0318_cross_domain_security_and_information_release.md).
 
@@ -65,11 +65,11 @@ Private inference state, accelerator memory, KV caches, and per-user adaptation 
 
 The builder emits a content-addressed artifact, dependency manifest, effect contract, provenance, test results, and any machine-checkable certificates. The checker verifies certificates under a small accepted proof system; it does not trust a model's statement that a proof passed. Accepted code remains confined at runtime.
 
-Compiler correctness, contract validity, termination bounds, and functional correctness are different properties. Restricted languages and region/effect typing can simplify some obligations. Arbitrary generated programs are not assumed correct or terminating merely because they are short. [CakeML](https://cakeml.org/index.html) supplies a verified-compilation comparison, not an automatic proof of user intent.
+Compiler correctness, contract validity, termination bounds, and functional correctness are different properties. Restricted languages and region/effect typing can simplify some obligations. Arbitrary generated programs are not assumed correct or terminating merely because they are short. [CakeML](https://cakeml.org/index.html) provides a verified-compilation comparison. It does not establish user intent.
 
 Deployment uses an independent role and approved artifact digest. Updating the planner, checker, build system, or orchestrator follows the same separation. Self-improvement can propose a patch and run isolated experiments; it cannot approve its own expanded authority or replace the checker evaluating it.
 
-[CaMeL](https://arxiv.org/abs/2503.18813v2) investigates separation of control/data flow and capability-like policies around an LLM. Its software threat model and benchmark evidence are relevant comparisons, not a hardware OS proof. ASKA extends the separation obligation through physical execution, persistent effects, trusted interaction, and update authority.
+[CaMeL](https://arxiv.org/abs/2503.18813v2) investigates separation of control/data flow and capability-like policies around an LLM. Its software threat model and benchmark results provide comparisons. They do not prove a hardware OS design. ASKA extends the separation obligation through physical execution, persistent effects, trusted interaction, and update authority.
 
 ## Acceptance tests and unresolved work
 

@@ -2,7 +2,7 @@
 
 **22 October 2026**
 
-ASKA proposes a computing and networking architecture whose boundaries remain effective after a component is compromised. It combines physically owned execution resources, private memory, explicit object and effect authority, networks separated by purpose, independently governed security domains, and an AI-first operating environment.
+ASKA proposes a computing and networking architecture whose boundaries remain effective after a component is compromised. Its execution domains own physical compute and private memory. Explicit authority governs objects and effects, physical networks separate purposes, and independent authorities govern security domains. An AI-first operating environment connects these services to user tasks.
 
 Start with the [architecture and reading map](0300_architecture_and_reading_map.md).
 
@@ -14,9 +14,9 @@ Purpose-specific physical fabrics constrain connectivity. Source release control
 
 The AI environment supports interaction, context retrieval, application construction, and orchestration. Isolated planners and builders propose work; protected interaction, admission, and effect services enforce its authority. A compromised planner cannot create consent or approve its own deployment.
 
-The architecture defines required semantics without selecting a binary ISA, fabrication process, interconnect, or production packet encoding. Existing capability processors, new object instructions, spatial/dataflow engines, advanced integration, and optical links are candidates evaluated against the same requirements.
+The architecture defines required semantics without selecting a binary ISA, fabrication process, interconnect, or production packet encoding. Candidate mechanisms include existing capability processors, new object instructions, spatial/dataflow engines, advanced integration, and optical links. Each is evaluated against the same requirements.
 
-This is an unvalidated research architecture. No complete ASKA hardware, protocol implementation, performance result, or security proof is claimed. The documents separate selected designs, assumptions, demonstrated external work, open research, and intermediate realizations.
+This is an unvalidated research architecture. No complete ASKA hardware, protocol implementation, performance result, or security proof is claimed. The documents identify selected designs, assumptions, external demonstrations, open research, and intermediate realizations.
 
 ## Documents
 

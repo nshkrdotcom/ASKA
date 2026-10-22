@@ -4,7 +4,7 @@
 
 **Requirements:** R03–R08, R11–R14, R16–R18, R19–R24.
 
-Validation must connect the architecture's requirements to observable implementation effects. Performance studies must measure the version that enforces those requirements. Neither an abstract proof with unexplained atomic operations nor a fast weakened implementation establishes the target.
+Validation must connect the architecture's requirements to observable implementation effects. Performance studies must measure the version that enforces those requirements. Unexplained atomic operations leave a proof incomplete for the target. Measurements of a weakened implementation also leave the target unestablished.
 
 ## Assurance layers
 
@@ -17,7 +17,7 @@ Validation must connect the architecture's requirements to observable implementa
 | Physical implementation | RTL/netlist/board inventory and external observations | Actual memory/egress paths and fault behavior on that apparatus |
 | Whole application | Native document-review workflow with malicious components | Composition, useful service, and ergonomics under the tested attacks |
 
-Keep proof assumptions and test coverage separate. A verified checker depends on its specification and execution environment. A board test cannot exhaust all inputs, and a model cannot infer a missing physical path.
+Report proof assumptions and test coverage separately. A verified checker depends on its specification and execution environment. A board test cannot exhaust all inputs, and a model cannot infer a missing physical path.
 
 ## First executable models
 
@@ -29,7 +29,7 @@ Keep proof assumptions and test coverage separate. A verified checker depends on
 
 **Persistence model.** Separate volatile prepare, durable operation record, visibility, receipt, external action, crash, and restore. Inject a lost acknowledgment after a device effect. Require a durable outcome or explicit uncertainty under the declared strategy.
 
-TLA+, Alloy, an interactive theorem prover, and executable reference models are candidates. Tool choice follows the property. Formal syntax does not repair an omitted writer, an unrealistic clock, or a false independence assumption. Publish model bounds, fairness, abstraction, counterexamples, and weakened variants.
+TLA+, Alloy, an interactive theorem prover, and executable reference models are candidates. Tool choice follows the property. A formal model remains unsound for the intended claim if it omits a writer, assumes an unrealistic clock, or treats dependent failures as independent. Publish model bounds, fairness, abstraction, counterexamples, and weakened variants.
 
 ## Crossing and release model
 
@@ -41,7 +41,7 @@ The observation profile includes status codes, response existence, metadata, and
 
 ## Physical verification
 
-Verify every crossing in the path inventory: local cache/memory, DMA, peer-to-peer, fabric retries, management, debug, reset, and physical transmit enable. Use probes or independent endpoints at the actual memory/egress boundary. Gate logs are supporting evidence, not the only observer.
+Verify every crossing in the path inventory: local cache/memory, DMA, peer-to-peer, fabric retries, management, debug, reset, and physical transmit enable. Use probes or independent endpoints at the actual memory/egress boundary. Use gate logs as supporting evidence alongside independent observations.
 
 Inspect generated netlists and configuration so forbidden paths cannot be enabled through a different interface. For P2/P3 claims, test the specified shared-failure and probing/fault model. A second implementation should differ in a way relevant to the failure being studied; cosmetic code differences do not establish independence.
 
@@ -59,7 +59,7 @@ The following examples use hypothetical inputs and are not ASKA measurements.
 
 Memory and transfer costs must include controller traffic, cache maintenance, interconnect acknowledgments, and the time source resources remain unavailable. Comparing coherent copy with naive mutable-memory copying would test different guarantees.
 
-For lifecycle time `T_l` and useful task time `T_u`, an otherwise serial worker's useful-time fraction is `T_u/(T_u+T_l)`. This exposes why request granularity matters. Batching can amortize lifecycle and admission, but larger batches also enlarge compromise domains, retained state, and cancellation consequences.
+For lifecycle time `T_l` and useful task time `T_u`, an otherwise serial worker's useful-time fraction is `T_u/(T_u+T_l)`. The formula shows the effect of request granularity. Batching can amortize lifecycle and admission, but larger batches also enlarge compromise domains, retained state, and cancellation consequences.
 
 For unborrowable time slots, a domain with fraction `f` of a resource's schedule obtains at most approximately `f × B` of ideal service `B`. Reclaiming idle slots may improve utilization while exposing other domains' activity. The security profile decides which observations are permitted.
 
@@ -75,4 +75,4 @@ A native target comparison must not credit P0 sharing with P1/P2 guarantees. A t
 
 A candidate proceeds when it meets its declared invariants, completes useful work, and has a reproducible explanation of cost and remaining dependencies. Negative results can invalidate a design, change its granularity, or show that an existing mechanism already suffices. They do not justify relabeling an unmet target requirement as satisfied.
 
-All results record source/artifact revision, tools, inputs, commands, firmware/configuration, observer placement, assumptions, and outcomes. AI-generated prose and agreement between models are not evidence that a checker ran or a physical boundary held.
+All results record source/artifact revision, tools, inputs, commands, firmware/configuration, observer placement, assumptions, and outcomes. Establishing that a checker ran or a physical boundary held requires execution or observation records. AI-generated prose and agreement between models are insufficient evidence.

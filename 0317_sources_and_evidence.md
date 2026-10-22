@@ -48,7 +48,7 @@ The case studies in 0313 are ASKA-designed tests derived from these failure mech
 | S24 | [Intel Loihi 2 technical brief](https://www.intel.com/content/dam/www/central-libraries/us/en/documents/neuromorphic-computing-loihi-2-brief.pdf) | Developer research-platform description. Event-driven compute candidate, not a high-assurance policy engine or general replacement processor. |
 | S25 | [Sandia reversible-computing research](https://www.sandia.gov/news/publications/hpc-annual-reports/article/stretching-the-thermodynamic-limits-of-hpc-efficiency/) | Laboratory research summary. Long-horizon energy investigation; no claim that reversible computing eliminates erasure, control, or error-correction costs. |
 
-These sources motivate research, not a forecast that ASKA's target becomes cheap within a given decade. New processes, dense stacking, optics, and alternative compute remain optional enablers unless a decision record establishes a necessary property.
+These sources motivate research. They do not establish that ASKA's target will become inexpensive within a particular decade. New processes, dense stacking, optics, and alternative compute remain optional enablers unless a decision record establishes a necessary property.
 
 ## AI, communication, trust, and evolution
 
@@ -83,10 +83,10 @@ The supplied network and protected-network discussions identify questions to inv
 
 ## Research completeness and limits
 
-The register covers contrasting system organizations and enabling directions, not an exhaustive prior-art or patent search. Established separation, capabilities, IFC, explicit messages, transactions, and scoped delegation are credited as mechanisms rather than claimed as ASKA inventions. Whether the selected composition contributes a new result requires implementation and matched comparison.
+The register covers contrasting system organizations and enabling technologies. It is not an exhaustive prior-art or patent search. Separation, capabilities, IFC, explicit messages, transactions, and scoped delegation are established mechanisms and are credited to prior work. Implementation and matched comparison are needed to determine whether the selected composition contributes a new result.
 
-The difficult unestablished relationships remain concrete: physical guard integrity under real management/reset paths; late-effect ownership across heterogeneous devices; current-policy publication and durable effects; user-intent binding with a malicious planner; and independent evolution of multiple trust roots. No citation fills those gaps by implication.
+The following relationships remain unestablished: physical guard integrity under real management/reset paths; late-effect ownership across heterogeneous devices; current-policy publication and durable effects; user-intent binding with a malicious planner; and independent evolution of multiple trust roots. The cited work does not establish those relationships for ASKA.
 
-Before a design relies on a comparator, inspect its exact trusted components, behavior, limitations, and artifact version. Record the relevant passages and the requirement they support. If access is incomplete, mark the behavior unresolved rather than inferring absence or equivalence from an abstract.
+Before relying on a comparison, inspect the referenced design's trusted components, behavior, limitations, and artifact version. Record the relevant passages and the requirement they support. If access is incomplete, mark the behavior unresolved rather than inferring absence or equivalence from an abstract.
 
 The historical source review concentrated on v1's overview, onboard-agent clarification, application-development discussion, dedicated resource/network roles, and compute proposal; v2/v3 enforcement and lifecycle contracts; and the five supplied v4 discussions. It was not a line-by-line audit of every repeated diagram or speculative brainstorm in the historical archive. Historical claims of performance, novelty, patent status, or physical guarantees are not accepted as external evidence.

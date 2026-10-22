@@ -4,15 +4,15 @@
 
 **Requirements:** R01, R04, R05, R06, R07, R08, R12, R13, R19, R20, R23.
 
-Communication requires independent source and receiver decisions. Identity discovery, authority installation, forwarding, transport acceptance, object publication, and application effect are separate stages. A successful earlier stage cannot authorize a later one implicitly.
+Communication requires independent source and receiver decisions. Identity discovery, authority installation, forwarding, transport acceptance, object publication, and application effect are separate stages. Completing an earlier stage does not implicitly authorize a later one.
 
 ## Identity and first contact
 
-Realm identifiers bind canonical root-key material under a selected identity scheme. Service records bind a realm, service role, gate identity, key generation, and validity. Locators and paths are separate hints. A self-consistent key hash proves no relationship to a name the user intended; first contact requires an accepted introduction, configured anchor, or certification relationship.
+Realm identifiers bind canonical root-key material under a selected identity scheme. Service records bind a realm, service role, gate identity, key generation, and validity. Locators and paths provide separate discovery hints. A self-consistent key hash proves no relationship to a name the user intended; first contact requires an accepted introduction, configured anchor, or certification relationship.
 
 Public encounter services have isolated parsers, bounded state, operation/concurrency caps, and reserved service for existing relationships. Retry cookies can limit spoofed-source allocation but do not defeat reachable attackers. Unknown data-session identifiers are silently dropped without creating state or initiating admission.
 
-Attestation can report gate measurements and configuration under an accepted root. The receiver separately appraises what those measurements mean and which update authorities it trusts. Attestation does not authorize an arbitrary method or prove that a measured implementation is correct. [RATS architecture](https://www.rfc-editor.org/rfc/rfc9334.html).
+Attestation can report gate measurements and configuration under an accepted root. The receiver separately appraises what those measurements mean and which update authorities it trusts. Attestation neither authorizes arbitrary methods nor proves the measured implementation correct. [RATS architecture](https://www.rfc-editor.org/rfc/rfc9334.html).
 
 ## Bilateral contract installation
 
@@ -46,7 +46,7 @@ for segmented objects: object/version identity, total length,
 chunk offset/index, total commitment, and publication mode
 ```
 
-The encoding must be canonical, bounded, overflow-safe, and unambiguous about authenticated fields. Unknown critical fields and unsupported protection profiles deny processing. Remote identifiers remain data until the receiver resolves them through protected maps. No payload can import native reference tags directly.
+The encoding must be canonical, bounded, overflow-safe, and unambiguous about authenticated fields. Unknown critical fields and unsupported protection profiles deny processing. Remote identifiers remain data until the receiver resolves them through protected maps. Payloads cannot import native reference tags directly.
 
 Directional key/nonce spaces are disjoint. The protected source allocator burns sequence values even on cancellation. Changed plaintext never reuses a nonce under a key; retransmission repeats identical protected bytes. Key-use limits cover processed blocks and verification attempts, not merely sequence-field capacity. Counter uncertainty retires the key/session. [AEAD interface and nonce requirements](https://www.rfc-editor.org/rfc/rfc5116.html).
 
@@ -57,7 +57,7 @@ Directional key/nonce spaces are disjoint. The protected source allocator burns 
 3. Serialize a second freshness check and sequence consumption. Consume authenticated records even when later method, policy, resource, or destination checks deny delivery. Concurrent duplicates cannot both win.
 4. Resolve mappings and perform preliminary delivery checks. Assemble multi-record objects only in bounded protected staging, with immutable identity, offsets, total length, and commitment. Overlap, inconsistent commitment, or resource exhaustion denies the object under a declared retry rule.
 5. At publication, serialize with current receiver-policy updates and destination generation changes. Recheck permission, lifetime, category/release, complete-object integrity, and allowance. Reserve all fallible destination resources before charging delivery and assigning restrictions.
-6. Publish only after that commit succeeds. Then a separately confined application parser may read the delivered object. Authentication quarantine is not proof that image/PDF/text parsing is safe.
+6. Publish only after that commit succeeds. Then a separately confined application parser may read the delivered object. Holding authenticated data in quarantine does not establish the safety of image/PDF/text parsing.
 
 For atomic object publication, no partial assembly reaches the destination. A streaming method can authorize chunk-level effects explicitly, with its own partial-failure semantics. Application effect commit and durable storage still follow [0306](0306_persistence_and_effects.md).
 
@@ -71,9 +71,9 @@ Release-use consumption, transport sequence consumption, object publication, and
 
 The consumed window has a negotiated finite size. Authenticated forward sequences within the installed allocation limit can advance it regardless of gap; local aborts and wire loss must not trigger automatic retirement based on a small numerical jump. Advancing can age delayed traffic out. Narrow contracts limit the effect of an admitted malicious key holder, not its ability to abuse its own valid scope.
 
-Verification cost, consumed authenticated records, successful delivery, and application effect budgets are counted separately. Before authentication a visible session identifier is a hint, not reliable attribution. Forged packets naming a victim session cannot spend authenticated sender credit, change its policy, or trigger permanent key retirement. Temporary queue/service limits still need refill/fairness rules and measurements under targeted floods.
+Verification cost, consumed authenticated records, successful delivery, and application effect budgets are counted separately. Before authentication, a visible session identifier provides a lookup hint without reliable attribution. Forged packets naming a victim session cannot spend authenticated sender credit, change its policy, or trigger permanent key retirement. Temporary queue/service limits still need refill/fairness rules and measurements under targeted floods.
 
-If transport quarantine is full, drop before verification. If an authenticated record is consumed and then denied, retry uses a new sequence. Application operation identity supports deduplication independently of transport sequence. A receipt distinguishes transport acceptance, object publication, durable commit, and uncertain physical effect.
+If transport quarantine is full, drop before verification. If an authenticated record is consumed and then denied, retry uses a new sequence. Application operation identity supports deduplication independently of transport sequence. Receipts distinguish transport acceptance, object publication, durable commit, and uncertain physical effect.
 
 A replacement data contract may reuse a live authenticated control channel with fresh challenges, identifiers, and keys. Repeat attestation when local evidence policy requires it. Recovery work is rate/concurrency bounded and cannot monopolize service reserved for unaffected sessions. Loss of replay state retires its session rather than reopening old traffic.
 
