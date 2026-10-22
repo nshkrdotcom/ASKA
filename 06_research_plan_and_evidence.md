@@ -98,6 +98,10 @@ The comparison should expose the cost of the snapshot rule. Run the conservative
 
 Also compare a stable protected copy without a coherent-source-version guarantee when the task only needs fixed-class bytes. If version/content authorization is required, retain and test the stronger rule. [Elasticlave](07_prior_art_and_sources.md#b05) distinguishes the copying and exclusive-access alternatives; neither its lock transfer nor a plain copy establishes all of statement 3’s freeze/drain/copy ordering. Ownership transfer and immutable sharing need separate specifications.
 
+Use [VIGOR-DFA’s protected-copy design](07_prior_art_and_sources.md#vigor) as a specific comparison for that weaker snapshot contract. Separately test immutable sharing and device quiescence against the assumptions exposed by [memfd sealing](07_prior_art_and_sources.md#memfd) and [VFIO](07_prior_art_and_sources.md#vfio). A trusted-kernel baseline cannot establish resistance to a hostile kernel.
+
+For receiver ordering, the [pinned WireGuard implementation](07_prior_art_and_sources.md#wg) updates replay state before checking source AllowedIPs. Test the corresponding order as a deliberately different contract, alongside policy-before-update. Measure rejection cost and replay-window effects; do not label the existing protocol defective for satisfying different requirements.
+
 ## Formal work with a defined scope
 
 Start with safety: every delivered explicit transfer has the required source and receiver justification for the delivered bytes. State the model's finite bounds and the properties checked. Publish counterexample traces, including those from weakened variants.

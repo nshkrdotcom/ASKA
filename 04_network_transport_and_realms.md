@@ -90,6 +90,8 @@ Laboratory runs cap a session at `2^20` emitted records to exercise retirement a
 
 This symmetric construction supplies evidence to the receiving endpoint. Because that endpoint also holds the directional verification key, the record is not transferable proof against a dishonest receiver. Public attribution or third-party audit would need a different evidence design.
 
+Protected receive-key derivation also appears in [Google PSP](07_prior_art_and_sources.md#psp). Its device master keys and connection keys have different exposure rules. [Linux secid](07_prior_art_and_sources.md#secid) derives inbound labels from IPsec associations; [TrustSec](07_prior_art_and_sources.md#sgt) conditions acceptance of received group tags on peer trust. These are mapping precedents, without the complete acceptance order specified here.
+
 ## Bounded parsing and delivery
 
 The receiver first checks the outer record length and fixed grammar without allocating session state. It rejects unsupported version or flags, non-64 header size, payload outside 1–1024, arithmetic overflow, and any mismatch with `80 + payload_bytes`. Unknown session identifiers are rejected without creating a session or sending an enrollment response.
@@ -160,6 +162,8 @@ real seconds after activation. Reset or clock uncertainty invalidates the lease.
 Protected timed assertions that fail on clock discontinuity are already specified by [TPM2.0 §19.7.12, pp.128–130](07_prior_art_and_sources.md#tpm); [ICING §3.3](07_prior_art_and_sources.md#d01) includes expiring consent (not implemented in its prototype). The comparison still needs to cover replay of installation messages and lifetime enforcement at the receiver or forwarder. The bound above follows from the stated continuous-clock assumptions.
 
 A local withdrawal takes effect at the receiver's serialized policy update. Remote withdrawal takes effect only when authenticated notice arrives or the applicable lease expires. Previously delivered information cannot be recalled. Preauthorized local safety functions may continue within a separately defined envelope, but a partition does not authorize new cross-realm rights.
+
+[Gray and Cheriton](07_prior_art_and_sources.md#lease) provide the bounded-drift lease precedent. [WireGuard](07_prior_art_and_sources.md#wg) provides time/message limits and live-state handshake replay rejection, but restart can lose its remembered timestamp. Neither establishes the reset-safe installation rule here. VIGOR-DFA proposes reboot protection, but reports that lifecycle as unimplemented; it is not evidence of a working deadline mechanism.
 
 ## Privacy, enrollment, and interoperability
 

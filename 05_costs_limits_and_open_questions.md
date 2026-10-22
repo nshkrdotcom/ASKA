@@ -55,6 +55,8 @@ Traffic regulation and interference comparisons include [M³ real-time regulatio
 
 Time-protection research demonstrates why spatial memory isolation and temporal isolation need separate treatment. It does not supply a universal remedy for every shared resource in an ASKA package. [Ge et al., *Time Protection: The Missing OS Abstraction*](https://trustworthy.systems/publications/abstracts/Ge_YCH_19.abstract).
 
+[Wang et al. and Shafiee et al.](07_prior_art_and_sources.md#memtime) supply concrete static-slot and fixed-service memory-controller precedents. Their measured costs belong to their configurations. The duty-cycle expression above is a calculation under the stated schedule assumptions.
+
 ## The illustrative record has visible overhead
 
 The [experimental record](04_network_transport_and_realms.md) adds a 64-byte header and 16-byte tag. For application payload `P`, its record-level payload fraction is `P / (P + 80)`.

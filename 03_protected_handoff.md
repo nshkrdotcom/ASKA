@@ -150,6 +150,10 @@ Software may prepare headers if the final gate rejects unauthorized field values
 
 Hardware-generated identity/header fields already exist in [M3 §4.4.2](07_prior_art_and_sources.md#a01); its sender badge is not an IFC label or cryptographic record. Protected metadata checks and scoped delegation appear in [DStar](07_prior_art_and_sources.md#c05), [Intel NIC control paths](07_prior_art_and_sources.md#cps). Isolated-software alternatives include [Ryoan](07_prior_art_and_sources.md#ry), [SENG](07_prior_art_and_sources.md#seng), [Komodo](07_prior_art_and_sources.md#c13), [Sanctorum](07_prior_art_and_sources.md#c14). Compare these candidates under the same assumptions before deciding whether a hardware constructor is needed.
 
+[Linux write sealing](07_prior_art_and_sources.md#memfd) and [VFIO migration](07_prior_art_and_sources.md#vfio) supply immutable-sharing and device-quiescence comparisons under trusted-kernel enforcement. Sealing rejects existing writable mappings; it does not remove them. [VIGOR-DFA](07_prior_art_and_sources.md#vigor) fixes submitted bytes in protected storage before checking and binds release to protected ledger state. It is a concrete stable-copy baseline, without the all-writer exclusion and source binding required here.
+
+Release-policy dimensions predate this format: [Sabelfeld and Sands](07_prior_art_and_sources.md#declass) distinguish what, who, where and when. Their program-location dimension is different from a destination-object field. Snapshot, object, operation, interval and reuse bindings must therefore be compared as mechanisms, rather than treated as a new general account of declassification.
+
 ## What this contract would establish
 
 If the source classification is sound, the buffers remain bound to the decision, the cryptographic construction is secure, and the receiving placement enforces the agreed restriction, the composition can support the stated explicit-transfer property. Each condition can fail independently.

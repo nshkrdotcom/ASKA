@@ -55,6 +55,8 @@ Continuity is also about receiving. A correctly authenticated packet loses its p
 
 Protected receive placement and independent checks have separate precedents in [M³](07_prior_art_and_sources.md#a01), [DStar](07_prior_art_and_sources.md#c05), [Ryoan](07_prior_art_and_sources.md#ry). For the proposed ordering of resource accounting, replay updates and publication, see [the ESP comparison](07_prior_art_and_sources.md#esp) and [Document 08, statement 5](08_defensive_structural_disclosure.md#protected-receiver-acceptance).
 
+The classification model follows established mandatory security and lattice-based information flow: [Bell–LaPadula](07_prior_art_and_sources.md#blp) and [Denning](07_prior_art_and_sources.md#denning). The research question concerns enforcement across the specified boundaries and lifecycle transitions.
+
 ## The adversary and the remaining trust
 
 The initial investigation grants the attacker control of ordinary host operating systems and hypervisors, workload code within its assigned rights, ordinary NIC and accelerator drivers, route controllers, and untrusted network links. The attacker can request operations, race descriptors, replay traffic, reorder or drop records, and exhaust exposed queues. It can run malicious software inside an IES; that software still faces the IES's external boundaries.

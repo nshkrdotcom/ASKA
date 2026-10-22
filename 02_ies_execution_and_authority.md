@@ -125,6 +125,8 @@ Partial precedents include [UCI coherence/communication enforcement](07_prior_ar
 
 Message-oriented hardware and protected messaging have substantial prior art. The M-Machine's protected message interface is one example. ASKA needs to compare the scope of its boundaries and how they work together with those existing interfaces. [Lee et al., 1998](https://www.cs.utexas.edu/~skeckler/pubs/ieeecomputer98.pdf).
 
+[WorldGuard](07_prior_art_and_sources.md#world) supplies transaction identity, while [SEV-SNP](07_prior_art_and_sources.md#snp) supplies page-ownership checks. The [MPAM patent](07_prior_art_and_sources.md#mpam) retains original context on writebacks. These are distinct parts of the proposed transaction contract; an identity field alone does not distinguish successive occupants.
+
 ## Subdivision and execution granularity
 
 An IES can host multiple programs under one external restriction. That does not give those programs mutual isolation; a candidate needing isolation within the cell must supply another protected boundary. Use measurements to choose which units need isolation and whether they need dedicated cores.
@@ -150,6 +152,8 @@ For reuse and sanitation, compare [Sanctum](07_prior_art_and_sources.md#sc), [CU
 Migration is more demanding than local creation. It moves execution state, rights, possibly keys, and obligations to another machine. It must prevent two active copies from accidentally sharing nonce space or exceeding one allowance. The initial candidate permits static placement. The migration protocol remains open.
 
 The same discipline applies to firmware updates and recovery. An update key that can replace the gate's enforcement logic belongs in the trusted computing base. Recovery may restore access, but its authority and the possibility of data exposure must be stated. Ordinary host software cannot invoke an undocumented all-access fallback.
+
+Rejecting stale effects using generation-bearing authority is established in [Chubby and fencing tokens](07_prior_art_and_sources.md#fence); revocable remote keys appear in [RDMA memory windows](07_prior_art_and_sources.md#rdma). [PASID draining](07_prior_art_and_sources.md#pasid), [TDX tracking](07_prior_art_and_sources.md#tdx) and [Arm RME cache maintenance](07_prior_art_and_sources.md#rme) provide narrower reclamation comparisons. Their coverage must be checked path by path. Preventing disclosure on reuse is an [older object-reuse requirement](07_prior_art_and_sources.md#reuse), and dynamic taint and controlled untainting appear in [HiStar](07_prior_art_and_sources.md#histar).
 
 ## Observation without a universal supervisor
 
