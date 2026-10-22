@@ -2,13 +2,15 @@
 
 [Start](README.md) · [Previous](02_ies_execution_and_authority.md) · [Next: network and realms](04_network_transport_and_realms.md)
 
-The handoff is the point where local authority becomes a remotely meaningful operation. A source offers a buffer. A protected mechanism checks its ownership, restrictions, and intended use. The mechanism then authenticates the actual transmitted bytes and the receiver-relevant meaning of the operation. On arrival, another protected mechanism checks acceptance and places the result in the correct domain.
+During a handoff, a source offers a buffer for an operation at a receiver. The source gate checks ownership, data restrictions and permission for the requested operation, then authenticates the bytes and their meaning. The receiver checks its own policy before placing the payload in the designated protected domain.
 
-This document proposes that contract. It does not assume that one new hardware block can infer missing provenance, understand arbitrary application semantics, or make an untrusted buffer immutable by inspecting it once.
+This candidate uses existing isolation, information-flow control (IFC) and secure-channel mechanisms. It requires explicit provenance, operation semantics and control over buffer writers.
+
+The closest starting points are [DStar §§3–4](07_prior_art_and_sources.md#c05) for exporter and label mappings, [Ryoan §§4–6](07_prior_art_and_sources.md#ry) for protected IFC endpoints, [Elasticlave §§3–5](07_prior_art_and_sources.md#b05) for stable exclusive access, and [SENG](07_prior_art_and_sources.md#seng), [attested TLS](07_prior_art_and_sources.md#e08) for terminating existing channels inside a protected domain. [CVID profiles draft](07_prior_art_and_sources.md#cv), [WO2026154461A2](07_prior_art_and_sources.md#cvp) describe release tied to a specific action. They are public proposals; an ASKA handoff implementation remains to be built.
 
 ## The logical descriptor
 
-The sender may propose an operation, but the gate resolves its authority from protected state. A useful descriptor contains the following logical information; the network encoding may use references to installed records rather than carry every item verbatim.
+The sender may propose an operation, but the gate resolves its authority from protected state. The descriptor needs the information below. On the wire, references to installed records can stand in for individual fields.
 
 | Item | Authoritative source | Meaning |
 |---|---|---|
@@ -20,7 +22,9 @@ The sender may propose an operation, but the gate resolves its authority from pr
 | Session and policy mapping | Protected admission record | Keys, label interpretation, accepted scope, and current lifetime |
 | Resource allowance | Protected counters or bounded schedule | How much work the operation may consume |
 
-A protected handle is only a way to select state. Its numeric value is not a proof. Unknown, stale, mismatched, or out-of-scope references are rejected rather than interpreted as a default permission.
+A protected handle selects state; the gate must check the referenced authority. It rejects unknown, stale, mismatched or out-of-scope references.
+
+Descriptor fields combine distinct precedents: source/endpoint identity ([M³](07_prior_art_and_sources.md#a01), [CURE](07_prior_art_and_sources.md#a13)), buffer permissions ([Elasticlave](07_prior_art_and_sources.md#b05)), IFC/mapping ([DStar](07_prior_art_and_sources.md#c05), [Ryoan](07_prior_art_and_sources.md#ry)), attenuated or negotiated scope ([Macaroons](07_prior_art_and_sources.md#e01), [WAVE](07_prior_art_and_sources.md#e02), [IKEv2](07_prior_art_and_sources.md#ike)), and freshness/time ([RFC 4303 / ESP](07_prior_art_and_sources.md#esp), [TPM 2.0](07_prior_art_and_sources.md#tpm)). ASKA still needs to specify how these fields fit together in protected state and on the wire. No single source supplies that complete design.
 
 ## Proposed acceptance predicates
 
@@ -47,13 +51,17 @@ AND within_receiver_budget(S, length(payload))
 AND protected_destination_ready(d)
 ```
 
-These predicates are a specification outline. Their implementation, atomicity, and composition require evidence. In particular, `permitted_flow` cannot be implemented by trusting an unverified label carried by the sender's ordinary software.
+These predicates outline the checks. Their implementation must show how the checks run atomically where required and work together. In particular, `permitted_flow` cannot be implemented by trusting an unverified label carried by the sender's ordinary software.
 
-The session records the assurance the receiver accepts about the source gate and classification mechanism. Authenticating that gate's key establishes which gate made an assertion, subject to key security. It does not independently prove that the gate's classification algorithm is sound. That is a separate trust and verification obligation.
+The session records the assurance the receiver accepts about the source gate and classification mechanism. With secure key custody, authentication identifies the gate that made an assertion. The receiver must separately assess and verify the gate’s classification algorithm.
+
+Bilateral flow reasoning is explicit in [DStar §3.2](07_prior_art_and_sources.md#c05); independent local limits on negotiated scope are in [IKEv2 §§2.9,5.1](07_prior_art_and_sources.md#ike). These systems address parts of the object and operation requirements. Authentication and attestation roles remain distinct ([RFC 5116](07_prior_art_and_sources.md#ae), [RFC 9334 / RATS](07_prior_art_and_sources.md#e03)).
 
 ## A concrete candidate state machine
 
-For the first study, choose fixed-class cells, a maximum payload size, gate-owned staging buffers, and no shared writable memory across cells. Each message moves through these states:
+For the first study, choose fixed-class cells, a maximum payload size, gate-owned staging buffers, and no shared writable memory across cells. Each message follows the selected states below.
+
+The experiment uses the following states and order. [Elasticlave](07_prior_art_and_sources.md#b05) provides a protected exclusive-access mechanism to compare, while [Composite Enclaves](07_prior_art_and_sources.md#a12), [CURE](07_prior_art_and_sources.md#a13) matter for device paths. The full sequence still needs comparison against those systems.
 
 ```text
 AVAILABLE -> FROZEN -> STAGED -> AUTHORIZED -> EMITTED -> RELEASED
@@ -67,21 +75,33 @@ AVAILABLE -> FROZEN -> STAGED -> AUTHORIZED -> EMITTED -> RELEASED
 5. **Check emission eligibility.** Recheck queued records when they are ready for serialization, including policy withdrawal and expiry. Define a serialized decision immediately before the first byte may leave: if withdrawal wins, discard the record; if transmission wins, the record is in flight under the previously valid policy. Bound the delay between that decision and the first byte. The implementation must also bound completion or abort a stalled transmission. Revocation cannot recall a prefix already sent.
 6. **Release resources.** Clear or safely recycle staging storage and return unused reservations according to the defined accounting rule. A failed operation must not refund work already spent in a way that permits unbounded abuse.
 
-The extra storage copy and freeze operation are deliberate simplifications. A direct-read or ownership-transfer design might be faster, but it must demonstrate the same snapshot property. A version check performed only before a racing DMA read is insufficient.
+Freezing and copying simplify this candidate. A direct-read or ownership-transfer design might be faster, but it must demonstrate the same snapshot property. A version check performed only before a racing DMA read is insufficient.
 
-Large messages would require chunking or a different buffering design. If chunks have independent authorization, the application must handle partial delivery. If the whole object requires atomic publication, it needs protected assembly and commit state. Neither behavior follows from a packet MAC.
+A protected copy remains stable during authorization and authentication even if its source changed during copying. It may contain bytes from several source versions. This candidate requires one coherent version, so it freezes the source and drains writes before copying.
+
+In the fixed-class allowed-mailbox example, a torn source copy is not by itself proof of a forbidden disclosure. Compare a stable-copy baseline when authorization does not depend on content or version; it does not satisfy [statement 3’s freeze-and-copy sequence](08_defensive_structural_disclosure.md#protected-source-handoff). [Elasticlave’s spatial-isolation baseline and exclusive-access design](07_prior_art_and_sources.md#b05) provide the relevant comparison.
+
+Large messages would require chunking or a different buffering design. If chunks have independent authorization, the application must handle partial delivery. If the whole object requires atomic publication, it needs protected assembly and commit state. Both need state beyond a packet MAC.
 
 ## Receive into quarantine, then commit
 
 Before authentication finishes, the receiver treats the incoming record as untrusted bytes. It may use a bounded quarantine buffer. Any plaintext produced by a streaming decryptor remains inaccessible to workloads and DMA consumers until the authentication check succeeds.
 
-The receiver then checks current policy, destination mapping, and freshness. A serialized commit updates the replay state, consumes the relevant allowance, assigns the receive restriction, and makes the buffer visible to the designated mailbox. Concurrent duplicates must not both pass between the freshness check and the state update.
+The receiver then checks current policy, destination mapping, freshness and available allowance. Authentication, policy and allowance failure leave the accepted replay state unchanged. In particular, an authenticated but policy-invalid high sequence value cannot advance the window.
 
-If the destination is full, the receiver may drop the record or retain it in a bounded authenticated queue. The policy must say which state has been consumed and whether a retry is possible. Queueing is not permission to hold a record indefinitely past the accepted policy lifetime.
+A serialized commit updates replay state, debits the allowance, assigns the receive restriction and then makes the buffer visible to the designated mailbox. Receiver-policy updates share that ordering; a queued record cannot rely solely on policy checked before queueing. Concurrent duplicates must not both pass between the freshness check and the state update. This is the acceptance relationship required by [statement 5](08_defensive_structural_disclosure.md#protected-receiver-acceptance); the implementation still needs arbitration, failure rollback and access-control transitions.
+
+Authentication before output and replay protection are established ([RFC 5116](07_prior_art_and_sources.md#ae), [RFC 4303 / ESP](07_prior_art_and_sources.md#esp), [US8438641B2 replay hardware](07_prior_art_and_sources.md#arp)); IFC placement, mappings and receiver credits have precedents ([DStar](07_prior_art_and_sources.md#c05), [M³](07_prior_art_and_sources.md#a01)). [CVID §§1.2,7.2](07_prior_art_and_sources.md#cv) describes ordering protected checks, resource consumption and release. The inspected sources have not supplied one arrangement with this ordering of replay update, resource debit, label assignment, memory publication and policy changes. That gap in the search leaves novelty unresolved.
+
+If the destination is full, the receiver may drop the record or retain it in a bounded authenticated queue. The policy must say which state has been consumed and whether a retry is possible. A queued record remains subject to the policy lifetime.
 
 The initial model promises at most one mailbox delivery for a sequence value within a live session. It does not promise exactly-once application effects across crashes. An application that retries a financial action or physical command needs an operation identifier, durable deduplication or idempotence, and a separately specified commit protocol. A network acknowledgment alone does not prove the external effect happened once.
 
+The reviewed [IPsec counter-recovery literature](07_prior_art_and_sources.md#ha) concerns transport replay state; [silicon-finality §8](07_prior_art_and_sources.md#cvs) also discusses crash/partial-commit hazards. Application-level exactly-once effects need a durable commit protocol, which is outside the initial model.
+
 ## A worked trace
+
+This hypothetical trace applies the ASKA rules. It has not been run as an experiment.
 
 Suppose source cell `A7` is restricted. Receiver `B` accepts `analysis.submit` from that cell into restricted mailbox `B12`. A public mailbox `B2` is a different object. The session's installed label map preserves the restricted classification.
 
@@ -96,32 +116,38 @@ t5  B verifies it, commits replay state, and delivers to B12 with its restrictio
 
 Changing `B12` to `B2` after `t3` invalidates authentication. Asking the source gate to create the `B2` version fails the flow policy before emission. Supplying a descriptor that claims a public label fails because the gate obtains the label from protected state. Replaying sequence 41 fails the receiver's replay check.
 
-Now change the experiment: let the host modify the source while it is being copied, without a freeze or equivalent guarantee. The resulting bytes may not match any authorized version. That is a counterexample to the handoff contract even if the final ciphertext authenticates correctly. It identifies a missing memory-ordering or ownership rule, not a cryptographic failure.
+Suppose the host can modify the source during copying because no freeze or equivalent protection is enforced. The resulting bytes may not match any authorized version. That violates the chosen coherent-version handoff contract if the bytes fail its required version binding, even if the final ciphertext authenticates correctly; it is not automatically a confidentiality violation in a fixed-class transfer. The failure concerns memory ordering or ownership; ciphertext authentication can still succeed.
 
 ## Controlled release
 
-Sometimes the system must publish a result derived from restricted information. The architecture needs a narrow, explicit exception rather than a claim that secret-dependent output can be made universally harmless.
+Sometimes the system must publish a result derived from restricted information. The release policy must specify which disclosure it permits.
 
-A release decision binds the approved output snapshot, its source restriction, destination, operation, lifetime, and reuse limits. If a reference is transmitted, both gates must resolve it to the agreed decision or to a narrowly delegated release authority. Replacing the payload after release invalidates that decision. A generic “declassification enabled” bit is insufficient.
+A release decision binds the approved output snapshot, its source restriction, destination, operation, lifetime, and reuse limits. If a reference is transmitted, both gates must resolve it to the agreed decision or to a narrowly delegated release authority. Replacing the payload after release invalidates that decision. A generic “declassification enabled” bit leaves those conditions unspecified.
+
+Controlled downgrading has direct precedents in [DStar](07_prior_art_and_sources.md#c05), [Ryoan](07_prior_art_and_sources.md#ry), [information-flow ISA](07_prior_art_and_sources.md#c04), [FLAM](07_prior_art_and_sources.md#c07). Protected authorization tied to parameters, time and sessions is illustrated by [TPM §19.7.12](07_prior_art_and_sources.md#tpm) and act-specific release by [WO2026154461A2](07_prior_art_and_sources.md#cvp). Their semantics differ: Ryoan can remove its own principal tag; TPM tickets may be reusable. Neither source alone specifies all of the snapshot, destination, operation, interval and reuse-count conditions required here.
 
 A trusted aggregate computation could be authorized to disclose one summary. Its semantics, input selection, and repetition limit would still need review. A field restricted to a small numeric range can encode secrets through valid values. An attacker controlling which records enter an aggregate can also influence what is revealed. The release component and its input contract belong in the trusted computing base.
 
-The first handoff experiment can omit release entirely and reject every downward flow. Adding release later increases utility and introduces a new proof obligation; it should appear as a visible change in the experiment's assumptions.
+The first handoff experiment can omit release entirely and reject every downward flow. Adding release later may improve utility, but it requires a proof and a stated change to the experiment’s assumptions.
 
 ## Three implementations worth comparing
 
-| Candidate | Where the decisive checks happen | What the comparison should expose |
+| Candidate | Where the checks run | What to compare |
 |---|---|---|
 | Protected software adapter | A small isolated component resolves authority and constructs records | Its isolation, dependencies, update authority, and cost |
 | Mandatory hardware validator | Software proposes bytes; the gate checks the complete protected binding | Parser ambiguity, omitted fields, races, and validation complexity |
 | Protected hardware constructor | The gate forms the security-relevant fields from protected descriptors | Simpler input grammar versus added construction logic and rigidity |
 
-A fourth, ordinary host adapter is a useful weakened baseline: compromising it should demonstrate why its authority is part of the problem. It should not be confused with the protected software candidate, whose independence from the compromised host is an explicit assumption to establish.
+Include an ordinary host adapter as a weakened baseline and compromise it to test the consequences. For the protected software adapter, establish that the compromised host cannot override its decisions.
 
-Software may be allowed to prepare headers if the final mandatory gate prevents unauthorized accepted meaning. Conversely, synthesizing headers in hardware does not help if the inputs can lie about the buffer's provenance. Constructor and validator designs must face the same attacks.
+Software may prepare headers if the final gate rejects unauthorized field values. Hardware-generated headers still require trustworthy input about the buffer’s provenance. Constructor and validator designs must face the same attacks.
+
+Hardware-generated identity/header fields already exist in [M3 §4.4.2](07_prior_art_and_sources.md#a01); its sender badge is not an IFC label or cryptographic record. Protected metadata checks and scoped delegation appear in [DStar](07_prior_art_and_sources.md#c05), [Intel NIC control paths](07_prior_art_and_sources.md#cps). Isolated-software alternatives include [Ryoan](07_prior_art_and_sources.md#ry), [SENG](07_prior_art_and_sources.md#seng), [Komodo](07_prior_art_and_sources.md#c13), [Sanctorum](07_prior_art_and_sources.md#c14). Compare these candidates under the same assumptions before deciding whether a hardware constructor is needed.
 
 ## What this contract would establish
 
 If the source classification is sound, the buffers remain bound to the decision, the cryptographic construction is secure, and the receiving placement enforces the agreed restriction, the composition can support the stated explicit-transfer property. Each condition can fail independently.
 
-A proof should relate the concrete implementation to this state machine and the state machine to the desired property. Testing should seek counterexamples at every assumption boundary. The current document supplies the candidate contract and adversarial traces; it supplies neither that proof nor an implementation result.
+A proof should relate the concrete implementation to this state machine and the state machine to the desired property. Testing should seek counterexamples at every assumption boundary. The contract and hypothetical attack traces here still need a proof and implementation tests.
+
+For refinement and IFC proofs, compare [SAFE](07_prior_art_and_sources.md#c01), [seL4 IFC proofs](07_prior_art_and_sources.md#c11), [Komodo](07_prior_art_and_sources.md#c13) and for hardware verification methods, see [VerIFI](07_prior_art_and_sources.md#c15), [guarded-equivalence preprint](07_prior_art_and_sources.md#c17), [RTL-flow trace analysis](07_prior_art_and_sources.md#c18). The last two are preprints. An exhaustive proof of this state machine would require work beyond running trace analysis or obtaining the tools.
