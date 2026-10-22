@@ -73,7 +73,7 @@ The first study uses coarse compartment labels and a bounded message handoff. It
 
 Useful outcomes include a better architecture, a component worth building, a counterexample, or evidence that an existing system already meets the requirements.
 
-The earlier repository, including its original README, is preserved in [ASKA_v1](https://github.com/nshkrdotcom/ASKA/blob/main/ASKA_v1/ARCHIVE_NOTICE.md). It is historical material; its patent-portfolio language, performance assertions, and proposed specifications are not evidence of granted patents or validated results. The ASKA 2.0 documents at the repository root describe the current research position.
+The earlier repository, including its original README, is preserved in [v1](https://github.com/nshkrdotcom/ASKA/blob/main/v1/ARCHIVE_NOTICE.md). It is historical material; its patent-portfolio language, performance assertions, and proposed specifications are not evidence of granted patents or validated results. The ASKA 2.0 documents at the repository root describe the current research position.
 
 ## License and reuse
 

@@ -33,7 +33,7 @@ This is a research specification. ASKA has no implemented protocol, fabricated s
 
 ## Earlier versions
 
-The previous documents are preserved in [v2](v2/README.md). The original material remains in [ASKA_v1](ASKA_v1/ARCHIVE_NOTICE.md). Both are historical archives; the root documents describe the current architecture.
+The previous documents are preserved in [v2](v2/README.md). The original material remains in [v1](v1/ARCHIVE_NOTICE.md). Both are historical archives; the root documents describe the current architecture.
 
 ## License and contributions
 
