@@ -1,42 +1,43 @@
-# ASKA 3.0 — Research Architecture
+# ASKA 4.0 — Research Architecture
 
 **22 October 2026**
 
-ASKA proposes a computer and network architecture that enforces authority across compute, memory, devices, and communication. Its Isolated Execution Stacks (IESs) contain workloads within hardware-enforced resource boundaries. Protected endpoints and forwarding gates check operations independently of ordinary host kernels, drivers, and route controllers.
+ASKA proposes a computing and networking architecture whose boundaries remain effective after a component is compromised. It combines physically owned execution resources, private memory, explicit object and effect authority, networks separated by purpose, independently governed security domains, and an AI-first operating environment.
 
-Start with the [architecture and reading map](0010_architecture_and_reading_map_gpt.md).
+Start with the [architecture and reading map](0300_architecture_and_reading_map.md).
 
 ## Architecture
 
-The native compute target is 64-bit RISC-V with CHERI capability extensions in a multi-chiplet package. Dedicated engines handle the common packet path; isolated services manage policy, admission, and lifecycle. seL4 is an optional management kernel or VM supervisor.
+The selected organization is a spatial object machine. Small execution domains own their compute and writable memory for an admitted lifetime. They exchange bounded objects through protected interfaces. Persistent services own durable state and independently authorize operations. Native cross-trust execution requires physical resource ownership; high-consequence policy and recovery functions use independently rooted domains.
 
-The endpoint and gate experiments can run on existing platforms before native capability compute is integrated. Those experiments test external confinement; they do not establish capability protection inside ordinary application domains.
+Purpose-specific physical fabrics constrain connectivity. Source release controls and destination effect checks constrain what may cross them. Network membership and authentication confer no implicit operation or disclosure rights. The same rules apply to peripherals, printing, displays, removable storage, management, and recovery paths.
 
-The message profile uses coherent protected copying for payloads up to 1 KiB. A separate bulk path transfers an allocation across a batch of independent child records. Online admission installs bounded authority under each realm's policy. Receivers consume authenticated sequences even when delivery is denied, then recheck current policy at the publication commit. Transport profiles distinguish endpoint overlays, SCION integration, and an experimental native fabric.
+The AI environment supports interaction, context retrieval, application construction, and orchestration. Isolated planners and builders propose work; protected interaction, admission, and effect services enforce its authority. A compromised planner cannot create consent or approve its own deployment.
 
-This is a research specification. ASKA has no implemented protocol, fabricated silicon, measured performance, or completed security proof. The next work is to model receive ordering and memory ownership, compare existing transit protocols, and measure compute and data-path costs. The documents distinguish requirements, experimental parameters, calculations, and unresolved implementation choices.
+The architecture defines required semantics without selecting a binary ISA, fabrication process, interconnect, or production packet encoding. Existing capability processors, new object instructions, spatial/dataflow engines, advanced integration, and optical links are candidates evaluated against the same requirements.
+
+This is an unvalidated research architecture. No complete ASKA hardware, protocol implementation, performance result, or security proof is claimed. The documents separate selected designs, assumptions, demonstrated external work, open research, and intermediate realizations.
 
 ## Documents
 
-| Document | Contents |
+| Documents | Contents |
 |---|---|
-| [0010 — Architecture and reading map](0010_architecture_and_reading_map_gpt.md) | System decisions, threat model, and reading order |
-| [0011 — Compute, ISA, and IES](0011_compute_isa_and_ies_gpt.md) | Native compute, compatibility, capabilities, and seL4 |
-| [0012 — Authority and information flow](0012_authority_and_information_flow_gpt.md) | Grants, categories, confinement, and controlled release |
-| [0013 — Memory ownership and lifecycle](0013_memory_ownership_and_lifecycle_gpt.md) | Message and batch lifetime, credits, revocation, DMA, and reuse |
-| [0014 — Identity and online admission](0014_identity_and_online_admission_gpt.md) | Discovery, bilateral admission, keys, leases, and recovery |
-| [0015 — Transport and protected transit](0015_transport_and_protected_transit_gpt.md) | Forwarding profiles, protocol comparisons, grants, and physical egress |
-| [0016 — Records and receive processing](0016_records_and_receive_processing_gpt.md) | Wire format, replay, policy commit, quarantine, and publication |
-| [0017 — Chiplets and hardware integration](0017_chiplets_and_hardware_integration_gpt.md) | Package organization, protected I/O, firmware, debug, and reset |
-| [0018 — Performance and validation](0018_performance_and_validation_gpt.md) | Cost studies, models, attack campaigns, and validation criteria |
-| [0019 — Implementation contracts and sources](0019_implementation_contracts_and_sources_gpt.md) | Interfaces, implementation evidence, and technical references |
+| [0300 — Overview](0300_architecture_and_reading_map.md) · [0301 — Requirements](0301_requirements_and_threat_model.md) · [0302 — Decisions](0302_architectural_candidates_and_decisions.md) | Organization, threat model, requirements, and competing designs |
+| [0303 — Physical substrate](0303_physical_substrate_and_frontier.md) · [0304 — Execution](0304_execution_and_instruction_semantics.md) · [0305 — Memory](0305_memory_ownership_and_lifecycle.md) | Physical profiles, processor semantics, ownership, and safe reuse |
+| [0306 — Persistence](0306_persistence_and_effects.md) · [0307 — Information flow](0307_authority_and_information_flow.md) | Durable effects, scoped grants, confinement, and release |
+| [0308 — Applications](0308_native_applications_and_development.md) · [0309 — AI environment](0309_ai_environment_and_trusted_interaction.md) | Component contracts, development, user interaction, and isolated agents |
+| [0310 — Purpose networks](0310_purpose_networks_and_gateways.md) · [0311 — Delivery](0311_admission_and_delivery.md) | Physical topology, gateways, admission, replay, and publication |
+| [0312 — Governance](0312_governance_updates_and_recovery.md) · [0313 — Failure cases](0313_compromise_and_failure_cases.md) | Independent management, updates, recovery, and adversarial scenarios |
+| [0314 — Validation](0314_validation_and_cost_models.md) · [0315 — Research program](0315_research_and_realizations.md) | Models, experiments, cost comparisons, and long-term dependencies |
+| [0316 — Traceability](0316_traceability_and_evolution.md) · [0317 — Sources](0317_sources_and_evidence.md) | Requirement-to-design mapping and primary-source evidence |
+| [0318 — Cross-domain security](0318_cross_domain_security_and_information_release.md) | Insider threats, adversarial bridges, information release, and observation limits |
 
 ## Earlier versions
 
-The previous documents are preserved in [v2](v2/README.md). The original material remains in [v1](v1/ARCHIVE_NOTICE.md). Both are historical archives; the root documents describe the current architecture.
+Historical documentation is preserved in [v1](v1/ARCHIVE_NOTICE.md), [v2](v2/README.md), and [v3](v3/README.md). The root documents describe ASKA 4.0.
 
 ## License and contributions
 
-Original documentation and diagrams are licensed under [Creative Commons Attribution 4.0 International](LICENSE), except where separate terms are identified. Third-party material retains its own terms. Suggested attribution: **Paul Lowndes and ASKA contributors, ASKA 3.0**, with this repository and the commit used. The copyright license does not grant patent rights.
+Original documentation and diagrams are licensed under [Creative Commons Attribution 4.0 International](LICENSE), except where separate terms are identified. Third-party material retains its own terms. Suggested attribution: **Paul Lowndes and ASKA contributors, ASKA 4.0**, with this repository and the commit used. The copyright license does not grant patent rights.
 
-Contributions can include counterexample traces, corrected assumptions, source comparisons, and reproducible models or measurements. Identify the document and property being tested, distinguish proposals from observed results, and include the conditions needed to reproduce any result. Original documentation contributions use the repository's CC BY 4.0 license; identify separately licensed material.
+Contributions can include counterexample traces, corrected assumptions, source comparisons, and reproducible models or measurements. Identify the document and requirement being tested, distinguish proposals from observed results, and include the conditions needed to reproduce any result. Original documentation contributions use the repository's CC BY 4.0 license; identify separately licensed material.
