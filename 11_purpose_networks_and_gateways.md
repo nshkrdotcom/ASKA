@@ -28,6 +28,14 @@ An island's network engine is bound to its purpose-specific endpoints. Workload 
 
 Dynamic provisioning may allocate a previously unused path or safely reassign a resource after revocation, drain, sanitation, and fresh authority installation. It cannot temporarily join unrelated purpose fabrics through an unrestricted control-plane command. Circuit configuration is itself a governed effect with independently checked endpoints and purpose.
 
+## Encounter resource separation
+
+Native first-contact traffic uses dedicated encounter ports, receive/parser lanes, ingress FIFOs, buffer banks, and DMA paths. Established ATN/STN traffic must not pass through an encounter FIFO or depend on its free-buffer pool. A shared front-end queue followed by classification does not meet this requirement: classification occurs after the shared bottleneck.
+
+Encounter parsers, authentication work, installation requests, interrupts, and telemetry have bounded resource allowances. They cannot consume resources reserved for established sessions or modify established-session tables directly. A protected installer applies only locally authorized changes under independent policy. Existing-session control and recovery use separately reserved service.
+
+The path inventory includes downstream memory controllers, interconnects, cryptographic engines, policy stores, power, clocks, cooling, and reset. For each shared facility, the deployment states the coupling and provides enforceable service bounds or reports the unmet isolation requirement. Different FIFO names alone do not establish physical independence. Even a separated encounter path can lose first-contact availability under saturation; separation protects the declared established-service resources, not every upstream carrier or shared physical facility.
+
 ## Admission and routing
 
 Route services discover candidate paths inside the allowed topology. Protected gates admit only paths/resources approved by their owners and accepted by the endpoints. A route proposal grants no permission. Session consent does not give a sender arbitrary forwarding rights, and a forwarding grant does not establish permission to disclose its payload.

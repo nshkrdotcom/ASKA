@@ -13,23 +13,23 @@ All target claims below remain unvalidated as an integrated system. The evidence
 | Requirement | Principal design | Responsible documents | Required evidence / regression |
 |---|---|---|---|
 | R01: explicit authority and mediation | Protected object/effect handles and unavoidable guards | 05, 08, 11–14 | Malicious caller, helper/fallback, raw DMA/transmit, and broker-path tests; crossing cases X01–X12 |
-| R02: granular applications | Component graph, ephemeral workers, narrow state owners | 09–10 | Useful application with narrow default grants and manageable developer effort |
-| R03: physical compute ownership | P1 islands; P2/P3 where the threat requires them | 03–06 | Resource/path inventory, malicious-engine containment, shared-fault analysis |
+| R02: granular applications | Component graph, ephemeral workers, narrow state owners | 07, 09–10 | Useful application with narrow default grants and manageable developer effort |
+| R03: physical compute ownership | P1 islands; P2/P3 where the threat requires them | 03–07, 10 | Resource/path inventory, malicious-engine containment, shared-fault analysis |
 | R04: physical purpose networks | ATN/STN/encounter/observation separation and explicit DTGs | 04, 11, 13 | Physical topology and forbidden-crossing observations under controller compromise |
 | R05: transformation continuity | Confinement and immutable metadata through compute, storage, AI, and transport | 06–10, 13 | Derived-code, logs, renderer, accelerator, index, and network-flow checks |
 | R06: independent recipient effects | Method/parameter grants and current receiver checks | 07–09, 13 | Confused-deputy and cached-allow/withdrawal counterexamples |
-| R07: lifetime correctness | Source bindings, revoke/drain, generations, sanitation | 05–07, 13 | Late DMA/writeback, alias, reset, abort, and allocation-reuse models |
-| R08: protected persistence | Owned versions, durable commits, receipts and uncertainty | 07, 14 | Crash/restore/deduplication and uncertain-device-effect traces |
+| R07: lifetime correctness | Source bindings, revoke/drain, generations, sanitation | 05–07, 10, 13 | Late DMA/writeback, alias, service-worker/scanout retirement, reset, abort, and allocation-reuse models |
+| R08: protected persistence | Owned versions, durable commits, receipts and uncertainty | 07, 14 | Fresh service-request cells, sealed proposal/commit separation, crash/restore/deduplication, and uncertain-device-effect traces |
 | R09: AI without ambient authority | Trusted interaction, context ownership, isolated planning/building | 09–10, 14 | Full planner takeover, forged approval, private-context/artifact export tests |
 | R10: scoped management | Separate allocator, policy, signer, updater, recovery, and observer roles | 10, 14 | One-role takeover cannot acquire another role or another realm's scope |
 | R11: common-cause resistance | Dependency graph and independently rooted high-consequence domains | 03–04, 11, 14 | Actual custodians/build/reset/supply dependencies and minimal failure sets |
-| R12: bounded resources and useful service | Admission budgets, local slots, reserved control, bounded recovery | 05–07, 11, 13–14, 16 | Overload, deadlock, targeted-session flood, and useful-progress measurements |
+| R12: bounded resources and useful service | Admission budgets, local slots, reserved control, bounded recovery | 05–07, 11, 13–14, 16 | Overload, targeted-session floods, encounter FIFO/buffer/DMA segregation, downstream coupling, flap-recovery load, deadlock, and useful progress |
 | R13: distinct security outcomes | Separate prevention, containment, abuse, propagation, and availability reports | 02, 15–16 | Deliberate in-cell compromise and malicious use of valid authority |
 | R14: no silent target drift | Requirement/decision records and realization ledger | 03, 17–18 | Every change identifies impacted IDs and revised evidence |
 | R15: native independence | Object/effect execution, own application/UI/network model | 01, 05, 09–11, 17 | Native workflow operates with compatibility and IP gateways disconnected |
 | R16: attributable evidence | Source register and explicit claim status | 04, 16–19 | Reproducible artifacts; no reported run/proof without records |
-| R17: native memory semantics | Checked region references and separate persistent allocator safety | 05–06 | Bounds, retained references, in-lifetime temporal errors, and compiler refinement |
-| R18: whole-application assurance | Document-review graph with compromised parser, planner, services, and insider | 09–10, 12, 15–17 | Every import/fallback/device path; useful authorized release; malicious intermediaries |
+| R17: native memory semantics | Checked region references and separate persistent allocator safety | 05–07, 10 | Bounds, retained references, service/presentation controller safety, in-lifetime temporal errors, and compiler refinement |
+| R18: whole-application assurance | Document-review graph with compromised parser, planner, services, and insider | 09–10, 12, 15–17 | Every import/fallback/device path; compromised service worker and renderer; useful authorized release; malicious intermediaries |
 | R19: no authority from membership | Independent operation checks on all fabrics and exposed endpoints | 02, 04, 11–13 | Authenticated malicious peer and rogue guarded connection gain no new rights |
 | R20: no implicit export | Separate read, release, carriage, device, and receiving grants | 05, 07–10, 12 | Read-authorized insider cannot export through media, output devices, or encryption |
 | R21: every modeled path | Path register spans digital, peripheral, management, and physical outputs | 04, 06–07, 12, 14 | Enumerated bypass tests and declared physical/human exclusions |

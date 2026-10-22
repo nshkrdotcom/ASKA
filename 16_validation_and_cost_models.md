@@ -31,6 +31,16 @@ Report proof assumptions and test coverage separately. A verified checker depend
 
 TLA+, Alloy, an interactive theorem prover, and executable reference models are candidates. Tool choice follows the property. A formal model remains unsound for the intended claim if it omits a writer, assumes an unrealistic clock, or treats dependent failures as independent. Publish model bounds, fairness, abstraction, counterexamples, and weakened variants.
 
+## Service, graphics, and link refinements
+
+Extend the persistence model with a fresh request worker, sealed proposal handoff, independent commit controller, worker retirement, and delayed accesses. Separate candidate computation from durable commit. Search for stale references crossing request generations and for proposals that bypass current policy or required semantic checks.
+
+Model the graphics pipeline with a hostile renderer, surface ownership generations, backing extents, coordinate arithmetic, protected-layer exclusion, and scanout retirement. Check memory and presentation effects independently of the renderer's validator. Include the presentation controller's failure scope.
+
+Represent link loss, emission stop, frame discard, retained security state, state uncertainty, expiry, retirement, and reinstallation as separate events. A benign flap must not reset freshness. The model permits resumption without fresh attestation when the installed evidence policy and retained state allow it. Physical tests then establish whether the real guard's reset and retention behavior refines that model.
+
+Encounter flood tests measure shared resources before and after session lookup. Record the dedicated queues, buffer banks, DMA paths, service reservations, and every remaining coupling. Compare established traffic with and without the flood and publish admitted-load and fault assumptions. These are required models and experiments, not completed ASKA results.
+
 ## Crossing and release model
 
 Add two domains with independent policy, a malicious reader, import/export workers, a release proposer, an exact-output enforcer, a device service, and a destination owner. Represent reachability separately from permitted operations. Interleave cable attachment, route edits, approval, byte substitution, label changes, policy withdrawal, first emission, receipt loss, and restart with uncertain accounting.

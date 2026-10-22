@@ -87,7 +87,7 @@ A fixed-length bounded object can be buffered completely. Large objects require 
 
 ## Path register
 
-Every deployment maintains the following fields per path: physical endpoints, possible observers, object/representation, independent authorities, mandatory guards, irreversible point, current-policy order, crash/retry behavior, residual dependencies, and test case. An unenumerated interface leaves R21 unestablished.
+Every deployment maintains the following fields per path: physical endpoints, possible observers, object/representation, independent authorities, mandatory guards, irreversible point, current-policy order, crash/retry behavior, residual dependencies, and test case. Link paths also record event detection, state retained across interruption, retirement triggers, required endpoint/path evidence, and resumption authority. Encounter paths record dedicated ingress resources and every downstream shared dependency. An unenumerated interface leaves R21 unestablished.
 
 | Path | Required treatment |
 |---|---|

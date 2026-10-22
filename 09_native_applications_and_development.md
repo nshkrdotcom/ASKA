@@ -69,7 +69,7 @@ The user asks the AI environment to review a document received from an admitted 
 
 The classifier selects only from already installed decoder contracts. Claimed file type is untrusted. Every fallback decoder runs under the same or stronger confinement and physical profile; unsupported formats are rejected or offered as uninterpreted data. No convenience helper parses the file in a privileged UI or storage service.
 
-Decoders return bounded typed representations. Validators check dimensions, integer ranges, lengths, nesting, references, and the absence of executable callbacks or capability imports. A validator's assertion covers only the property it checks. The renderer receives bounded surfaces and cannot draw over the trusted approval region.
+Decoders return bounded typed representations. Validators check dimensions, integer ranges, lengths, nesting, references, and the absence of executable callbacks or capability imports. A validator's assertion covers only the property it checks. Rendering and complex composition run in fresh cells with private scratch and bounded output surfaces. A separate display enforcer checks the surface contract before presentation and excludes the trusted approval region, as specified in [10](10_ai_environment_and_trusted_interaction.md).
 
 The analysis agent receives only user-authorized document/context views. Its result carries their confidentiality restrictions. Saving a review invokes a version-checked method on the document owner. Exporting it requires a distinct destination-bound operation grant and any needed release. A malicious decoder or agent cannot obtain export authority through a well-formed result.
 

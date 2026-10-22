@@ -2,7 +2,7 @@
 
 [Start](01_architecture_and_reading_map.md) · [Previous](09_native_applications_and_development.md) · [Next](11_purpose_networks_and_gateways.md)
 
-**Requirements:** R01, R02, R05, R06, R09, R10, R11, R18, R20, R21, R23.
+**Requirements:** R01–R03, R05–R07, R09–R12, R17, R18, R20, R21, R23.
 
 AI is the native interface for assistance, search, application construction, and task coordination. It can interpret a request, explain alternatives, build a component graph, and propose operations. Trusted mechanisms determine which data it may observe and which effects the proposed graph may perform. Security decisions do not rely on the model's reasoning.
 
@@ -33,11 +33,21 @@ Routine work need not require a confirmation for every call. A user can establis
 
 ## Trusted display and input
 
-The display service assigns surfaces to owners and constrains dimensions, rates, composition, and device access. A protected region or independently indicated approval surface cannot be covered by application pixels. Rendering inputs contain bounded values rather than code, callbacks, or imported capabilities. Complex formatting and codecs run in disposable cells before reaching the small compositor/device service.
+The display service assigns surfaces to owners and constrains dimensions, rates, composition, and device access. A protected region or independently indicated approval surface cannot be covered by application pixels. Rendering inputs contain bounded values rather than code, callbacks, or imported capabilities. Complex formatting, codecs, rendering, and application composition run in fresh confined cells. Their output reaches a separate display enforcer through a bounded surface contract.
 
 A syntactically valid image can still deceive a human. The UI distinguishes application content from authoritative effect parameters and displays identities in an unambiguous canonical form. User misunderstanding remains possible; hardware cannot infer intent from a click. Under the trusted interaction assumptions, the AI and applications cannot forge or rebind approval.
 
 Physical input hardware, its routing, and the approval service are part of that guarantee. A compromised input device or approval implementation is a separate failure case. Remote UI sessions require an explicitly authenticated interaction domain and cannot impersonate local physical presence where local presence is required.
+
+## Graphics transformation and presentation
+
+Each complex graphics stage receives immutable inputs, private scratch, and bounded output surfaces. It receives no ambient storage, network, administrative, or raw display-controller authority. A stage submitting output for presentation holds only a scoped surface-submission handle. Decoder, renderer, and composition cells have independent lifetimes; their scratch and retained references follow [06](06_memory_ownership_and_lifecycle.md).
+
+The display enforcer checks surface identity and generation, immutable backing extent, format, dimensions, offsets, stride, placement, layer rights, and presentation allowance. All extent and coordinate calculations must reject overflow and unsupported layouts before memory access or scanout. It accepts a small fixed descriptor schema, excludes callbacks and raw command streams, and rechecks current surface ownership at presentation. Application descriptors cannot select the trusted approval layer.
+
+Malformed output or full renderer compromise must remain confined to admitted memory and presentation rights while the independent enforcer holds. That requires mandatory memory/DMA bounds and destination clipping or an equivalent checked placement mechanism at the actual output boundary. A software rectangle checked only by the compromised renderer is insufficient. Persistent scanout uses owned sealed buffers and retires pending reads before reuse; it does not require restarting the physical display on each frame.
+
+The small presentation controller can remain long-lived, with its parser, arithmetic, memory access, and update dependencies explicitly trusted and tested. Compromising that controller can defeat the presentation guarantee within its reach unless another independent boundary enforces it. Complex composition across confidentiality categories requires an admitted joined context or a separately justified protected composition mechanism; sharing a display does not erase source restrictions.
 
 ## Data diodes and context observation
 

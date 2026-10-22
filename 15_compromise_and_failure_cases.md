@@ -31,6 +31,12 @@ The generation, drain, endpoint-retirement, and sanitation rules must reject the
 
 Use-after-free within A's own lifetime is a distinct R17 test. Ephemeral execution reduces cross-request state; it does not make every temporal bug impossible.
 
+## Persistent-service request compromise
+
+Give an attacker control of a persistent service's request parser or transition worker. Leave stale references, exhaust scratch memory, submit a candidate for another object, corrupt labels, and substitute a proposal after validation. Reuse the physical worker resources for a request in another confidentiality compartment while delaying old DMA and output completions.
+
+Fresh request-cell lifetimes and the independent commit controller must contain those attempts under [07](07_persistence_and_effects.md). Observe durable state and later-request memory independently. A weakened service that retains request heap references or trusts worker-supplied ownership must produce a detectable failure. A malicious result within a valid method's unchecked semantics remains in-scope abuse; the test does not claim that commit metadata proves application correctness. Authorized transactions must still commit and recover correctly.
+
 ## Apple: alternative parser paths and logical escape
 
 Project Zero's FORCEDENTRY analysis documents an attachment presented as GIF reaching PDF/JBIG2 decoding in `IMTranscoderAgent`, outside the intended BlastDoor processing path. Its separate sandbox-escape analysis describes logic vulnerabilities unaffected by pointer authentication or memory tagging. [Initial exploit](https://projectzero.google/2021/12/a-deep-dive-into-nso-zero-click.html), [sandbox escape](https://projectzero.google/2022/03/forcedentry-sandbox-escape.html).
@@ -39,7 +45,9 @@ The architectural test sends a mislabeled attachment through every import path: 
 
 After decoder takeover, supply malicious but well-formed outputs to the renderer. Try oversized dimensions, integer boundaries, cyclic object references, callbacks, embedded grant requests, and values that select privileged operations. The recipient checks schema, resource cost, and effect authority independently. A typed result does not establish harmless semantics.
 
-The display guard must prevent application surfaces from covering the trusted approval region. A false picture can still mislead the user; report that separately from forged approval or cross-domain escape.
+Give the attacker control of the renderer and complex compositor as well as the decoder. Submit negative or overflowing strides, inconsistent backing lengths, stale surface generations, out-of-range placements, raw device commands, and requests for the trusted layer. Observe memory accesses and displayed pixels beyond the assigned surface. The independent display enforcer must deny those effects while valid frames still display. A weakened path that relies only on renderer-side clipping must expose the intended failure.
+
+The display guard must prevent application surfaces from covering the trusted approval region. A false picture can still mislead the user; report that separately from forged approval or cross-domain escape. Separately compromise the presentation controller and state which guarantees then depend on another boundary.
 
 ## Protected-network transfers and insider bridges
 
@@ -78,6 +86,10 @@ Interleave duplicate records across receive lanes, withdrawal between preliminar
 For purpose networks, select a forbidden actual port, splice path proposals, request a cross-purpose circuit, reset the gate, and attempt management-queue transmission. Independent observation at the physical port must distinguish a forbidden crossing from a packet simply dropped later at its destination.
 
 For persistence, crash before/after durable commit, restore an old snapshot, and lose a device acknowledgment after an irreversible effect. Require correct receipts or explicit uncertainty, not invented exactly-once success.
+
+Flood the encounter ports at the apparatus's supported ingress rate with unknown sessions, malformed envelopes, valid first-contact requests, and reset-triggering traffic. Measure established-session progress, reserved control service, buffer occupancy, bus contention, verification work, and interrupt/log load. A weakened shared FIFO or shared free-buffer pool must cause detectable interference. First-contact loss under saturation and any residual shared-facility disruption remain reported availability failures.
+
+Interrupt and restore an established link while preserving protected state, then repeat with lost nonce state, replay-state rollback, expired leases, device replacement, and changed path evidence. Continuity-preserving recovery must neither reuse nonces for changed data nor reopen consumed records or release uses. Uncertain security state must close the affected contract. Measure recovery amplification under repeated flaps; do not assume every flap requires attestation. A weakened reset that restores old replay state must admit a detectable duplicate.
 
 ## Acceptance record
 

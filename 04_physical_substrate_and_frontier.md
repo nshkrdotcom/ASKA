@@ -29,6 +29,12 @@ An attachable endpoint must terminate at its mandatory guard. Port identity, dev
 
 Record the last guarded point for every exposed signal and the physical intervention needed to bypass it. A rogue bridge on the outside remains subject to admission and release policy; a tap on an unprotected plaintext bus can violate confidentiality directly. P3 claims require apparatus-specific enclosure, probing, emanation, and device-replacement evidence. Adding an identity chip does not establish those physical-attack claims for P1. [12](12_cross_domain_security_and_information_release.md) supplies the corresponding adversarial cases.
 
+## Link events and protected continuity
+
+Detected link loss blocks new emission on the affected path and invalidates partial link frames. The guard records detection and enforcement delays; an already emitted prefix cannot be recalled. Protected session state remains separate from carrier state. Resumption requires the local guard to establish continuity of keys, nonce allocation, replay state, endpoint generations, policy bindings, leases, and any required physical-path evidence. The detailed recovery rules are in [13](13_admission_and_delivery.md).
+
+A carrier flap alone does not require destroying session keys. Uncertainty in key custody, nonce allocation, or replay state requires retirement of the affected data contract. A security-relevant reset, device replacement, or lost path binding requires reevaluation of the corresponding installation or evidence. Each implementation records which events invalidate which state and how the guard blocks use while that decision is pending. Carrier detection cannot establish that no passive optical or electrical tap exists. P3 physical claims require their own evidence.
+
 ## Packaging choices
 
 A planar many-island die offers short local wires and a uniform manufacturing flow, but concentrates fabrication, power, and management risk. A chiplet package can place compute, memory, and guards on different processes; its substrate and common test/debug infrastructure remain shared. Independently packaged modules cost more links and space but can reduce common physical and administrative failure paths.

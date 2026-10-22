@@ -2,7 +2,7 @@
 
 [Start](01_architecture_and_reading_map.md) · [Previous](06_memory_ownership_and_lifecycle.md) · [Next](08_authority_and_information_flow.md)
 
-**Requirements:** R01, R05, R06, R07, R08, R10, R12, R20, R21.
+**Requirements:** R01–R03, R05–R08, R10, R12, R17, R20, R21.
 
 Information persists beyond ephemeral computations. Documents, identities, application records, AI context, and operation receipts outlive workers. They belong to explicit state owners rather than a global filesystem or an inherited runtime heap.
 
@@ -16,6 +16,16 @@ Owners are split by consequence and tenancy. A service holding every user's plai
 
 The reference owner separates request execution by confidentiality compartment. A worker processing objects with categories `C` receives only inputs allowed by that confinement; multi-object operations join the required categories. A service that decrypts several compartments in one execution context inherits their join. Returning a narrower result then requires an explicit trusted release contract, not simply copying one object's old label. Opaque encrypted storage and protected dispatch metadata can be shared under their own threat model without giving an ordinary worker plaintext access across compartments.
 
+## Request execution and durable commit
+
+Persistent object services must parse requests, validate application data, and compute candidate state transitions in fresh request cells. Each cell receives only the immutable versions and method grants admitted for that operation. It has private scratch memory and no raw storage queue or authority over another request. Reusing physical resources requires the drain, reference-retirement, sanitation, and generation checks in [06](06_memory_ownership_and_lifecycle.md). A long-lived heap shared by request deserializers does not satisfy this contract.
+
+A separate commit controller owns durable versions, journals, deduplication records, and protected policy metadata. It accepts a bounded sealed proposal binding the request, input versions, candidate output, labels, method, and allowance. It independently checks authority, current policy, versions, ownership, and commit accounting. It does not deserialize arbitrary application formats in its control heap or accept a worker-supplied pointer as durable state.
+
+Application-specific transition correctness still needs an accepted implementation or a checked relation between inputs and candidate output. Mechanical commit checks cannot make a malicious worker's permitted result correct. The controller's fixed-format decoder, storage drivers, allocator, recovery logic, and update root remain trusted within their disclosed scope; their spatial and temporal safety need separate evidence. Request-cell isolation does not establish that evidence.
+
+After sealed output passes into protected ownership, the worker can retire independently of journal completion if no private references remain. Durable commit, receipt production, and retirement have separate states. A crash or timeout follows their stated recovery rules. Cell teardown follows the revoke/drain/sanitation state machine; durable commit has separate storage-atomicity and recovery assumptions.
+
 ## Reference transaction
 
 ```text
@@ -25,8 +35,8 @@ PROPOSED -> VALIDATED -> PREPARED -> COMMITTED -> RECEIPTED
                DENIED     ABORTED
 ```
 
-1. A worker submits an immutable request and operation identifier through an admitted endpoint. The owner authenticates the request, resolves its grants, and performs bounded syntax checks in a confined parser.
-2. The owner validates method semantics, input versions, categories, budget, and current receiver policy. It prepares a private candidate version and reserves required resources without exposing the candidate.
+1. A worker submits an immutable request and operation identifier through an admitted endpoint. The owner authenticates the bounded envelope and resolves its grants. A fresh confined request cell performs application syntax checks.
+2. The request cell validates application method semantics and computes a private candidate version from its admitted inputs. The commit controller checks input versions, categories, budget, current receiver policy, and any required transition evidence. It reserves resources without exposing the candidate.
 3. At commit, serialize conflicting object writes, policy changes, operation deduplication, and budget consumption. Recheck the policy version and affected object generations inside that order. A stale preliminary allow cannot authorize a write after withdrawal.
 4. Record the new version, operation result, consumed allowance, and required recovery metadata in the defined durability domain. Publish visibility only when the storage protocol establishes its declared commit guarantee.
 5. Return a receipt binding operation identifier, request commitment, resulting version, outcome, and durability class. Repeated identical operations return the recorded result. Reusing an identifier with different parameters is denied.

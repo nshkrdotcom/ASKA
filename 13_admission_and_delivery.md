@@ -10,7 +10,7 @@ Communication requires independent source and receiver decisions. Identity disco
 
 Realm identifiers bind canonical root-key material under a selected identity scheme. Service records bind a realm, service role, gate identity, key generation, and validity. Locators and paths provide separate discovery hints. A self-consistent key hash proves no relationship to a name the user intended; first contact requires an accepted introduction, configured anchor, or certification relationship.
 
-Public encounter services have isolated parsers, bounded state, operation/concurrency caps, and reserved service for existing relationships. Retry cookies can limit spoofed-source allocation but do not defeat reachable attackers. Unknown data-session identifiers are silently dropped without creating state or initiating admission.
+Public encounter services use the dedicated receive resources specified in [11](11_purpose_networks_and_gateways.md), with bounded parser state and operation/concurrency caps. Existing relationships have separately reserved control service. Retry cookies can limit spoofed-source allocation but do not defeat reachable attackers. Unknown data-session identifiers are silently dropped without creating state or initiating admission. Those drops still consume bounded framing and lookup work; their load must not consume resources reserved for established traffic.
 
 Attestation can report gate measurements and configuration under an accepted root. The receiver separately appraises what those measurements mean and which update authorities it trusts. Attestation neither authorizes arbitrary methods nor proves the measured implementation correct. [RATS architecture](https://www.rfc-editor.org/rfc/rfc9334.html).
 
@@ -76,6 +76,16 @@ Verification cost, consumed authenticated records, successful delivery, and appl
 If transport quarantine is full, drop before verification. If an authenticated record is consumed and then denied, retry uses a new sequence. Application operation identity supports deduplication independently of transport sequence. Receipts distinguish transport acceptance, object publication, durable commit, and uncertain physical effect.
 
 A replacement data contract may reuse a live authenticated control channel with fresh challenges, identifiers, and keys. Repeat attestation when local evidence policy requires it. Recovery work is rate/concurrency bounded and cannot monopolize service reserved for unaffected sessions. Loss of replay state retires its session rather than reopening old traffic.
+
+## Link interruption and session recovery
+
+A guard distinguishes a paused physical path from a retired data contract. On detecting link loss, it blocks new emission on that path and discards incomplete link frames. Its path contract bounds detection and enforcement delay where such a bound is claimed. It preserves already consumed sequences and release uses. It also preserves complete authenticated records that remain valid under their original bindings; a flap cannot reopen freshness or refund uncertain emission.
+
+Resumption under the same contract is allowed only when protected keys, nonce allocation, replay state, endpoint generations, policy mappings, leases, and required path bindings remain valid. Before emission, the guard rechecks current permission and physical egress. Retransmission uses identical protected bytes under the existing retry envelope, or fresh sequences for newly protected records. It never encrypts changed plaintext with an old nonce. Link interruption does not pause elapsed-time expiry.
+
+If key custody, nonce allocation, or replay-state continuity is uncertain, retire the affected data contract. Endpoint replacement, changed mappings, or lost physical-path evidence require fresh installation or path authorization as applicable. Re-attest when the accepted evidence policy or a changed enforcement configuration requires it. A live authenticated control channel can install fresh data keys and challenges under the existing bounded recovery rules; a carrier flap alone does not mandate a full handshake and attestation.
+
+A declaration of continuity needs protected reset/event semantics and recoverable state, not a link-up indication or a workload assertion. An in-line interceptor lacking keys remains subject to authentication and replay checks, but can observe traffic or deny service within the carrier threat model. An undetected passive tap cannot be excluded by testing link-state events. Deployments requiring retirement after specified physical events can impose that stricter policy and must account for induced recovery load.
 
 ## Expiry and physical forwarding
 

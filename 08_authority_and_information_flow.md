@@ -56,6 +56,8 @@ A decoder may produce `PixelBuffer` with a validated shape. That validation says
 
 An object reference can carry authority; copying its raw representation is not always an ordinary data copy. Export requires a delegation operation specifying recipient and attenuation. Schema validators must distinguish data identifiers from imported grant requests.
 
+A validated `PixelBuffer` shape does not establish that a renderer will process it safely. Every later graphics stage retains source confinement and validates the representation it consumes. The independent presentation checks in [10](10_ai_environment_and_trusted_interaction.md) constrain the effect even after renderer takeover; they do not establish that displayed content is truthful.
+
 ## Controlled release
 
 A release record binds the source categories, allowed input selection, release-service identity/revision, immutable output commitment, resulting categories, destination, method, validity interval, and reuse/aggregate limits. Source and receiver policies independently accept that service and scope. Use accounting commits before emission or effect.
