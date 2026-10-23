@@ -4,7 +4,7 @@
 
 **Requirements:** R01, R05, R06, R09, R10, R13, R17, R19, R20, R23.
 
-ASKA distinguishes access to data, permission for an effect, information-flow restrictions, receiver consent, and transport authority. Every participant must satisfy all relevant constraints. Authenticating one credential does not collapse those decisions into a single trust score.
+ASKA distinguishes access to data, permission for an effect, information-flow restrictions, receiver consent, and transport authority. Each participant must satisfy every constraint relevant to its operation. One authenticated credential cannot replace those separate decisions with a trust score.
 
 ## Scoped authority
 
@@ -20,25 +20,25 @@ time/epoch limits; resource reservation or budget parent
 revocation and policy versions; approval commitments when required
 ```
 
-The grant's protected local handle is unforgeable within its enforcement domain. Remote grants are authenticated statements imported under the receiver's policy; their bytes do not create local capabilities automatically. Issuer authenticity, accepted scope, currentness, and possession constraints are checked independently.
+The local enforcement boundary must prevent workloads from forging a grant handle. A receiver imports remote grants as authenticated statements under its own policy; the incoming bytes create no local capability by themselves. The receiver checks issuer authenticity, accepted scope, currentness, and possession constraints independently.
 
-Delegation can narrow object scope, methods, parameters, lifetime, and budgets. It cannot remove a required approval or disclosure restriction. Shared parent budgets require serial accounting or disjoint preallocated credits. Duplicating a grant must not duplicate its allowance.
+Delegation can narrow object scope, methods, parameters, lifetime, and budgets. It cannot remove a required approval or disclosure restriction. A shared parent budget must serialize consumption or assign disjoint credits in advance. Copying a grant must never copy its remaining allowance.
 
 ## Confidentiality and execution confinement
 
-The reference label is a set of realm-scoped categories. Public is the empty set. `C1 <= C2` means set inclusion. A worker admitted with confinement `C` can read inputs whose categories are subsets of `C`. Its computed values, outputs, and mutable objects inherit at least `C` unless a separately authorized release applies.
+The reference model labels each object with a set of realm-scoped categories. Public is the empty set. `C1 <= C2` means set inclusion. A worker admitted with confinement `C` can read inputs whose categories are subsets of `C`. Its computed values, outputs, and mutable objects inherit at least `C` unless a separately authorized release applies.
 
-Categories have issuer-defined meanings. Admission installs explicit mappings between realms; unknown categories deny flow. Maps cannot silently change under a live contract. A low-integrity sender cannot attach a “public” code and override a source restriction obtained from protected metadata.
+Each issuer defines its categories. Admission installs explicit mappings between realms and denies flow for unknown categories. An installer cannot silently change a map under a live contract. A low-integrity sender cannot attach a “public” code and override a source restriction obtained from protected metadata.
 
-The fixed worker rule conservatively labels derived output. A constant computed after secret input still inherits the worker's confinement. Fresh workers and smaller task graphs reduce unnecessary category accumulation. Dynamic value/control-flow tracking is an alternative only when its compiler, hardware, devices, and output interfaces implement a sound contract.
+The fixed worker rule assigns derived output at least the worker's confinement categories. A constant computed after secret input still inherits the worker's confinement. Fresh workers and smaller task graphs reduce unnecessary category accumulation. Dynamic value/control-flow tracking is an alternative only when its compiler, hardware, devices, and output interfaces implement a sound contract.
 
-The distributed-policy comparisons are [DStar](https://www.scs.stanford.edu/~nickolai/papers/zeldovich-dstar.pdf) and [Fabric](https://www.cs.cornell.edu/andru/papers/fabric-sosp09.html). The two systems use established mechanisms with different trusted runtimes. Applying them to ASKA requires a composition argument across its physical and device boundaries.
+The distributed-policy comparisons are [DStar](https://www.scs.stanford.edu/~nickolai/papers/zeldovich-dstar.pdf) and [Fabric](https://www.cs.cornell.edu/andru/papers/fabric-sosp09.html). The two systems use established mechanisms with different trusted runtimes. An ASKA design that uses either mechanism must show how it composes across physical and device boundaries.
 
 ## Integrity and endorsement
 
 Integrity assertions identify a producer, validator, measurement, or computation and the evidence supporting it. They are separate from confidentiality categories. Combining an authenticated value with attacker-controlled input does not preserve a trusted semantic assertion automatically.
 
-A decoder may produce `PixelBuffer` with a validated shape. That validation says nothing about whether the picture is truthful. A financial parser may validate an amount's syntax without endorsing the transaction. Endorsement is a separately authorized operation over a specific immutable input and stated property.
+A decoder may produce `PixelBuffer` with a validated shape. That validation says nothing about whether the picture is truthful. A financial parser may validate an amount's syntax without endorsing the transaction. An endorser needs separate authority to assert a stated property of a specific immutable input.
 
 ## Transformation obligations
 
@@ -60,9 +60,9 @@ A validated `PixelBuffer` shape does not establish that a renderer will process 
 
 ## Controlled release
 
-A release record binds the source categories, allowed input selection, release-service identity/revision, immutable output commitment, resulting categories, destination, method, validity interval, and reuse/aggregate limits. Source and receiver policies independently accept that service and scope. Use accounting commits before emission or effect.
+A release record binds the source categories, allowed input selection, release-service identity/revision, immutable output commitment, resulting categories, destination, method, validity interval, and reuse/aggregate limits. Source and receiver policies independently accept that service and scope. The enforcing service commits use accounting before emission or effect.
 
-Release semantics must address repeated queries, chosen inputs, error behavior, and timing. Valid values in a bounded numeric field can still encode a secret. An AI summary is not automatically a safe declassification. The semantic release decision belongs to the relevant trusted computing base unless an independent checker establishes the required output relation. A separate release enforcer checks binding, scope, currentness, and use accounting before emitting bytes. It cannot prove an arbitrary report safe merely by comparing its digest with an approval. The failure scope of each function must be declared.
+Release semantics must address repeated queries, chosen inputs, error behavior, and timing. Valid values in a bounded numeric field can still encode a secret. An AI summary is not automatically a safe declassification. The semantic release decision belongs to the relevant trusted computing base unless an independent checker establishes the required output relation. A separate release enforcer checks binding, scope, currentness, and use accounting before emitting bytes. It cannot prove an arbitrary report safe merely by comparing its digest with an approval. The assurance record must declare each function's failure scope.
 
 The initial model has no release mechanism and denies all downward category flows. A later release implementation must extend the properties and tests explicitly; it cannot enable an ambient `declassify` permission for every application.
 
@@ -78,12 +78,12 @@ Encryption preserves the restrictions of plaintext and its dependencies. An auth
 
 A valid caller can request only the methods granted to it. A broker cannot combine its broad internal rights with untrusted parameters and call the result authorized. Where a service needs internal access to implement a method, its method semantics and parameter validation become part of that effect's trusted boundary.
 
-Permission checks and the effect commit share an order with policy changes. Preliminary checks can avoid wasted work, but the service must recheck current policy at the irreversible decision. If withdrawal wins that order, the effect is denied. Already committed writes, emitted prefixes, or disclosed data cannot be recalled.
+Permission checks and the effect commit share an order with policy changes. Preliminary checks can avoid wasted work, but the service must recheck current policy at the irreversible decision. If withdrawal wins that order, the service denies the effect. It cannot recall committed writes, emitted prefixes, or disclosed data.
 
 ## Observations and proof obligations
 
-An explicit-transfer model checks whether delivered bytes and effects satisfy the rules. Stronger noninterference compares executions differing in secret input while preserving the declared public observations. Termination, object existence, queue pressure, and timing must be included or excluded explicitly.
+An explicit-transfer model checks whether delivered bytes and effects satisfy the rules. Stronger noninterference compares executions differing in secret input while preserving the declared public observations. The proof must explicitly include or exclude termination, object existence, queue pressure, and timing from its observations.
 
-Physical ownership can reduce shared timing dependencies but does not eliminate power, thermal, clock, or management channels. The target's secrecy contract must be matched to its observation profile. A proof covering values alone cannot establish that other observations reveal nothing.
+Physical ownership can reduce shared timing dependencies but does not eliminate power, thermal, clock, or management channels. The target's secrecy contract must name the observation profile that its evidence covers. A proof covering values alone cannot establish that other observations reveal nothing.
 
 **Open research:** scalable category interpretation without global trust, sound labels through accelerators and synthesis, usable narrow release services, and formal composition of source ownership with receiver effects. Counterexamples should cover malicious authorized producers as well as forged credentials.

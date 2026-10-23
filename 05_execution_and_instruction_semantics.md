@@ -4,11 +4,11 @@
 
 **Requirements:** R01, R02, R03, R07, R12, R15, R17, R19, R20.
 
-Native software runs through an object/effect execution contract. It receives bounded values, local memory, and explicitly delegated operation handles. Persistent state and external devices belong to other domains. The contract defines the obligations every execution engine must enforce before ISA selection.
+Admission gives native software bounded values, local memory, and explicitly delegated operation handles. The object/effect contract defines what the software may do with them. Persistent state and external devices belong to other domains. The contract defines the obligations every execution engine must enforce before ISA selection.
 
 ## Cell admission
 
-A cell descriptor is installed by the island's protected controller:
+The island's protected controller installs a cell descriptor:
 
 ```text
 cell_id, cell_generation, owner_realm
@@ -20,7 +20,7 @@ operation_handles, output_schemas, output_byte_limits
 parent_budget_reservation, lifecycle_policy
 ```
 
-The caller can propose this descriptor but cannot install it. Admission intersects the artifact's declared effects, task authority, realm policy, and available resources. Child cells receive only attenuated rights and reserved shares of their parent's budget. A parent can cancel a child only if it holds that lifecycle right; parenthood grants no automatic read access.
+The caller can propose this descriptor but cannot install it. Admission installs only the intersection of the artifact's declared effects, task authority, realm policy, and available resources. The descriptor binds code and semantics through `artifact_digest` and `execution_contract_revision`, placement through `physical_resource_set` and `isolation_profile`, and inputs through versions and confinement categories. Its limits and parent reservation bound local work; its handles and schemas bound external effects and output. The lifecycle policy governs retirement. Child cells receive only attenuated rights and reserved shares of their parent's budget. A parent can cancel a child only if it holds that lifecycle right; parenthood grants no automatic read access.
 
 A native cell has no inherited host credential, global object namespace, raw physical address capability, or universal system-call interface. It can invoke only installed endpoints. A local library can provide familiar conveniences, but it cannot recover authority omitted from the descriptor.
 
@@ -41,29 +41,29 @@ These operation names define semantics; their binary encodings remain unspecifie
 
 ## Memory safety inside the cell
 
-The reference worker model uses region lifetimes. Admitted inputs are immutable; local scratch regions remain allocated until the cell ends; outputs remain unpublished until sealed. The initial worker language does not expose arbitrary free/reallocate within a region. This reduces request-lifetime aliasing. Whole-cell reset does not solve every temporal-safety problem.
+The reference worker model uses region lifetimes. Workers cannot mutate admitted inputs. The controller retains local scratch regions until the cell ends, and the output path publishes no object before the worker seals it. The initial worker language does not expose arbitrary free/reallocate within a region. This reduces request-lifetime aliasing. Whole-cell reset does not solve every temporal-safety problem.
 
 The implementation must check bounds, reference provenance, and region liveness, or establish them through an accepted compiler/verifier argument. Persistent services and engines that need fine-grained allocation require a separate temporal-safety mechanism. A malicious cell can retain any bit pattern it likes, but its references cannot survive retirement as usable authority.
 
-A fault halts the offending cell and begins protected cancellation. Cleanup does not depend on the workload running an exception handler correctly. Unpublished output is discarded. Effects committed before the fault remain committed and are reported through operation receipts; cell abort cannot undo a payment or actuator movement.
+On a fault, the protected controller halts the offending cell and starts cancellation. Cleanup cannot depend on the workload's exception handler. The output path discards unpublished objects; effect owners retain earlier commits and report them through operation receipts. Cell abort cannot undo a payment or actuator movement.
 
 ## ISA study
 
-Three implementations must be compared before freezing a native binary contract:
+The ISA study must compare three implementations before the project freezes a native binary contract:
 
 1. **Existing ISA with capabilities.** CHERI-like references express bounds and provenance while external guards retain physical ownership. Evaluate privilege, debug, speculative behavior, tag storage, temporal safety, and the cost of unused general-purpose mechanisms. [CHERI specification](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-987.pdf).
 2. **New object instruction architecture.** Local references identify region, bounds, rights, and generation; external actions use effect handles rather than integer addresses. The research must specify traps, concurrency, calls, exceptions, vector access, and compiler refinement. It has no assumed performance or ready compiler.
-3. **Spatial/dataflow execution.** Compile bounded graphs into an owned region with guarded edge endpoints. Dynamic graph changes are separately admitted configuration artifacts. Compare interaction latency, recursion, locality, configuration time, and sanitization against sequential execution.
+3. **Spatial/dataflow execution.** Compile bounded graphs into an owned region with guarded edge endpoints. The configuration guard separately admits each dynamic graph change as an artifact. Compare interaction latency, recursion, locality, configuration time, and sanitization against sequential execution.
 
 Instruction-level information-flow architectures such as [HyperFlow](https://www.cs.cornell.edu/andru/papers/hyperflow/) show that data and timing policy can be part of a processor design. Their results do not cover an arbitrary ASKA memory/device/network composition. An engine can offer stronger fine-grained tracking than the reference cell-confinement rule if its implementation and interfaces preserve the required labels.
 
-**Selected:** the semantic contract and region-based worker discipline. **Unselected:** binary ISA and microarchitecture. **Required result:** implementations refine the same authority, fault, output, and lifetime behavior. A new ISA is justified if it materially simplifies that refinement or supports properties impractical in existing cores.
+**Selected:** the semantic contract and region-based worker discipline. **Unselected:** binary ISA and microarchitecture. **Required result:** implementations refine the same authority, fault, output, and lifetime behavior. A new ISA must justify its cost by simplifying that refinement or supporting properties that existing cores cannot practically provide. The compiler argument must connect generated instructions to the contract's authority, faults, outputs, and lifetimes; a source-level bounds proof alone does not establish that connection.
 
 ## Scheduling and resource termination
 
-Cells receive bounded memory, execution fuel, elapsed time, queue occupancy, and output allowance. Fuel counts defined execution steps. It does not guarantee constant real-time service. The elapsed deadline is enforced independently of workload cooperation. Blocking sends reserve no unbounded downstream chain.
+Admission assigns each cell finite memory, execution fuel, elapsed time, queue occupancy, and output allowance. Fuel counts defined execution steps. It does not guarantee constant real-time service. The protected controller enforces the elapsed deadline without relying on workload cooperation. Blocking sends reserve no unbounded downstream chain.
 
-Exclusive ownership can span several hardware engines for a large task. Reusing an engine for a new cell requires the lifecycle transition in [06](06_memory_ownership_and_lifecycle.md). Shared scheduling within one declared trust domain is permitted. A P0 shared-core prototype cannot claim the physical or timing properties of P1 execution.
+Exclusive ownership can span several hardware engines for a large task. Reusing an engine for a new cell requires the lifecycle transition in [06](06_memory_ownership_and_lifecycle.md). A scheduler may share resources within one declared trust domain. A P0 shared-core prototype cannot claim the physical or timing properties of P1 execution.
 
 The scheduler can choose among already authorized placements. It cannot read private objects, change confinement, broaden grants, or move a computation onto a weaker physical profile to recover capacity. If no admissible placement exists, admission waits under a bound or denies the task.
 
@@ -75,8 +75,8 @@ The controller threat model includes fully malicious network and peripheral cont
 
 ## Device and accelerator work
 
-An accelerator receives an explicit input/output contract, owned memory, and bounded command queues. Device firmware is untrusted unless the claimed computation depends on it. Its external guard enforces DMA extent, source identity, generations, and allowed output endpoints. Accelerator-local scratch, weights, caches, and pending transactions belong in retirement.
+An accelerator receives an explicit input/output contract, owned memory, and bounded command queues. The authority boundary treats device firmware as untrusted. A claim about the device's computed result must separately declare any reliance on that firmware. Its external guard enforces DMA extent, source identity, generations, and allowed output endpoints. The retirement controller must account for accelerator-local scratch, weights, caches, and pending transactions.
 
-Model and test a compute engine that submits arbitrary requests, even if a memory-safe language would normally prevent them. P1 physical and endpoint boundaries must contain those requests. Internal instruction-level safety may fail with a malicious core. It must not be the only defense protecting another island.
+Model and test a compute engine that submits arbitrary requests, even if a memory-safe language would normally prevent them. P1 physical and endpoint boundaries must contain those requests. A malicious core can defeat its own instruction-level safety. External guards must still protect other islands.
 
 **Open questions:** cost of region-only programming for interactive workloads; evidence required to accept a compiler-generated bounds proof; exception and vector semantics for a minimal ISA; and preemption of accelerators that lack a reliable stop interface.

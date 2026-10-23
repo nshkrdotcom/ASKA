@@ -4,11 +4,11 @@
 
 **Requirements:** R01–R24; this document governs their maintenance.
 
-The requirement register in [02](02_requirements_and_threat_model.md) takes precedence over a subsystem choice or an intermediate realization. A future change must show whether it preserves a requirement, implements it differently, leaves it unestablished, or violates it. Lower implementation cost does not establish equivalent security.
+The requirement register in [02](02_requirements_and_threat_model.md) takes precedence over a subsystem choice or an intermediate realization. Every change record must show whether the change preserves a requirement, implements it differently, leaves it unestablished, or violates it. Lower implementation cost does not establish equivalent security.
 
 ## Requirements-to-design matrix
 
-All target claims below remain unvalidated as an integrated system. The evidence column identifies what must be produced. It does not report completed results.
+ASKA has not validated the claims below as an integrated system. The evidence column names the artifacts and observations that a realization must produce. It reports no completed results.
 
 | Requirement | Principal design | Responsible documents | Required evidence / regression |
 |---|---|---|---|
@@ -37,33 +37,33 @@ All target claims below remain unvalidated as an integrated system. The evidence
 | R23: independently bound release | Immutable output binding, local current policy, durable use accounting | 06, 08, 12–13 | Substitution, destination change, replay, withdrawal, crash, and retry traces |
 | R24: bounded intermediaries | Separate import/export workers and independently owned controls | 03, 09, 11–12 | Transformer/proposer takeover preserves declared independent ceilings |
 
-The crossing-specific acceptance cases X01–X12 and observation profiles O1–O3 are defined in [12](12_cross_domain_security_and_information_release.md). They extend the original requirements while retaining physical ownership and purpose segregation. All twenty-four requirements remain obligations of the native target.
+[12](12_cross_domain_security_and_information_release.md) defines the crossing-specific acceptance cases X01–X12 and observation profiles O1–O3. They extend the original requirements while retaining physical ownership and purpose segregation. All twenty-four requirements remain obligations of the native target.
 
 ## Decision records
 
-Major choices D01–D09 are recorded in [03](03_architectural_candidates_and_decisions.md). A replacement record contains the old/new choice, affected requirements, alternatives, assumptions, expected benefit, evidence, remaining counterexamples, and reopening criteria. It preserves the earlier record rather than erasing why a design changed.
+The project records major choices D01–D09 in [03](03_architectural_candidates_and_decisions.md). A replacement record contains the old/new choice, affected requirements, alternatives, assumptions, expected benefit, evidence, remaining counterexamples, and reopening criteria. It preserves the earlier record rather than erasing why a design changed.
 
-A requirement change is a separate architectural action. It must explain which original property is relinquished, who accepts that departure, and how the resulting architecture is named. Omitting a property from a realization's benchmark does not authorize its removal from the requirements.
+Changing a requirement requires a separate architectural decision. That decision must name the original property it gives up, who accepts the departure, and what name the resulting architecture will use. Omitting a property from a realization's benchmark does not authorize its removal from the requirements.
 
 ## Recovery and correction of earlier ideas
 
-Earlier proposals are evaluated against the current requirements. Foundational discussion, speculative brainstorms, and measured external work have different status. The following departures explain the reconstructed target; they are not a claim that every earlier passage held one consistent position.
+This revision evaluates earlier proposals against the current requirements. Foundational discussion, speculative brainstorms, and measured external work have different status. The following departures explain the reconstructed target; they are not a claim that every earlier passage held one consistent position.
 
 | Earlier idea or decision | Treatment here | Reason |
 |---|---|---|
-| Dedicated IES compute/memory/I/O and physical channel segregation | Restored as target requirements with explicit physical profiles | Makes compromise consequence and shared failure paths architectural rather than optional |
-| Out-of-band onboard AI, secure UI, and application API | Restored as the native operating environment with separate intent/context/effect authority | Assistance and application construction belong to the system model; model reasoning cannot be trusted to enforce permission |
-| ATN/STN/DTG roles | Restored with per-purpose physical topology and narrow transaction gateways | Trust-purpose separation is broader than encrypting one unified network |
-| Central Hub, AI-adjusted trust, and inherited zonal control | Split into scoped local roles; recommendations cannot broaden rights | Central orchestration or a score must not recreate universal administrative authority |
-| v2/v3 source binding, lifetime, receiver independence, and protected placement | Retained and extended to application services, AI artifacts, and durable effects | These mechanics support the target when their scope is explicit |
-| v2 policy-before-replay update | Replaced by authenticated consumption followed by independent delivery commit | Bounds repeated processing of authenticated denials while preserving current-policy checks before publication |
-| v3 small-gap session retirement | Excluded; in-range authenticated forward jumps are allowed | Loss and locally burned sequences must not force avoidable admission churn |
-| Fixed RV64/CHERI target and chiplet layout | Reopened through competing execution/substrate candidates | Mechanisms must follow the restored requirements; an existing ISA can still win on evidence |
-| Compatibility IES and IP overlay | Isolated interoperability/research realizations only | Native construction and physical guarantees cannot be defined by legacy compatibility |
+| Dedicated IES compute/memory/I/O and physical channel segregation | The target again requires these resources and paths under explicit physical profiles | Makes compromise consequence and shared failure paths architectural rather than optional |
+| Out-of-band onboard AI, secure UI, and application API | The native operating environment separates intent, context, and effect authority | Assistance and application construction belong to the system model; model reasoning cannot enforce permission |
+| ATN/STN/DTG roles | Each role uses a physical purpose topology and narrow transaction gateways | Trust-purpose separation is broader than encrypting one unified network |
+| Central Hub, AI-adjusted trust, and inherited zonal control | Scoped local roles replace central control; recommendations cannot broaden rights | Central orchestration or a score must not recreate universal administrative authority |
+| v2/v3 source binding, lifetime, receiver independence, and protected placement | The target retains these rules and extends them to application services, AI artifacts, and durable effects | These mechanics support the target when their scope is explicit |
+| v2 policy-before-replay update | The receiver consumes authenticated records, then independently commits delivery | Bounds repeated processing of authenticated denials while preserving current-policy checks before publication |
+| v3 small-gap session retirement | The receiver allows in-range authenticated forward jumps instead of retiring on small gaps | Loss and locally burned sequences must not force avoidable admission churn |
+| Fixed RV64/CHERI target and chiplet layout | Competing execution/substrate candidates reopen both choices | Mechanisms must follow the restored requirements; an existing ISA can still win on evidence |
+| Compatibility IES and IP overlay | Isolated interoperability/research realizations only | Legacy compatibility cannot define native construction or physical guarantees |
 | Persistent worker heaps as a convenience | Disposable workers plus explicit persistent owners | Prevents hidden cross-request references while preserving real persistent state |
 | Fixed many-level core hierarchy and projected density/latency | No fixed hierarchy or unsupported performance numbers | Physical/resource granularity must follow evidence and workload requirements |
 | Quantum-entangled memory/OTP, speculative physical audit, and unrelated futuristic extensions | Not dependencies of the target | No demonstrated enforcement contract justifies placing them on the critical path |
-| Blanket exploit/global-hack impossibility | Replaced by scoped containment and correlated-failure claims | Valid authority, shared defects, physical attacks, and service loss remain distinct risks |
+| Blanket exploit/global-hack impossibility | Claims now state containment scope and correlated failures | Valid authority, shared defects, physical attacks, and service loss remain distinct risks |
 
 The original material also included legacy integration and centralized management proposals. The redesign does not assume the earlier architecture consistently satisfied its own aims. It recovers the governing purpose and corrects tensions within those proposals.
 
@@ -89,4 +89,4 @@ useful work completed; denial and uncertainty behavior
 
 Before accepting a revision, ask whether a previously separate resource is now shared; whether a new broker, update role, or AI context owner has acquired broad authority; whether a new fallback parses untrusted content outside confinement; whether a carrier experiment has been promoted to a physical-path claim; and whether convenient recovery resurrects stale rights.
 
-Then replay the complete application stress cases and the relevant weakened variants. A change can simplify implementation or improve cost while preserving every requirement. If it cannot, the departure must be documented explicitly, including in revised architecture diagrams.
+Then replay the complete application stress cases and the relevant weakened variants. A change can simplify implementation or improve cost while preserving every requirement. If the change cannot preserve every requirement, its record must state the departure explicitly and update the architecture diagrams accordingly.

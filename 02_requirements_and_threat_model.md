@@ -2,30 +2,30 @@
 
 [Start](01_architecture_and_reading_map.md) · [Previous](01_architecture_and_reading_map.md) · [Next](03_architectural_candidates_and_decisions.md)
 
-The target computing environment remains useful while its security boundaries survive complete compromise of the code they confine. Containment must remain effective when prevention of a particular memory exploit fails. Preventing the exploit still reduces exposure. The requirements below govern every subsystem and intermediate realization.
+ASKA must complete useful work while its guards contain fully compromised workloads. An attacker who controls a cell's instructions must still face the memory, message, and effect boundaries outside that cell. Preventing a memory exploit reduces exposure; containment must hold when prevention fails. The requirements below govern every subsystem and intermediate realization.
 
 ## Governing requirements
 
 | ID | Target requirement | A design violates it when… |
 |---|---|---|
-| R01 | Authority is explicit and every consequential boundary is mediated | A pointer, fallback path, descriptor, helper, or controller creates unchecked authority |
+| R01 | Grants name authority; guards mediate every consequential boundary | A pointer, fallback path, descriptor, helper, or controller creates unchecked authority |
 | R02 | Applications use granular components by default | Ordinary development requires a broadly privileged shared runtime |
-| R03 | Cross-trust native computation has physically owned resources | Shared logical protection is reported as equivalent physical segregation |
-| R04 | Native communication is physically separated by purpose and trust boundary | VLANs, overlays, or shared programmable switching silently replace separate paths |
+| R03 | Cross-trust native computation has physically owned resources | The implementation claims shared logical protection provides physical segregation |
+| R04 | Native paths physically separate purposes and trust boundaries | VLANs, overlays, or shared programmable switching silently replace separate paths |
 | R05 | Restrictions survive every data and control transformation | Copying, rendering, compilation, logging, or accelerator use launders a label or provenance claim |
 | R06 | Recipients independently authorize effects | A valid sender or channel permits every action a recipient can perform |
 | R07 | Ownership and lifetime enforcement prevents stale effects after reuse | Delayed DMA, references, or messages acquire a new occupant's authority |
-| R08 | Persistence has explicit owners and crash-defined commits | Volatile acceptance is confused with a durable or physical effect |
+| R08 | Persistence has explicit owners and crash-defined commits | The service reports volatile acceptance as a durable or physical effect |
 | R09 | AI is native to interaction and orchestration but cannot create authority | Model output, retrieved instructions, or inferred intent becomes approval |
 | R10 | Policy, allocation, updates, recovery, and observation have separate scopes | One convenient administrator can rewrite all independent boundaries |
-| R11 | Independence includes management and common-cause dependencies | Separate keys or chips are counted as independent despite one controlling failure |
-| R12 | Resource use and recovery are bounded and useful service is evaluated | Security succeeds only by stopping all work or allowing unbounded verification/retry load |
-| R13 | Prevention, containment, valid-authority abuse, propagation, and availability are reported separately | A capability check is used as proof of correct application semantics or universal safety |
+| R11 | Independence includes management and common-cause dependencies | One failure controls keys or chips that the design counts as independent |
+| R12 | Controllers bound resource use and recovery; evaluations measure useful service | Security succeeds only by stopping all work or allowing unbounded verification/retry load |
+| R13 | Reports distinguish prevention, containment, valid-authority abuse, propagation, and availability | The argument treats a capability check as proof of correct application semantics or universal safety |
 | R14 | Changes preserve traceability to the destination | A prototype omission silently becomes a weaker target requirement |
 | R15 | The native environment operates without legacy infrastructure assumptions | Linux, POSIX, global sockets, or compatibility services become required authorities |
-| R16 | Evidence is attributable and claims match it | A proposal, model assumption, roadmap, or vendor result is presented as an ASKA demonstration |
-| R17 | Native execution provides defined spatial and temporal memory semantics | Memory safety is inferred from a tag bit, language name, or whole-cell reset alone |
-| R18 | Whole applications are tested with malicious components and alternative paths | Only isolated gates are evaluated while the application bypasses them |
+| R16 | Claims identify attributable evidence and stay within its scope | The report presents a proposal, model assumption, roadmap, or vendor result as an ASKA demonstration |
+| R17 | Native execution provides defined spatial and temporal memory semantics | The argument infers memory safety from a tag bit, language name, or whole-cell reset alone |
+| R18 | Tests exercise whole applications with malicious components and alternative paths | Tests check isolated gates while the application bypasses them |
 | R19 | Physical, network, device, and administrative membership confer no implicit authority | An authenticated peer or attached device gains operations solely from its location or affiliation |
 | R20 | Reading, computing, storing, disclosing, transporting, and receiving are distinct rights | Read access or a working encrypted channel implicitly permits export |
 | R21 | Every modeled path for information and effects crosses the required controls | Media, print, display, backup, debug, or management bypasses a network-only policy |
@@ -33,7 +33,7 @@ The target computing environment remains useful while its security boundaries su
 | R23 | Release control independently enforces the exact approved output or verified output contract | Approved content, destination, representation, or use limits can change before emission |
 | R24 | Intermediaries cannot inherit both domains' authority through participation | A parser, transformer, or gateway can turn one admitted crossing into an unrestricted bridge |
 
-Requirement identifiers are stable. [18](18_traceability_and_evolution.md) maps each to designs, evidence obligations, and regression tests. An implementation can leave a requirement unestablished; it cannot mark it satisfied merely by excluding the difficult case from its report.
+Requirement identifiers remain stable. [18](18_traceability_and_evolution.md) maps each to designs, evidence obligations, and regression tests. An implementation report may mark a requirement unestablished. Excluding the difficult case cannot turn that entry into satisfied.
 
 ## Adversaries
 
@@ -43,9 +43,9 @@ The network adversary can observe, reorder, replay, modify, or drop traffic on l
 
 The management adversary can compromise one named role, such as an application signer, planner operator, admission administrator, or recovery custodian. Tests must show the scope it gains and the other roles it cannot acquire. “Management is trusted” is insufficient as a whole-system claim.
 
-The hardware adversary model has two levels. For an execution island, a malicious or defective compute engine may issue arbitrary transactions on its wired interfaces; external guards must contain their explicit effects. For a failed guard, root, fabric controller, or device boundary, guarantees depending on that component are lost. Stronger domains require additional independently enforced boundaries and an explicit common-cause analysis.
+The hardware model distinguishes two failures. First, a malicious or defective compute engine may issue arbitrary bus, DMA, or endpoint transactions on its wired interfaces. External guards must contain those transactions' explicit effects. Second, a guard, root, fabric controller, or device boundary may itself fail. That failure defeats every guarantee that depends on it. Stronger domains need additional independent guards and an explicit analysis of failures that can disable several guards at once.
 
-Fabrication subversion, invasive probing, electromagnetic coupling, and power/thermal manipulation require named physical threat profiles. The target requires these dependencies to be investigated; it does not assume they have been solved by physical separation. A package containing separate cores remains one possible common physical failure domain.
+Fabrication subversion, invasive probing, electromagnetic coupling, and power/thermal manipulation require named physical threat profiles. Substrate studies must investigate those dependencies. Physical separation alone does not resolve them. A package containing separate cores remains one possible common physical failure domain.
 
 ## Insiders, bridges, and disclosure
 
@@ -57,9 +57,9 @@ Adding a connection at a guarded interface changes physical reachability without
 
 ## Trust and failure dependencies
 
-Each claim names its trusted functions: local identity attachment, memory ownership checks, transfer control, policy installation, recipient effect checks, key custody, clocks, and physical transmit control. A function can use hardware or protected software, but its location and update authority must be stated.
+Each claim names its trusted functions: local identity attachment, memory ownership checks, transfer control, policy installation, recipient effect checks, key custody, clocks, and physical transmit control. A function may run in hardware or protected software. The claim must name where it runs and who can update it.
 
-An independent realm does not need to trust another realm's administrator to define its receiving rights. It may still depend on that realm's enforcement to protect data legitimately disclosed there. Once information is released to a recipient, revocation cannot make the recipient forget it.
+An independent realm does not need to trust another realm's administrator to define its receiving rights. It may still depend on that realm's enforcement to protect data legitimately disclosed there. Once a source releases information, revocation cannot make the recipient forget it.
 
 A grant permits an operation without establishing the holder's intent. A legitimate analysis service can return false answers. A compromised allowed recipient can misuse data within the scope already granted. Avoiding that outcome requires a narrower operation contract, an accepted release computation, independent approvals, or keeping the information out of that domain.
 
@@ -84,12 +84,12 @@ publish_or_execute(e) implies
   and required_physical_path_permission(e)
 ```
 
-Each predicate requires its own evidence. One signature does not establish them all. They must be checked at the point where the effect becomes irreversible, with the concurrency rules specified in the relevant subsystem.
+Each predicate requires its own evidence. One signature does not establish them all. The enforcing components must check those predicates where the effect becomes irreversible, in the concurrency order that the relevant subsystem defines.
 
-Progress is conditional on admitted load, surviving resources, scheduling fairness, and sufficient communication. A network that may drop forever cannot support unconditional eventual delivery. A security result must report permitted operations completed, false denials, bounded recovery work, and service lost under the specified attack.
+Useful progress requires admitted load, surviving resources, scheduling fairness, and enough communication to complete the protocol. A network that may drop forever cannot support unconditional eventual delivery. A security result must report permitted operations completed, false denials, bounded recovery work, and service lost under the specified attack.
 
 ## Systemic compromise
 
-A common parser flaw may give an attacker control of the same small component on many machines. The intended result is containment at each component's authority boundary, not a claim that widespread exploitation cannot occur. Shared signing infrastructure, gate logic, or physical facilities can defeat that containment across many domains. Claims of independence use an explicit dependency graph. They cannot rely on multiplying assumed independent-failure probabilities.
+A common parser flaw may give an attacker control of the same small component on many machines. Each component's guards must contain that takeover within its authority. The architecture does not claim to prevent widespread exploitation. Shared signing infrastructure, gate logic, or physical facilities can defeat that containment across many domains. Claims of independence use an explicit dependency graph. They cannot rely on multiplying assumed independent-failure probabilities.
 
 **Open questions:** the achievable temporal/physical observation boundary, practical independence between guard implementations, and the workload cost of default physical granularity remain research obligations. These questions do not authorize weakening R03, R04, or R11 in an intermediate build.

@@ -4,7 +4,7 @@
 
 **Requirements:** R02–R04, R09–R12, R14–R18, R19–R24.
 
-The program advances a whole computing environment while investigating the technologies it needs. The program promises no fabrication date and assumes no schedule for processor, optical, AI, or verification advances. Requirements govern the target, and each intermediate build records its limitations.
+The research program must build and test a whole computing environment, including the mechanisms it still lacks. It promises no fabrication date and assumes no schedule for processor, optical, AI, or verification advances. Requirements govern the target. Each intermediate build must record what it establishes and what it leaves unresolved.
 
 ## Research tracks
 
@@ -23,41 +23,41 @@ All tracks use the same reference application: admitted document import, isolate
 
 ## Cross-domain research obligations
 
-The common application is also tested with an authorized insider, an infected removable device, a rogue connection outside the guards, and compromised import/release components. Its export path must remain useful while enforcing [12](12_cross_domain_security_and_information_release.md). Compare the crossing contract with NCSC guidance and NIST AC-4; public program descriptions do not establish compliance with inaccessible requirements.
+The test harness also attacks the common application with an authorized insider, an infected removable device, a rogue connection outside the guards, and compromised import/release components. Its export path must remain useful while enforcing [12](12_cross_domain_security_and_information_release.md). Compare the crossing contract with NCSC guidance and NIST AC-4; public program descriptions do not establish compliance with inaccessible requirements.
 
-Phase A adds separate reachability and authority graphs plus release-use/crash interleavings. Phase B instruments removable-media and physical-port crossings and independently controls both domain boundaries. Phase C compares disclosure/metadata service guarantees, including bidirectional processor compromise. Phases D and E revisit physical taps, maintenance paths, human exposure, recovery, and actual custodians. No phase can claim the insider problem solved by an air gap or authenticated fabric alone.
+Phase A adds separate reachability and authority graphs plus release-use/crash interleavings. Phase B instruments removable-media and physical-port crossings and independently controls both domain boundaries. Phase C compares disclosure/metadata service guarantees, including bidirectional processor compromise. Phases D and E revisit physical taps, maintenance paths, human exposure, recovery, and actual custodians. No phase may claim that an air gap or authenticated fabric alone stops insider disclosure.
 
 ## Phase A: semantic and application reference
 
-Write executable models for authority graphs, ownership, delivery, and persistence. Implement a reference interpreter for component contracts and an adversarial application harness. This can run on conventional machines, but its memory and physical checks are modeled assumptions, not measured P1/P2 isolation.
+Write executable models for authority graphs, ownership, delivery, and persistence. Implement a reference interpreter for component contracts and an adversarial application harness. The interpreter and harness can run on conventional machines. Their memory and physical checks model assumptions; they do not measure P1/P2 isolation.
 
-Select a minimal worker language/IR and define its memory, effect, and fault behavior. Exercise the UI/intent protocol with a hostile planner. Retain all counterexamples and negative controls. Exit when the model is coherent enough to distinguish permitted work, denied effects, authorized abuse, and uncertain outcomes.
+Select a minimal worker language/IR and define its memory, effect, and fault behavior. Exercise the UI/intent protocol with a hostile planner. Retain all counterexamples and negative controls. Complete Phase A only when the model distinguishes permitted work, denied effects, authorized abuse, and uncertain outcomes.
 
 ## Phase B: separated physical demonstrator
 
 Use separate boards or FPGA partitions with dedicated local memories and instrumented links. Implement bounded guards and lifecycle controllers. Put policy/recovery on independently controlled equipment for the boundary under test. Build the complete application with at least one real physical purpose crossing.
 
-An FPGA configuration authority can often rewrite all partitions; that shared power must be stated. Separate boards with the same administrator and signing key are not automatically P2. The demonstrator must name what independence it actually achieves.
+An FPGA configuration authority can often rewrite every partition. The demonstrator must disclose that shared power. Separate boards with the same administrator and signing key are not automatically P2. The demonstrator must name what independence it actually achieves.
 
-Exit on a successful compromised-parser/planner campaign, observable safe reuse under delayed DMA, and successful authorized application work. A physical bypass found during testing changes the reported result until repaired and retested.
+Complete Phase B only after a successful compromised-parser/planner campaign, observable safe reuse under delayed DMA, and successful authorized application work. If testing finds a physical bypass, revise the reported result until the implementation repairs it and the test confirms the repair.
 
 ## Phase C: competing engines and fabrics
 
 Compare an existing capability core, a minimal new object instruction design, and a dataflow engine inside equivalent owned domains. Compare dedicated circuits, installed channels, and packet-carried grants on equivalent physical topology. Include setup/reconfiguration costs and fault behavior, not only steady-state throughput.
 
-The selected binary ISA or transport can change when evidence warrants it. The physical, authority, flow, and application requirements cannot change by implication. A promising accelerator can join the heterogeneous fabric without becoming the sole implementation of trusted policy.
+Evidence may justify changing the selected binary ISA or transport. That choice cannot silently change physical, authority, flow, or application requirements. A promising accelerator can join the heterogeneous fabric without becoming the sole implementation of trusted policy.
 
 ## Phase D: integrated substrate and toolchain
 
 Investigate planar islands, chiplets, private memory tiers, 3D bonding, and optical links using component results from [04](04_physical_substrate_and_frontier.md). Build a compiler/checker chain and physical integration flow with explicit refinement boundaries. Evaluate fabrication testing, debug control, yield, repair, heat, power, and replacement.
 
-Advances can make currently expensive isolation practical. They may also add shared management or thermal dependencies. An integration gain is accepted only if it preserves the corresponding requirement or is labeled as a weaker realization. Forecasts of transistor density do not eliminate memory-movement or cooling costs.
+Advances can make currently expensive isolation practical. They may also add shared management or thermal dependencies. Accept an integration gain only if it preserves the corresponding requirement; otherwise, label the build a weaker realization. Forecasts of transistor density do not eliminate memory-movement or cooling costs.
 
 ## Phase E: independent realms and long-lived operation
 
 Operate independently administered deployments with different update/recovery roots and meaningful implementation diversity. Exercise partitions, root retirement, software evolution, data recovery, and common supply-chain failures. Require evidence that applications remain granular after years of feature growth and that the AI environment remains bounded through model and tool updates.
 
-Completion means the whole-system contract has a useful realization with stated physical and observation profiles. It does not require proving invulnerability to all fabrication defects or physical attacks. Those residual assumptions remain part of the architecture's evidence record.
+Complete Phase E only when a useful realization implements the whole-system contract under stated physical and observation profiles. It does not require proving invulnerability to all fabrication defects or physical attacks. Those residual assumptions remain part of the architecture's evidence record.
 
 ## Intermediate realization ledger
 
@@ -70,7 +70,7 @@ Completion means the whole-system contract has a useful realization with stated 
 | Multi-board demonstrator | Specific physical edges, failure paths, separate authorities | Dense package cost, production silicon behavior, or universal independence |
 | Integrated P1 islands | Native spatial resource organization on that apparatus | P2/P3 properties without additional roots and physical controls |
 
-Each experiment records satisfied, assumed, unestablished, and violated requirements separately. A violated essential requirement disqualifies it as a target implementation, even if it remains useful research apparatus.
+Each experiment records satisfied, assumed, unestablished, and violated requirements separately. A build that violates an essential requirement cannot qualify as a target implementation. It may still serve as research apparatus.
 
 ## Branches, dependencies, and stopping rules
 
@@ -78,4 +78,4 @@ If 3D integration progresses slowly, larger modules can preserve the target at g
 
 Stop a mechanism when it depends on an unmodeled bypass, cannot bound resource use, or requires a universally trusted broker. Reopen it when a concrete mechanism or corrected assumption addresses the failure. Continue frontier research only when it can plausibly meet a named requirement or measurably reduce cost. Novelty alone is insufficient.
 
-Maintain a changing research backlog, stable requirements, and archived decision evidence. These records keep the target requirements distinct from prototype limitations throughout long-term experimentation.
+Maintain a changing research backlog, stable requirements, and archived decision evidence. Use those records to distinguish the target requirements from prototype limitations throughout the research program.

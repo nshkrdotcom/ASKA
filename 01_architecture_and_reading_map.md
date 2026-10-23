@@ -1,8 +1,10 @@
 # ASKA v4 — Architecture and reading map
 
-**22 October 2026 · Research architecture**
+**22 October 2026 · Unvalidated research architecture**
 
-ASKA organizes computing around small domains whose authority is enforced outside the code they run. The native system combines physically owned execution resources, persistent object services, networks separated by purpose, and an AI-first operating environment. Applications consist of bounded computations and explicitly authorized effects. Compromising a parser, runtime, or planner must leave the surrounding boundaries effective. The same obligation applies to an authorized insider, a network controller, or a cross-domain transformer: existing access and connectivity must not become new disclosure or effect authority.
+ASKA assigns small execution domains their own compute engines and private writable memory. External guards check their object transfers and effect requests; persistent owners commit state; separate physical networks carry different purposes. The AI operating layer interprets intent and proposes application tasks within those boundaries. Each application runs bounded computations and requests explicitly authorized effects.
+
+Give an attacker every instruction in a parser, runtime, or planner. The surrounding guards must still deny foreign memory access and unauthorized effects. The same rule covers authorized insiders, network controllers, and cross-domain transformers: existing access or connectivity must never create a new right to disclose information or invoke an effect.
 
 The target requirements do not depend on the processor, programming language, carrier, or fabrication process used in an experiment. A prototype can test one mechanism without satisfying the whole architecture. It cannot redefine the target by omitting a difficult requirement.
 
@@ -21,31 +23,37 @@ The target has five cooperating parts:
 | Realm authorities | Independently control resources, policy, updates, and recovery | A universal administrative right across other realms |
 
 ```mermaid
-flowchart TB
-  U[User] --> UI[Trusted interaction and approval path]
-  UI -->|permitted context| AI[Isolated planner and construction services]
-  AI -->|proposed task graph| V[Contract checker and scoped admission]
-  V --> O[Protected local orchestrators]
-  O --> C[Ephemeral execution islands]
-  C -->|scoped effect requests| S[Persistent object services]
-  C -->|admitted messages| A[Authenticated purpose fabrics]
-  A --> G[Cross-domain gateways]
-  G --> N[Other purpose networks and realms]
-  R[Independent policy, update, and recovery authorities] -.-> V
-  R -.-> O
-  R -.-> S
-  UI -->|effect-bound approval| V
+flowchart TD
+  U["User approval / trusted display"]
+  AI["Isolated planner and builder"]
+  V["Contract checker / admission"]
+  O["Scoped local orchestrators"]
+  C["Execution islands<br/>Private compute and RAM"]
+  S["Persistent owners / effect checks"]
+  G["Named gateway transactions"]
+  A["Separate purpose fabrics"]
+  N["External realms<br/>Independent recipient checks"]
+  U -->|intent and permitted context| AI
+  AI -->|proposed task graph| V
+  V -->|admitted contract| O
+  O -->|bounded cells| C
+  C -->|scoped effect requests| S
+  S -->|authorized crossing| G
+  G -->|admitted messages| A
+  A -->|guarded delivery| N
 ```
 
-Each arrow represents a separately mediated interface. The diagram does not imply a central machine with unrestricted access to every component. Local orchestrators can allocate only resources already delegated to them. The planner can be malicious without gaining authority beyond its current task grants.
+Each arrow crosses a separately mediated interface. The diagram follows a task toward an external effect; it does not require local object operations to traverse a gateway or connect distinct purpose fabrics directly. Cells can also submit admitted messages to their own fabric endpoints. Trusted interaction binds effect approval to the proposal that admission checks. Independent policy, update, and recovery authorities govern admission, orchestration, and persistent owners within their separate scopes.
+
+No central machine gains unrestricted access to these components. Local orchestrators allocate only delegated resources. A malicious planner retains only its current task grants.
 
 ## Architectural choices
 
-The selected organization is a **spatial object machine**: private execution memory, explicit object messages, and separately owned persistent effects. Its execution contract permits conventional instruction cores, new object-oriented instructions, or spatial/dataflow engines inside an island. Each implementation must satisfy the same observable semantics.
+Decision D01 selects a **spatial object machine**: islands own private execution memory, guards carry explicit object messages, and persistent owners commit effects. Its execution contract permits conventional instruction cores, new object-oriented instructions, or spatial/dataflow engines inside an island. Each implementation must satisfy the same observable semantics.
 
 Native cross-trust execution uses exclusive cores or execution engines, local private memory, and gated message paths. Sensitive administration and recovery occupy independently rooted physical domains. Shared cache/MMU isolation alone does not satisfy the native physical requirement. [03](03_architectural_candidates_and_decisions.md) compares distinct candidates; [04](04_physical_substrate_and_frontier.md) states what physical ownership entails.
 
-There is no native dependency on a global filesystem, ambient process privileges, POSIX, Linux, an IP address space, or an unrestricted kernel. Scoped names, interactive tools, long-running services, and existing algorithms remain usable when their authority is explicit. Renaming or removing an interface does not establish a security boundary.
+The native system needs no global filesystem, ambient process privileges, POSIX, Linux, IP address space, or unrestricted kernel. Scoped names, interactive tools, long-running services, and existing algorithms remain usable when their authority is explicit. Renaming or removing an interface does not establish a security boundary.
 
 The architecture selects complete mediation and object/effect semantics now. It does not yet select a binary ISA, transistor process, inter-die protocol, or production packet encoding. Those choices depend on the comparisons and experiments specified here. Where existing mechanisms fail, the research includes new mechanisms.
 
@@ -79,8 +87,8 @@ Read [12](12_cross_domain_security_and_information_release.md) alongside 08 and 
 
 **Requirements** identify properties the target must preserve. **Selected designs** are architectural judgments intended to meet them. **Alternatives** remain candidates under stated conditions. **Assumptions** name remaining trust. **Research questions** identify mechanisms or arguments that are missing. **Hypotheses** are claims to test, not results.
 
-“Must” defines a target obligation. “May” identifies a permitted choice; a choice cannot waive a governing requirement. Numerical bounds used in a model or example do not become universal architecture limits. All calculations state their inputs.
+“Must” defines a target obligation. “May” identifies a permitted choice; a choice cannot waive a governing requirement. A model or example defines its own numerical bounds; those bounds do not set universal architecture limits. Every calculation names its inputs.
 
-This set defines subsystem contracts and a research program. Working ASKA hardware and a completed proof remain to be produced. The complete architecture is unvalidated. Existing demonstrations support individual mechanisms only. The source register distinguishes specifications, research artifacts, author-reported demonstrations, and exploratory work.
+These documents define subsystem contracts and a research program. The project has not produced working ASKA hardware or a completed whole-system proof. The complete architecture remains unvalidated. Existing demonstrations support individual mechanisms only. The source register distinguishes specifications, research artifacts, author-reported demonstrations, and exploratory work.
 
-Acceptance tests begin with control of an application component, an AI planner, or one management role. They identify which unauthorized effects remain impossible under the declared enforcement assumptions and what further independent failure would permit them. [15](15_compromise_and_failure_cases.md) applies these tests to complete application paths.
+Acceptance tests give the attacker control of an application component, an AI planner, or one management role from the start. Each test identifies the unauthorized effects that surviving guards must block and the additional independent failure that would permit them. [15](15_compromise_and_failure_cases.md) applies these tests to complete application paths.

@@ -4,7 +4,7 @@
 
 **Requirements:** R03–R08, R11–R14, R16–R18, R19–R24.
 
-Validation must connect the architecture's requirements to observable implementation effects. Performance studies must measure the version that enforces those requirements. Unexplained atomic operations leave a proof incomplete for the target. Measurements of a weakened implementation also leave the target unestablished.
+A validation campaign must connect each requirement to effects that an independent observer can see. A performance study must measure the implementation with its required guards enabled. A proof that hides the disputed mechanism inside an unexplained atomic operation does not establish the target. Neither does a benchmark of a weakened implementation.
 
 ## Assurance layers
 
@@ -21,7 +21,7 @@ Report proof assumptions and test coverage separately. A verified checker depend
 
 ## First executable models
 
-**Receive/effect model.** Include at least two receive lanes; separate framing, preliminary replay check, authentication, consumed-state update, policy lookup, reservation, policy change, commit, publication, and reset. Model large sequence gaps caused by abort, bounded verification queues, forged session identifiers, and replacement contracts over existing control channels. The property observes actual publication and policy history independently of a gate's `allow` output.
+**Receive/effect model.** Include at least two receive lanes; separate framing, preliminary replay check, authentication, consumed-state update, policy lookup, reservation, policy change, commit, publication, and reset. Model large sequence gaps caused by abort, bounded verification queues, forged session identifiers, and replacement contracts over existing control channels. The property checks actual publication against policy history, independently of the gate's `allow` output.
 
 **Ownership model.** Define allocation/record lifetime first. Model CPU cached writers, a DMA requester, alias removal, revoke requests/acknowledgments, outstanding transactions, delayed responses, generation reuse, cancellation, and reset separately. Compare context-checked delayed effects with complete quiescence before reuse. Do not assume `freeze_and_copy` or `revoke_all` as an atomic primitive when those steps are what the model is meant to investigate.
 
@@ -29,7 +29,7 @@ Report proof assumptions and test coverage separately. A verified checker depend
 
 **Persistence model.** Separate volatile prepare, durable operation record, visibility, receipt, external action, crash, and restore. Inject a lost acknowledgment after a device effect. Require a durable outcome or explicit uncertainty under the declared strategy.
 
-TLA+, Alloy, an interactive theorem prover, and executable reference models are candidates. Tool choice follows the property. A formal model remains unsound for the intended claim if it omits a writer, assumes an unrealistic clock, or treats dependent failures as independent. Publish model bounds, fairness, abstraction, counterexamples, and weakened variants.
+TLA+, Alloy, an interactive theorem prover, and executable reference models are candidates. Choose the tool for the property under test. A formal model remains unsound for the intended claim if it omits a writer, assumes an unrealistic clock, or treats dependent failures as independent. Publish model bounds, fairness, abstraction, counterexamples, and weakened variants.
 
 ## Service, graphics, and link refinements
 
@@ -39,23 +39,23 @@ Model the graphics pipeline with a hostile renderer, surface ownership generatio
 
 Represent link loss, emission stop, frame discard, retained security state, state uncertainty, expiry, retirement, and reinstallation as separate events. A benign flap must not reset freshness. The model permits resumption without fresh attestation when the installed evidence policy and retained state allow it. Physical tests then establish whether the real guard's reset and retention behavior refines that model.
 
-Encounter flood tests measure shared resources before and after session lookup. Record the dedicated queues, buffer banks, DMA paths, service reservations, and every remaining coupling. Compare established traffic with and without the flood and publish admitted-load and fault assumptions. These are required models and experiments, not completed ASKA results.
+Encounter flood tests measure shared resources before and after session lookup. Record the dedicated queues, buffer banks, DMA paths, service reservations, and every remaining coupling. Compare established traffic with and without the flood and publish admitted-load and fault assumptions. The program requires these models and experiments. ASKA has not completed them.
 
 ## Crossing and release model
 
 Add two domains with independent policy, a malicious reader, import/export workers, a release proposer, an exact-output enforcer, a device service, and a destination owner. Represent reachability separately from permitted operations. Interleave cable attachment, route edits, approval, byte substitution, label changes, policy withdrawal, first emission, receipt loss, and restart with uncertain accounting.
 
-Check that no topology change mints authority; read access does not install export; each emitted prefix belongs to an approved representation; and consumed release rights cannot reopen after reset. Separately model a compromised semantic approver: exact binding alone must not be asserted to prove permitted content. Include a broken variant that accepts any bytes under an approved label.
+Check that no topology change mints authority; read access does not install export; each emitted prefix belongs to an approved representation; and consumed release rights cannot reopen after reset. Separately model a compromised semantic approver. The argument must not treat exact binding alone as proof that the content meets release policy. Include a broken variant that accepts any bytes under an approved label.
 
-The observation profile includes status codes, response existence, metadata, and scheduling choices where claimed. For a channel with at most `k` independently selectable visible outcomes per fixed opportunity, the simple upper bound is `log2(k)` bits per opportunity; a one-bit status once per second can carry one bit per second before other observations. This is illustrative arithmetic, not a measured covert-channel capacity. Correlations, adaptive queries, timing resolution, and noisy physical channels require their own models. [12](12_cross_domain_security_and_information_release.md) defines the profiles and campaign matrix.
+Any claim about status codes, response existence, metadata, or scheduling choices must include those outputs in its observation profile. For a channel with at most `k` independently selectable visible outcomes per fixed opportunity, the simple upper bound is `log2(k)` bits per opportunity; a one-bit status once per second can carry one bit per second before other observations. This is illustrative arithmetic, not a measured covert-channel capacity. Correlations, adaptive queries, timing resolution, and noisy physical channels require their own models. [12](12_cross_domain_security_and_information_release.md) defines the profiles and campaign matrix.
 
 ## Physical verification
 
 Verify every crossing in the path inventory: local cache/memory, DMA, peer-to-peer, fabric retries, management, debug, reset, and physical transmit enable. Use probes or independent endpoints at the actual memory/egress boundary. Use gate logs as supporting evidence alongside independent observations.
 
-Inspect generated netlists and configuration so forbidden paths cannot be enabled through a different interface. For P2/P3 claims, test the specified shared-failure and probing/fault model. A second implementation should differ in a way relevant to the failure being studied; cosmetic code differences do not establish independence.
+Inspect generated netlists and configuration for alternate interfaces that could enable a forbidden path. For P2/P3 claims, test the specified shared-failure and probing/fault model. A second implementation should differ in a way relevant to the failure being studied; cosmetic code differences do not establish independence.
 
-Instruction-level IFC work and [time protection research](https://trustworthy.systems/publications/abstracts/Ge_YCH_19.abstract) provide comparisons for observation-aware reasoning. Their assumptions must be carried into any extension across devices, memory controllers, and networks.
+Instruction-level IFC work and [time protection research](https://trustworthy.systems/publications/abstracts/Ge_YCH_19.abstract) provide comparisons for observation-aware reasoning. An extension across devices, memory controllers, and networks must retain those comparisons' assumptions or supply evidence for replacing them.
 
 ## Cost arithmetic
 
@@ -67,11 +67,11 @@ The following examples use hypothetical inputs and are not ASKA measurements.
 - Serialization of `n` bytes at rate `R` takes at least `8n/R`. A hypothetical 4096-byte record at 100 Gbit/s takes 327.68 ns before framing, propagation, queuing, or verification.
 - With spare queue capacity `Q` and sustained arrival/service rates `a > s`, approximate fill time is `Q/(a-s)`. Finite buffers cannot absorb sustained overload.
 
-Memory and transfer costs must include controller traffic, cache maintenance, interconnect acknowledgments, and the time source resources remain unavailable. Comparing coherent copy with naive mutable-memory copying would test different guarantees.
+The cost model must count controller traffic, cache maintenance, interconnect acknowledgments, and the time that source resources remain unavailable. Comparing coherent copy with naive mutable-memory copying would test different guarantees.
 
 For lifecycle time `T_l` and useful task time `T_u`, an otherwise serial worker's useful-time fraction is `T_u/(T_u+T_l)`. The formula shows the effect of request granularity. Batching can amortize lifecycle and admission, but larger batches also enlarge compromise domains, retained state, and cancellation consequences.
 
-For unborrowable time slots, a domain with fraction `f` of a resource's schedule obtains at most approximately `f × B` of ideal service `B`. Reclaiming idle slots may improve utilization while exposing other domains' activity. The security profile decides which observations are permitted.
+For unborrowable time slots, a domain with fraction `f` of a resource's schedule obtains at most approximately `f × B` of ideal service `B`. Reclaiming idle slots may improve utilization while exposing other domains' activity. The security profile defines which observations the scheduler may expose.
 
 ## Measurement matrix
 
@@ -79,10 +79,10 @@ Compare A/B/C from [03](03_architectural_candidates_and_decisions.md) with the s
 
 For AI, include context access breadth, unauthorized effects denied, in-scope abuse, proof/checker costs, private inference state, and usable task completion. For networking, include admission/recovery work, per-hop state/bytes, replay before rejection, useful bandwidth under overload, and physical paths actually controlled.
 
-A native target comparison must not credit P0 sharing with P1/P2 guarantees. A trusted-host baseline remains useful if its trust difference is visible. Roadmap process-node or optical bandwidth figures cannot be substituted for measurements on the selected apparatus.
+A native target comparison must not credit P0 sharing with P1/P2 guarantees. A trusted-host baseline remains useful if its trust difference is visible. A study cannot substitute roadmap process-node or optical bandwidth figures for measurements on its selected apparatus.
 
 ## Research acceptance
 
-A candidate proceeds when it meets its declared invariants, completes useful work, and has a reproducible explanation of cost and remaining dependencies. Negative results can invalidate a design, change its granularity, or show that an existing mechanism already suffices. They do not justify relabeling an unmet target requirement as satisfied.
+A candidate may proceed only after it meets its declared invariants, completes useful work, and supplies reproducible cost and dependency evidence. Negative results can invalidate a design, change its granularity, or show that an existing mechanism already suffices. They do not justify relabeling an unmet target requirement as satisfied.
 
-All results record source/artifact revision, tools, inputs, commands, firmware/configuration, observer placement, assumptions, and outcomes. Establishing that a checker ran or a physical boundary held requires execution or observation records. AI-generated prose and agreement between models are insufficient evidence.
+All results record source/artifact revision, tools, inputs, commands, firmware/configuration, observer placement, assumptions, and outcomes. A claim that a checker ran needs an execution record. A claim that a physical boundary held needs an observation record. AI-generated prose and agreement between models supply neither.
