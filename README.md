@@ -17,7 +17,7 @@ ASKA connects these endpoints through household, campus, neighborhood/cooperativ
 ### Vision I — Society speaks in bounded authority contracts
 
 ```mermaid
-flowchart LR
+flowchart TD
   H["Person, family, service, institution"] --> C["Context-specific claims, duties, and requests"]
   C --> P["PACT negotiation / profile checks"]
   P --> D{"Applicable authority and constraints?"}
@@ -35,7 +35,7 @@ A claim establishes evidence, not a universal right. An authority contract resol
 ### Vision II — A native 4 + 1 endpoint with independent execution
 
 ```mermaid
-flowchart TB
+flowchart TD
   subgraph ROOT["Protected local authority and accountability"]
     K["Keystone: trusted display, signing constraints, local roots"]
     ST["Steles: private witness and attestation"]
