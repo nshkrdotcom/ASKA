@@ -1,95 +1,114 @@
-# ASKA v6 — System architecture and unified vision
+# ASKA v6 — System architecture
 
-**Status:** proposed normative target with explicit research and realization gates. This document is the entry point for the complete architecture. The [README](README.md) provides the visual overview; [02](02_requirements_and_threat_model.md) gives testable requirements.
+**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
 
-## 1. Architectural thesis
+## 1. Machine thesis and boundary
 
-ASKA designs a networked computer and its surrounding network as **one authority-enforcing machine**. A person, household, service, court, enterprise, or community needs to prove a particular right to cause a particular computation, disclosure, transport, or physical effect. Neither an operating-system call nor a network route by itself grants that right. The resulting system does not put all trust into a kernel, an identity provider, a social organization, or a carrier.
+ASKA is a networked physical machine in which computation, owned memory, devices, persistent objects, observation and external effects have separately enforceable boundaries. Its native unit of isolation is an **Isolated Execution Stack (IES)**: an assigned set of execution engines, writable memory and protected communication endpoints. A cell runs for a bounded lifetime inside that scope. A kernel or model inside a cell may be fully compromised without acquiring another IES's memory, a security observer's installation keys, or a recipient's execution rights.
 
-The central architecture is the **ASKA Accord Suite**, which expresses and executes a limited social/institutional agreement as four distinct objects: **Claim → Contract → Grant → Receipt**. A claim is evidence; a contract is the admitted outcome of a conflict-aware evaluation; a grant is installed narrow machine authority; a receipt is an independently checkable account of what actually occurred. The protocol does not decide what society's laws *ought* to be, and signatures do not prove the justice of an institution.
+The architecture combines mandatory guards, independent observation and explicit effect authority. A memory guard is necessarily in the memory transaction path it governs. An observer receives evidence without becoming the workload's supervisor. A watcher observes an observer through separately rooted paths. Neither a well-formed alert nor a trusted signature creates permission to intervene. A protected effect owner performs a consequence only under installed authority derived from an admitted contract.
 
-### Independent protection and independent observation
+The reference machine in [Chapter 04](04_reference_machine_and_reachability.md) is a conceptual board arrangement, not a fabrication claim. Native confinement can use separate boards or appropriately guarded chiplets. Die boundaries alone do not establish independent reset, power, debug, firmware or supplier failure domains. Coherence is permitted **inside one trust domain**; cross-trust writable sharing requires a separately justified ownership protocol rather than an ambient shared address space.
 
-ASKA protects a workload without requiring a vendor-controlled security agent to share the workload's omnipotent kernel. Physical memory, DMA, message and effect guards enforce permissions at mandatory boundaries. Separately rooted Local Security Meshes (LSMs) observe named protected events; a Master Security Mesh (MSM) distributes reviewed configuration over a physically one-way link; independent watcher meshes audit the observers and the distributor. Telemetry travels on different, admitted channels, and analysis proposes—not executes—responses. A surviving guard must continue enforcing minimal rights when all untrusted workload code, its kernel, an AI analyst or one observer is compromised. Each independence claim remains conditional on a documented physical and update-dependency graph.
-
-The security system is not the societal authority plane: observer evidence cannot mint consent, widen an Accord grant, or override another realm's receiving policy. Steles remains an independent witness role, not a universal RAM scanner. The complete architecture therefore combines **confinement**, **out-of-band observation**, **independently governed intervention**, and **accountable authority** rather than equating any one with total security. [35](35_independent_security_mesh_architecture.md)–[46](46_security_mesh_assurance_profiles_and_registries.md) define these components and tests.
-
-## 2. Seven cooperating system layers
-
-| Layer | Responsibility | Must not gain implicitly |
-|---|---|---|
-| Human and institution | State intent, issue credentials, contest decisions | Root hardware access through an assertion |
-| Accord control plane | Verify claims, compare policies, negotiate contracts | Permission to execute arbitrary effects |
-| Keystone and trusted interaction | Protect local identity, consent, signing and emergency stop | Unbounded access to every object or institution |
-| Native compute substrate | Execute bounded cells in isolated resource sets | External effects or foreign memory access |
-| Independent security meshes | Observe named hardware/guard events, check observer health and propose bounded response | Privileged software control of observed workloads or automatic global policy rewriting |
-| Physical purpose fabrics | Carry admitted communications on required independent paths | Disclosure or command authority from mere connectivity |
-| Steles accountability | Commit minimal evidence and publish qualified audit results | A global plaintext surveillance store |
+## 2. Integrated machine graph
 
 ```mermaid
 flowchart TB
-  H[Person / organization / institution] --> Q[Intent, claims, obligations]
-  Q --> AC[ASKA Accord: PACT negotiation]
-  AC --> CD[Decision and signed contract]
-  K[Keystone trusted interaction] --> CD
-  CD --> I[Deterministic grant compiler]
-  I --> A[Isolated application / execution cells]
-  A --> O[Persistent object and effect owners]
-  O --> G[Plane-specific protected guards]
-  G --> N[Local / community / regional / upstream networks]
-  G -.-> L[LSM: out-of-band security observation]
-  L --> T[Separate protected telemetry ingest]
-  WM[Watcher mesh: independent oversight] -.-> L
-  T --> SA[Security analysis: proposals only]
-  SA --> RC[Protected response admission]
-  RC -->|scoped response| G
-  O --> RE[Receipts]
-  G --> RE
-  RE --> S[Steles witness commitments]
+  subgraph Work["Physical work and consequence boundaries"]
+    C["IES compute and private banks"] --> G["Memory, DMA and mailbox guards"]
+    G --> O["Persistent and effect owners"]
+    O --> E["Purpose egress and receive guards"]
+    E --> P["Admitted physical ports"]
+  end
+  K["Keystone and scoped Accord admission"] -->|"installed bounded grants"| O
+  K -->|"resource and release grants"| G
+  G -->|"protected exports"| L["LSMs"]
+  O -->|"protected exports"| L
+  E -->|"protected exports"| L
+  M["MSM distributor"] -->|"physical configuration diodes"| L
+  L -->|"separate authorized reports"| A["Security analysis AI"]
+  A -->|"proposals only"| R["Bounded response owners"]
+  R -->|"standing grant checks"| O
+  L -->|"health observation"| W["WM-L and independent oversight"]
+  M -->|"health observation"| V["WM-M and independent oversight"]
+  O -->|"minimal receipts"| S["Steles witnesses"]
 ```
 
-## 3. The 4 + 1 endpoint
+Arrows describe different contracts, not universal buses. Every arrow that carries confidential content is an information release; every arrow that can change state has an installation or effect owner. Watcher observation includes independent counters and sideband taps rather than trusting the monitored component's narrative. Steles records qualified commitments and receipts; it is not the security watcher hierarchy.
 
-ASKA's native civil-endpoint reference architecture distinguishes **Sanctum** (personal, familial and intimate activity), **Polis** (civic and public-institutional activity), **Agora** (commerce and enterprise), **Wilder** (untrusted/legacy encounter), and **Steles** (out-of-band witness, attestation and accountability). These are **roles**, not a secret ranking and not mutually exclusive descriptions of a person. Each active plane has its own admission, identity-context, network, memory/input, and effect constraints. Steles is a separate accountability role, not a fifth general-purpose application socket. **Keystone** protects local trusted interaction and is distinct from both Polis and Steles.
+## 3. Component responsibilities
 
-The **4 + 1** choice is a reference architecture and a separation requirement for the native high-assurance profile; it is **not** a proven theorem that four transceivers are the universal minimum for every social network. More paths or independently administered appliances may be needed. A prototype with shared equipment must report the weaker properties it demonstrates. [10](10_societal_planes_and_keystone.md) and [11](11_physical_substrate_and_hardware.md) define these claims precisely.
+| Component | Protected responsibility | Explicit limit |
+|---|---|---|
+| IES and cell allocator | Resource assignment, lifetime, fuel and retirement | Scheduling does not authorize foreign data or external effects |
+| Memory/device guards | Requester attachment, bounds, generation and DMA mediation | They do not establish application correctness |
+| DMNoC and mailbox guards | Bounded routing and admitted object exchange | A route or raw pointer cannot create a receiving right |
+| Persistent object owners | Object-specific methods, durability, keys and snapshots | Device completion needs a declared persistence contract |
+| Effect and egress owners | Final checks, consumption, emission and receipts | Receipt scope ends at its named finality point |
+| LSM/MSM | Local observation and scoped configuration distribution | No arbitrary runtime command or universal plaintext export |
+| WM-L/WM-M | Independently rooted oversight of security meshes | Watchers can lie or fail; they do not mint policy authority |
+| Keystone | Protected canonical interaction and local authorization | It cannot overrule an independent realm or conjure missing keys |
+| User companion AI | Context-bounded planning, explanation and composition | Generated text, code and tool instructions are untrusted proposals |
+| AESDS/IAMA | Candidate generation, testing and legacy-model research | Build agents cannot approve their own evidence or deployment |
+| Steles | Privacy-scoped witness commitments, correction and notice | Witness agreement is not proof that an external event was true |
 
-## 4. Machine structure
+An implementation MUST assign every responsibility to an identified component and root. Combining responsibilities on one processor is permitted only in a profile that reports the resulting dependency; it cannot claim the independence of the separately rooted reference arrangement.
 
-An **Isolated Execution Stack (IES)** owns an assigned physical execution and writable-memory resource set for an independent trust domain. A **cell** is a bounded execution lifetime within an IES. Most application state persists behind separate object owners. The native application should not need a universal filesystem, process-wide ambient sockets, a global address space, or a shared privileged GUI. Conventional compilers and instruction sets may implement an IES only if the surrounding memory, device, and lifecycle restrictions hold. A compromised cell can run arbitrary in-scope instructions but must still be denied foreign objects and ungranted effects.
+## 4. A complete useful operation
 
-Local orchestration, admission, signing, policy installation, witness collection, updates, allocation, and recovery use **scoped** control. A single user convenience service or AI assistant must not become a universal administrator. Even permitted read access does not imply permission to export, print, share through a device, or publish through a network endpoint.
+Consider a private contract review followed by an approved commercial payment. A Sanctum object owner offers a read view to a bounded analysis cell. The user companion can propose a summary, but the cell's output retains the source confidentiality restrictions. A separately admitted transform constructs the exact fields intended for Agora. The source release owner checks the output commitment and the Agora receiver independently accepts it. A payment proposal then enters Accord with its amount, account, idempotency key and spending ceiling.
 
-## 5. System-wide transaction
+Keystone presents canonical terms using its protected surface. Business approval may be independently required. Once the contract is admitted, the installer derives an attenuated grant at the payment owner. That owner checks freshness, generations and budget at the payment finality point; submission to an external bank and confirmed settlement are distinct events. A lost acknowledgment produces uncertainty where the external system cannot resolve the operation. Steles receives a minimal commitment under its own release contract.
 
-1. A party proposes a typed operation naming source, effect, recipient, budget, and justification.
-2. The Accord evaluator checks recognized claims, obligations, negative restrictions, jurisdiction/realm profile, and independently required approvers; ambiguity is explicit.
-3. Keystone or another protected owner presents the canonical operation and collects any necessary informed approval.
-4. A trusted installer derives grants bounded by the admitted contract, installed at **effect-final** checks.
-5. Data and computation remain in owned islands; protected release components bind any cross-plane representation changes.
-6. A guarded physical plane carries only the admitted action. Receiving owners independently decide whether to accept and publish the result.
-7. Receipts distinguish proposal, execution, durable commit, disclosure, and notice. Steles records minimal protected commitments.
+Throughout this flow, guards export authorized event metadata to the appropriate LSM. A suspected parser compromise can activate a preinstalled `ISOLATE_CELL` or `FREEZE_EGRESS` grant. This need not interrupt a person for a new negotiation, but it cannot install new code, confiscate unrelated objects, or shut down other realms. If the security analyzer itself is malicious, the effect owner still checks the same target, deadline and cumulative response budget.
 
-## 6. A motivating complete workflow
+## 5. Purpose and carriage are separate dimensions
 
-An unknown supplier sends an invoice. Wilder receives it in quarantine. A disposable parser emits a typed, bounded invoice candidate; neither its program nor the supplier has an Agora payment capability. A guarded transformer proposes importing selected fields. AI helps compare the invoice with a permitted Agora purchase order. Keystone renders the exact amount, recipient account, provenance, restrictions and fee under a new contract. After approval and independently checked business rules, Agora receives a one-use payment grant; the effect owner debits or rejects the request. The user obtains a receipt and Steles records a minimal commitment. If a regulator later requests in-scope accessible records, that separate Polis process has no ambient access to the user's entire Sanctum context.
+Sanctum, Polis, Agora and Wilder classify intimate/personal, civic, commercial and untrusted encounter contexts. Steles adds a witness role. These purposes determine applicable identities, data restrictions, service duties and endpoint separation. Keystone is a trusted interaction function, not another social plane.
 
-### A hostile security-software update
+STN names sovereign trust governance and selected continuity operations. ATN names authenticated communication arrangements. MCN describes multiple admitted channels. DMNoC is internal carriage. LSM configuration diodes, telemetry and watcher exports are security infrastructure edges with separate physical contracts. An Agora object can travel on an authenticated network without becoming public, and an STN affiliation does not authorize reading it. [Chapters 40–46](40_societal_planes_and_endpoint_separation.md) define the compositional mapping.
 
-Assume an endpoint OS or privileged detection component fails after receiving a correctly signed update. ASKA does not presume signature validity implies software safety. The native architecture seeks to confine the failure to the affected execution/management domain while keeping surviving external guards, separately rooted observers and a staged-recovery controller operational. A compatibility IES running a conventional privileged sensor can still fail in-band. A complete report must distinguish that exposed domain from independent native domains, as well as genuine sensor loss, service downtime and correlated dependencies. See [40](40_update_supply_chain_and_evolution.md) and [44](44_operational_profiles_and_incident_walkthroughs.md).
+RP-A assigns separate purpose interfaces at a workstation and explicitly shares chassis power. RP-B places roles in independently powered community appliances with declared local and upstream paths. Neither label promises that every provider, duct or regional facility is independent. Continuity is conditional on surviving resources and admitted paths.
 
-## 7. Reading architecture
+## 6. Evidence and research boundary
 
-**Foundations:** [02](02_requirements_and_threat_model.md), [03](03_authority_calculus_and_conflicts.md), [04](04_accord_objects_and_schemas.md), [05](05_pact_negotiation_and_states.md).
+Published systems demonstrate important constituent mechanisms. The [M3 paper](https://os.inf.tu-dresden.de/papers_ps/asmussen-m3-asplos16.pdf) is a comparison for heterogeneous execution and communication mediation; [DStar](https://usenix.org/events/nsdi08/tech/full_papers/zeldovich/zeldovich.pdf) is a comparison for distributed information-flow enforcement. ASKA's architectural obligation is to compose such boundaries with physical effect owners, independent observers and civil authority. That composition remains to be implemented and evaluated.
 
-**Relationships and institutions:** [06](06_identity_relationships_and_delegation.md), [07](07_governance_profiles_and_institutions.md), [08](08_legal_process_and_emergencies.md), [09](09_civic_services_and_elections.md).
+The [seL4 proof-assumption statement](https://sel4.systems/Verification/assumptions.html) makes the relevance of hardware, boot, DMA and observation assumptions explicit. ASKA similarly separates a formal property from the physical evidence needed to connect it to an apparatus. Passive RAM/SSD sensing, fine-grained spatial utilization, independent packaging, reliable autonomous repair and physical provenance remain research programs. Failure of an optional sensing candidate must not invalidate a separately established guard property.
 
-**Physical and native computing:** [10](10_societal_planes_and_keystone.md) through [20](20_admission_transport_and_protected_delivery.md).
+## 7. Canonical contracts and reading
 
-**Accountability, operation and rollout:** [21](21_steles_witness_and_notice.md) through [34](34_interoperability_and_migration.md).
+The threat model and global obligations belong to [Chapter 02](02_requirements_and_threat_model.md); independence belongs to [Chapter 03](03_assurance_trust_and_failure_domains.md). [Chapter 05](05_unified_execution_data_and_effect_contract.md) owns effect states, [Chapter 06](06_authority_calculus_and_nonexpansion.md) owns non-expansion, and [Chapter 07](07_information_flow_and_release.md) owns label and release semantics. Terms and identifier rules belong to [Chapter 08](08_terminology_and_specification_conventions.md).
 
-**Independent-security architecture:** [35](35_independent_security_mesh_architecture.md) through [46](46_security_mesh_assurance_profiles_and_registries.md).
+Subsystem chapters refine these contracts rather than granting exceptions by omission. A conflict must produce a specific unresolved obligation or a changed, declared profile. It must not be hidden inside phrases such as secure channel, trusted component, intelligent protection or seamless recovery.
 
-## 8. Conformance versus implementation
+## Native encounter and established service
 
-“Must” defines a target requirement; it is not evidence that a hardware system exists. “Candidate,” “research,” and “profile-specific” mark choices and unresolved proofs. Demonstrating one parser guard, cryptographic handshake, CHERI variant, FPGA circuit, or network link is **not** a whole-system ASKA conformance result. The [validation program](27_conformance_tests_and_vectors.md) requires explicit trust, physical and observation boundaries for each claim.
+First-contact discovery and enrollment use a dedicated physical encounter port, parser lane, FIFO, bank and DMA domain. Established ATN/STN service does not traverse that encounter FIFO or depend on its free-buffer pool. Only bounded admitted metadata can reach a local admission owner; a first-contact worker cannot write established-session tables. Chapter 04 names this additional domain E and counts its port separately from the four purposes and Steles witness.
+
+## Normative requirements and acceptance obligations
+
+**R-01-01 — One constrained machine.** Every native realization MUST mediate computation, data movement and consequential effects using the common physical and authority contracts.
+
+**Acceptance T-01-01:** Trace one useful application through all owners; inject a bypass at each boundary and require denial or a documented claim failure.
+
+**R-01-02 — Physical native ownership.** Mutually distrusting native IESs MUST have assigned physical execution and writable-memory scope; internal coherence MAY remain within one trust domain.
+
+**Acceptance T-01-02:** Run hostile coherent activity inside one IES and cross-IES writes; require the former to work and the latter to be denied.
+
+**R-01-03 — Separated security roles.** Implementations MUST distinguish enforcement, observation, watcher oversight, response and witness functions in their dependency manifest.
+
+**Acceptance T-01-03:** Compromise each role separately and check that its graph does not acquire another role’s privileged edges.
+
+**R-01-04 — Useful integrated application.** An assurance demonstration MUST complete an authorized application as well as denying attacks.
+
+**Acceptance T-01-04:** Run the contract-review/payment workflow with a malicious parser and measure permitted completions and explicit failures.
+
+**R-01-05 — No implied universal control.** A coordinating AI, MSM, Keystone or institution MUST NOT receive cross-realm rights merely from its system role.
+
+**Acceptance T-01-05:** Present a valid coordinator credential to a foreign owner; require a separate valid local contract and grant.
+
+**R-01-06 — Evidence-scoped architecture.** Every claim MUST identify whether it is a design obligation, candidate, model result or implementation result.
+
+**Acceptance T-01-06:** Inspect a claimed passive sensor or whole-system proof; reject a claim lacking the exact artifact, observation scope and assumptions.
+

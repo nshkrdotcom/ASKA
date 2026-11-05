@@ -1,168 +1,249 @@
-# ASKA v6 — Requirements, threat model, and safety properties
+# ASKA v6 — Requirements and threat model
 
-## 1. Society-to-machine obligations
+**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
 
-The requirements in this document bind **all** physical, local-compute, network, institution-facing and AI-related components. They apply to the native target even where an early laboratory realization tests only a subset. The system recognizes neither a universal social trust rank nor a universal administrator.
+## 1. Normative coverage
 
-| ID | Accord and societal obligation | Mandatory negative test |
+The requirements below define system-wide obligations. Subsystem chapters refine them into component interfaces and acceptance oracles; the complete canonical register of both global and subsystem requirements is [Chapter 61](61_requirement_decision_evidence_traceability.md). Its entries identify each owner, enforcer, assumption, test and evidence status. Requirements are design targets unless an attributable conformance record establishes otherwise.
+
+The protected machine must remain useful under bounded adversarial conditions. Denying every operation is not evidence of successful service. A correct authority check can coexist with malicious permitted output, observer blindness, an unavailable remote service or an unmodeled physical channel. Those outcomes must be reported separately.
+
+## 2. Adversary inventory
+
+| Attacker granted at campaign start | Permitted attacks | Trusted boundary whose survival is being tested |
 |---|---|---|
-| A01 | Claim evidence never directly becomes executable authority | Signed institutional claim alone cannot access protected data |
-| A02 | Contracts name governing profiles, purpose, recipient, exclusions, evidence and obligations | Cross-profile ambiguity does not silently admit a request |
-| A03 | Grants are compiler-derived, local, bounded and non-expanding | A stolen or duplicated grant cannot broaden object/method/epoch |
-| A04 | Receipts distinguish attempted, committed, externally accepted and unknown effects | A lost acknowledgment never reports fabricated success |
-| A05 | Societal planes remain independent purposes | A Wilder-controlled route cannot create a Polis or Sanctum effect |
-| A06 | Keystone approval binds canonical terms, not model prose | Prompt injection cannot substitute recipient or amount after approval |
-| A07 | Civic and legal authority is scope and profile dependent | A signed but overbroad warrant cannot perform bulk export |
-| A08 | Unavailable plaintext remains technically unavailable | An order cannot manufacture decryption keys or unaudited access |
-| A09 | Notice/appeal/suspension are represented where required | Delayed notice is neither silently lost nor falsely guaranteed offline |
-| A10 | Steles witnesses with strict privacy limits | Witness operator cannot read arbitrary raw user payloads |
-| A11 | No silent profile/assurance downgrade | Shared carrier does not masquerade as disjoint physical fabric |
-| A12 | Personal/family/institutional delegation is context bound | Job title or kinship alone cannot mint account-owner privileges |
-| A13 | Recipient acceptance and source disclosure are independent | Valid sender/session cannot force receiver publication |
-| A14 | Protected resources preserve public-service continuity under bounded threats | Wilder flood cannot exhaust declared reserved Polis capacity |
-| A15 | Community and upstream routing confer no social authority | Rogue neighborhood node cannot rewrite contract/recipient identity |
-| A16 | System changes are versioned, reviewable and recoverably scoped | Compromised update role cannot mutate all roots across planes |
+| Privileged guest/kernel | Arbitrary instructions, aliases, descriptors, retries, resource exhaustion | External identity, memory/device and effect guards |
+| Device/accelerator controller | Malformed DMA, peer requests, interrupt floods, stale completions | Assignment, DG and physical output owners |
+| Route/transport controller | Reorder, drop, replay, redirect, metadata observation | Mandatory egress, record integrity and independent receiver |
+| Ordinary scoped administrator | Change its own admitted configuration; abuse legitimate rights | Other installation, recovery and realm roots |
+| LSM | False alerts, suppressed records, malicious proposals and report payloads | Watcher paths, local EO, peers and MSM receive boundary |
+| MSM | Defective signed packages, malformed distributions, report suppression | Local LSM admission, WM-M and separate channels |
+| WM-L or WM-M | Fabricated oversight and attempts to change policy | Local roots and response owners outside watcher authority |
+| Security AI | Poisoned conclusions, global shutdown proposal, covert report content | Standing-grant scope and release policy |
+| User companion/build agent | Prompt injection, malicious tools/code, approval substitution | Context owner, K, independent reviewer and installer |
+| Signed artifact producer | Correctly signed but unsafe code/rules/model | Separate acceptance, canary, guard and recovery boundaries |
+| Authorized recipient/insider | Malicious in-scope use, outputs, media/photographic disclosure | Exact granted boundary; no claim of forced forgetting |
+| Physical/management adversary | Cables, debug, BMC, reset, power or probes as selected | Precisely declared physical profile, with failures outside it explicit |
 
-A01–A16 extend the native machine requirements R01–R24 below.
+Compromising a protected guard is a different case from compromising the guest it contains. The campaign must then identify which outer boundaries survive and which local properties fail. A malicious fabrication or invasive probe is included only in a profile with corresponding evidence; omission from an initial model is not proof of resistance.
 
-## 2. Security decision rule
+## 3. Safety, liveness and uncertainty
 
-For each consequential effect `e`, admission and execution must distinguish:
+A consequential effect requires the common predicate in [Chapter 05](05_unified_execution_data_and_effect_contract.md). Safety is conditional on the named enforcement and observation assumptions. Liveness additionally requires admitted offered load, surviving resource capacity, scheduling fairness and an available path where remote work is necessary. Arbitrary permanent packet loss or total power loss defeats unconditional remote progress.
 
-```text
-MayEffect(e) = LiveObjectAndCellGenerations(e)
-           AND ProvenSourceOperationGrant(e)
-           AND PermittedDataFlowOrAuthorizedRelease(e)
-           AND IndependentRecipientPermission(e)
-           AND StableRepresentationAndDestination(e)
-           AND AvailableChargedBudget(e)
-           AND AdmittedPhysicalOrLogicalPath(e)
-           AND RequiredApprovalsAndProfileObligations(e)
-```
+Missing observation is `unknown`, not proof that nothing happened. A guard denial establishes a particular rejected operation, not absence of all compromise. A signature establishes an authenticated assertion under key assumptions, not truthful data, lawful authority or safe execution. [Chapter 03](03_assurance_trust_and_failure_domains.md) owns these evidence distinctions.
 
-The evaluator must not treat `MayEffect` as a proof of correctness of a person's motives, a court's lawfulness, or a program's output. An attested service can intentionally lie; an authorized person can legitimately obtain data and later misuse it. Guarantee statements must specify their observation model: values, identities, timing, traffic existence, resource use, screen contents, physical outputs, and side channels are different classes.
+## 4. Threat-profile exclusions
 
-## 3. Threat model and baseline machine requirements
+An implementation manifest names whether it covers malicious guest software, arbitrary bus transactions from an untrusted compute engine, malicious observer software, malicious privileged sensor firmware, a compromised signer, shared management failure, physical rewiring before the last guard, invasive probing after it, side channels and fabrication subversion. Every included case needs surviving trusted functions and an independent oracle.
 
-ASKA must complete useful work while its guards contain fully compromised workloads. An attacker who controls a cell's instructions must still face the memory, message, and effect boundaries outside that cell. Preventing a memory exploit reduces exposure; containment must hold when prevention fails. The requirements below govern every subsystem and intermediate realization.
+For example, a cable attached to an intact guarded interface must not create authority. A probe wired directly to plaintext after the last guard can defeat confidentiality if invasive access is outside the profile. A shared package reset can invalidate supposedly independent watchdogs. The report describes these failures as limitations of its physical boundary, not successful containment.
 
-## Governing requirements
+## 5. Acceptance discipline
 
-| ID | Target requirement | A design violates it when… |
-|---|---|---|
-| R01 | Grants name authority; guards mediate every consequential boundary | A pointer, fallback path, descriptor, helper, or controller creates unchecked authority |
-| R02 | Applications use granular components by default | Ordinary development requires a broadly privileged shared runtime |
-| R03 | Cross-trust native computation has physically owned resources | The implementation claims shared logical protection provides physical segregation |
-| R04 | Native paths physically separate purposes and trust boundaries | VLANs, overlays, or shared programmable switching silently replace separate paths |
-| R05 | Restrictions survive every data and control transformation | Copying, rendering, compilation, logging, or accelerator use launders a label or provenance claim |
-| R06 | Recipients independently authorize effects | A valid sender or channel permits every action a recipient can perform |
-| R07 | Ownership and lifetime enforcement prevents stale effects after reuse | Delayed DMA, references, or messages acquire a new occupant's authority |
-| R08 | Persistence has explicit owners and crash-defined commits | The service reports volatile acceptance as a durable or physical effect |
-| R09 | AI is native to interaction and orchestration but cannot create authority | Model output, retrieved instructions, or inferred intent becomes approval |
-| R10 | Policy, allocation, updates, recovery, and observation have separate scopes | One convenient administrator can rewrite all independent boundaries |
-| R11 | Independence includes management and common-cause dependencies | One failure controls keys or chips that the design counts as independent |
-| R12 | Controllers bound resource use and recovery; evaluations measure useful service | Security succeeds only by stopping all work or allowing unbounded verification/retry load |
-| R13 | Reports distinguish prevention, containment, valid-authority abuse, propagation, and availability | The argument treats a capability check as proof of correct application semantics or universal safety |
-| R14 | Changes preserve traceability to the destination | A prototype omission silently becomes a weaker target requirement |
-| R15 | The native environment operates without legacy infrastructure assumptions | Linux, POSIX, global sockets, or compatibility services become required authorities |
-| R16 | Claims identify attributable evidence and stay within its scope | The report presents a proposal, model assumption, roadmap, or vendor result as an ASKA demonstration |
-| R17 | Native execution provides defined spatial and temporal memory semantics | The argument infers memory safety from a tag bit, language name, or whole-cell reset alone |
-| R18 | Tests exercise whole applications with malicious components and alternative paths | Tests check isolated gates while the application bypasses them |
-| R19 | Physical, network, device, and administrative membership confer no implicit authority | An authenticated peer or attached device gains operations solely from its location or affiliation |
-| R20 | Reading, computing, storing, disclosing, transporting, and receiving are distinct rights | Read access or a working encrypted channel implicitly permits export |
-| R21 | Every modeled path for information and effects crosses the required controls | Media, print, display, backup, debug, or management bypasses a network-only policy |
-| R22 | Ordinary users, workloads, and administrators cannot unilaterally create a forbidden cross-domain flow | Adding a cable, changing a route, or using one ordinary role creates disclosure authority |
-| R23 | Release control independently enforces the exact approved output or verified output contract | Approved content, destination, representation, or use limits can change before emission |
-| R24 | Intermediaries cannot inherit both domains' authority through participation | A parser, transformer, or gateway can turn one admitted crossing into an unrestricted bridge |
+Each test includes a permitted positive case, the forbidden consequence, the attacker's starting rights, an observable oracle and a weakened variant that can demonstrate the oracle detects the failure. Hardware tests are specified here; this document does not assert their execution. Finite semantic demonstrations and their exact scope are recorded in [Chapter 56](56_conformance_tests_and_vectors.md). Detailed cross-layer cases appear in [Chapter 54](54_end_to_end_traces_and_incident_walkthroughs.md).
 
-### Independent-security requirements
+The global requirements below are intentionally stable in meaning across physical, civic, application and security subsystems. A domain-specific convenience cannot grant an exception. If a mechanism is unknown, its implementation status remains unestablished and the research program names the experiment required.
 
-The system also applies the following requirements to the security subsystem. A declared reduced-assurance deployment records unestablished requirements; omissions never silently redefine the native target.
+## Normative requirements and acceptance obligations
 
-| ID | Target requirement | A design violates it when… |
-|---|---|---|
-| R25 | Protected security observation resides outside monitored workload software authority | A host/kernel/driver administrator can silently overwrite the claimed independent observer |
-| R26 | Passive taps cannot write or block observed transactions outside their declared physical influence | A monitoring DMA, debug port or full queue mutates or stalls the observed system while described as passive |
-| R27 | Native MSM-to-LSM configuration distribution has a physically one-way identified edge | A full-duplex software protocol or hidden return path is reported as a hardware diode |
-| R28 | Reporting, distribution, and response are separately admitted paths and message types | Sensor events or backward report traffic become executable control-plane instructions |
-| R29 | LSM and MSM have independently protected watcher roles with named common causes | An observer can erase or author all of its own oversight evidence through a shared root |
-| R30 | Observer claims state measured coverage, loss, blind spots and time uncertainty | RAM/cache/SSD behavior invisible to a sensor is claimed to be completely observed |
-| R31 | Security AI and analytical rules cannot mint authority or sign deployments | A confidence score or model text directly modifies keys, grants or gate firmware |
-| R32 | Automatic containment is a typed, generation-bound, resource-budgeted protected effect | False reports trigger unlimited destructive or cross-realm actions |
-| R33 | Signed security updates use independent validation, staging and propagation gates | One signer-valid defective package is automatically installed across an entire independent fleet |
-| R34 | Update, root and recovery authorities are scoped apart from watched domains and their watchers | A monitored component or single operator can rewrite all claimed independent enforcement roots |
-| R35 | Sensor absence, partition, overflow and analysis failure are represented as degraded coverage | Silence is asserted to mean safety and system service status is fabricated |
-| R36 | Telemetry and forensic exports preserve data categories, exact release and receiver permission | Monitoring grants a blanket plaintext export across Sanctum, Polis or Agora |
-| R37 | Detection, access denial, response, witness and durable commit have distinct evidence | An alert or a hash chain is treated as proof that the underlying effect was prevented |
-| R38 | Recoverability survives failures within the declared independent update/control scope | Recovery requires the dead kernel or broken signer it is supposed to replace |
-| R39 | Independence is evaluated under physical, supplier, administration and software cut sets | Repeated clones with a common root are counted as independent security barriers |
-| R40 | Security evaluation measures legitimate service, false alarms and physical costs | A system 'passes' by stopping all work or reporting only detections without coverage and overhead |
+**R-02-01 — Complete mediation.** Every consequential memory, device, message, release and effect path MUST cross its required protected owner checks.
 
-Normative security-mesh designs appear in [35](35_independent_security_mesh_architecture.md)–[42](42_secure_storage_and_cryptographic_services.md); corresponding tests appear in [43](43_security_mesh_formal_model_and_test_vectors.md). The ordinary requirements R01–R24, A01–A16 and these requirements apply jointly at every affected effect boundary.
+**Acceptance T-02-01:** Exercise alternate descriptors, helpers, management queues and physical ports; no unchecked consequence is permitted.
 
-Requirement identifiers remain stable. [29](29_traceability_and_conformance.md) maps each to designs, evidence obligations, and regression tests. An implementation report may mark a requirement unestablished. Excluding the difficult case cannot turn that entry into satisfied.
+**R-02-02 — Granular applications.** Native applications MUST be decomposable into bounded components without requiring a broadly privileged shared runtime.
 
-## Adversaries
+**Acceptance T-02-02:** Run a document workflow with separate hostile parser and persistent owner; unrelated objects remain inaccessible.
 
-The application adversary controls all instructions in a cell, supplies arbitrary permitted inputs, invokes its valid grants maliciously, races operations, and exhausts its assigned resources. It may control several cells and all ordinary routing proposals. It can retain old handles, corrupt descriptors, replay records, and trigger exposed resets.
+**R-02-03 — Physical cross-trust resources.** Native mutually distrusting execution MUST use assigned physical execution and writable-memory scope.
 
-The network adversary can observe, reorder, replay, modify, or drop traffic on links it controls. It may also be a legitimately admitted malicious peer. Confidentiality against a carrier, physical route restriction, and availability under a flood are separate properties.
+**Acceptance T-02-03:** Inspect allocation and wiring; a shared logical address-space partition cannot satisfy a physical-separation claim.
 
-The management adversary can compromise one named role, such as an application signer, planner operator, admission administrator, or recovery custodian. Tests must show the scope it gains and the other roles it cannot acquire. “Management is trusted” is insufficient as a whole-system claim.
+**R-02-04 — Declared physical-purpose separation.** Native physical-purpose claims MUST identify dedicated paths and distinguish all weaker shared-carrier profiles.
 
-The hardware model distinguishes two failures. First, a malicious or defective compute engine may issue arbitrary bus, DMA, or endpoint transactions on its wired interfaces. External guards must contain those transactions' explicit effects. Second, a guard, root, fabric controller, or device boundary may itself fail. That failure defeats every guarantee that depends on it. Stronger domains need additional independent guards and an explicit analysis of failures that can disable several guards at once.
+**Acceptance T-02-04:** Substitute a VLAN/shared controller and require explicit claim downgrade, not an unchanged physical-independence label.
 
-Fabrication subversion, invasive probing, electromagnetic coupling, and power/thermal manipulation require named physical threat profiles. Substrate studies must investigate those dependencies. Physical separation alone does not resolve them. A package containing separate cores remains one possible common physical failure domain.
+**R-02-05 — Cross-representation continuity.** Restrictions MUST survive serialization, copying, rendering, compilation, AI processing and device transformations.
 
-## Insiders, bridges, and disclosure
+**Acceptance T-02-05:** Attempt to launder a restricted object into public logs, pixels, generated code and ciphertext; release remains required.
 
-The insider adversary may legitimately read selected objects, operate devices, or administer one subsystem. It tries to export bulk data, carry media between disconnected systems, connect an unauthorized bridge, or exploit an approved output path. The compromised-authority adversary may additionally control a release proposer or a scoped installer. Tests give the adversary those rights at the start. They do not require a memory exploit.
+**R-02-06 — Independent receiver authority.** Protected receiving and publication MUST require the destination owner’s own live permission.
 
-Adding a connection at a guarded interface changes physical reachability without authorizing a new operation. Attaching a probe after the last mandatory guard, replacing that guard, or photographing an authorized screen changes the assumptions instead. Each claim states which physical intervention it covers. Human perception is an authorized disclosure to a person; digital confinement cannot guarantee that the person will not reproduce it.
+**Acceptance T-02-06:** Deliver a sender-valid message after destination withdrawal; protected publication is denied.
 
-[19](19_cross_domain_security_and_release.md) defines transfer paths, release enforcement, and the distinction between guarded connection and physical bypass. An ordinary administrator is a scoped role under 14; an explicitly declared ultimate local root can defeat its own boundary. It must not thereby control another independent root.
+**R-02-07 — Temporal ownership.** All handles, aliases and in-flight operations MUST remain bound to live generations across reuse.
 
-### Compromised security-service adversaries
+**Acceptance T-02-07:** Delay an old DMA/message/cache writeback through reuse; it cannot access the new occupant.
 
-The security adversary may fully compromise an EDR driver in a compatibility IES, one LSM, one MSM, one WM-L/WM-M watcher, a remote analysis model, a protected telemetry service within its assigned authority, or one update producer. Evaluate each separately, then selected correlated failures. It can forge its own permitted reports, replay event streams, poison model inputs, submit validly signed defective data or code, and attempt to turn 'protective' response into a fleet-wide denial-of-service event. It may also exploit common firmware, BMC, power, key custody and recovery dependencies. The claimed boundary must name surviving physical guards and roots and must not assume that watchers or hardware never fail.
+**R-02-08 — Crash-defined persistence.** Persistent operations MUST have owners, explicit durability contracts and truthful crash outcomes.
 
-A sensor cannot infer all on-core memory reads from external RAM traffic. The observation model names protected-exported events, actively copied snapshots, passive bus metadata, physical emissions and unknown intervals separately. A successful containment check must not be reported as a successful intrusion detection or as proof of zero information leakage.
+**Acceptance T-02-08:** Crash at prepare, flush and commit boundaries; recovery distinguishes durable state from acceptance or uncertainty.
 
-## Trust and failure dependencies
+**R-02-09 — Bounded native AI.** AI MUST support native interaction and orchestration while lacking any implicit ability to create consent, release or installation rights.
 
-Each claim names its trusted functions: local identity attachment, memory ownership checks, transfer control, policy installation, recipient effect checks, key custody, clocks, and physical transmit control. A function may run in hardware or protected software. The claim must name where it runs and who can update it.
+**Acceptance T-02-09:** Compromise the companion with tool instructions; valid narrow work can continue but broader context or effects are denied.
 
-An independent realm does not need to trust another realm's administrator to define its receiving rights. It may still depend on that realm's enforcement to protect data legitimately disclosed there. Once a source releases information, revocation cannot make the recipient forget it.
+**R-02-10 — Scoped administration.** Policy, allocation, update, recovery and observation administration MUST have separate scoped rights.
 
-A grant permits an operation without establishing the holder's intent. A legitimate analysis service can return false answers. A compromised allowed recipient can misuse data within the scope already granted. Avoiding that outcome requires a narrower operation contract, an accepted release computation, independent approvals, or keeping the information out of that domain.
+**Acceptance T-02-10:** Compromise one role and enumerate attempted writes to other roots; only admitted scope is reachable.
 
-## Observations and information flow
+**R-02-11 — Common-cause dependencies.** Independence claims MUST include firmware, keys, management, debug, package, clock/reset and facilities.
 
-Every security profile lists observations it covers: memory contents, published values, operation effects, record presence, sizes, error categories, timing, termination, resource contention, and physical emissions. Initial models may cover only explicit data and effects. A target deployment needing timing confidentiality must add schedules, isolation, and evidence for its declared observations.
+**Acceptance T-02-11:** Fail a shared dependency and withdraw every dependent claim together.
 
-Public errors and audit streams are outputs. So are generated programs, UI surfaces, AI summaries, and the selection of which network path to use. An output schema alone does not bound the cumulative information revealed by repetition or timing.
+**R-02-12 — Bounded useful progress.** Controllers MUST bound adversarial work and preserve specified useful service under admitted load and surviving-resource assumptions.
 
-## Safety and useful progress
+**Acceptance T-02-12:** Flood first contact while running valid established work; measure completions, loss and starvation against declared bounds.
 
-The core safety obligation for an effect `e` is:
+**R-02-13 — Separated security outcomes.** Results MUST distinguish prevention, containment, permitted-authority abuse, propagation and service loss.
 
-```text
-publish_or_execute(e) implies
-  live_source_and_target_generations(e)
-  and valid_scoped_source_authority(e)
-  and permitted_information_flow_or_release(e)
-  and current_independent_recipient_permission(e)
-  and stable_bound_inputs(e)
-  and available_charged_resources(e)
-  and required_physical_path_permission(e)
-```
+**Acceptance T-02-13:** Authorize a malicious but in-scope result and classify it as abuse, not a boundary escape or a safe application.
 
-Each predicate requires its own evidence. One signature does not establish them all. The enforcing components must check those predicates where the effect becomes irreversible, in the concurrency order that the relevant subsystem defines.
+**R-02-14 — Explicit realization gaps.** A realization MUST trace unsupported target requirements and MUST NOT silently redefine them to match a weaker implementation.
 
-Useful progress requires admitted load, surviving resources, scheduling fairness, and enough communication to complete the protocol. A network that may drop forever cannot support unconditional eventual delivery. A security result must report permitted operations completed, false denials, bounded recovery work, and service lost under the specified attack.
+**Acceptance T-02-14:** Compare each claimed profile dimension to evidence; missing physical enforcement remains unestablished.
 
-## Systemic compromise
+**R-02-15 — Native infrastructure independence.** Native service semantics MUST be expressible without mandatory ambient POSIX, global sockets, shared kernel or cloud authority.
 
-A common parser flaw may give an attacker control of the same small component on many machines. Each component's guards must contain that takeover within its authority. The architecture does not claim to prevent widespread exploitation. Shared signing infrastructure, gate logic, or physical facilities can defeat that containment across many domains. Claims of independence use an explicit dependency graph. They cannot rely on multiplying assumed independent-failure probabilities.
+**Acceptance T-02-15:** Run a native object/effect workflow without a legacy host; compatibility adapters remain optional confined clients.
 
-**Open questions:** the achievable temporal/physical observation boundary, practical independence between guard implementations, and the workload cost of default physical granularity remain research obligations. These questions do not authorize weakening R03, R04, or R11 in an intermediate build.
+**R-02-16 — Attributable claim scope.** Every evidence claim MUST identify an attributable artifact, observation model and status.
+
+**Acceptance T-02-16:** Attempt to label a design diagram, patent title or vendor benchmark as an ASKA result; reject the promotion.
+
+**R-02-17 — Spatial and temporal memory semantics.** Execution MUST define memory bounds, provenance and lifetime revocation, including relevant cache/device state.
+
+**Acceptance T-02-17:** Test in-cell stale references separately from whole-cell reuse; a tag bit or reset alone is insufficient evidence.
+
+**R-02-18 — Whole-application adversaries.** Conformance campaigns MUST test useful complete applications with malicious components and alternative paths.
+
+**Acceptance T-02-18:** Compromise parser, renderer, route controller and worker; all import/output variants remain confined while authorized cases complete.
+
+**R-02-19 — No authority from membership.** Location, attachment, network admission, institutional affiliation or device identity MUST NOT by itself grant operations.
+
+**Acceptance T-02-19:** Attach an authenticated device or community node and attempt foreign data/effects; require independent grants.
+
+**R-02-20 — Distinct operation rights.** Read, compute, store, release, transport and receive rights MUST remain independently scoped.
+
+**Acceptance T-02-20:** Give read authority only, then request print, backup and transmission; all absent rights are denied.
+
+**R-02-21 — All output channels.** Every modeled information/effect channel MUST appear in the path and release register.
+
+**Acceptance T-02-21:** Test screen, print, media, debug, witness, telemetry and actuator paths, not only the network.
+
+**R-02-22 — No unilateral forbidden bridge.** Ordinary users, workloads and scoped administrators MUST NOT create a forbidden crossing by adding routes or cables at guarded interfaces.
+
+**Acceptance T-02-22:** Add a dual-homed peripheral or cable before the last guard; no new effect authority appears.
+
+**R-02-23 — Exact approved release.** Independent release enforcement MUST bind approved output or a verified transform contract to destination, lifetime and cumulative limits.
+
+**Acceptance T-02-23:** Substitute content or destination after approval and repeat outputs beyond budget; deny the attempts.
+
+**R-02-24 — No intermediary authority union.** A parser, transformer, relay or gateway MUST NOT inherit both domains’ rights merely by participating.
+
+**Acceptance T-02-24:** Compromise each crossing intermediary separately and attempt transparent arbitrary bridging; reject outside the one admitted crossing.
+
+**R-02-25 — Claim is evidence.** A signed claim MUST remain evidence until an applicable contract and local grant derivation admit the effect.
+
+**Acceptance T-02-25:** Present a signed institutional claim without admitted terms; no installed authority is created.
+
+**R-02-26 — Complete contract context.** Contracts MUST bind profiles, purpose, recipient, exclusions, evidence and enforceable obligations.
+
+**Acceptance T-02-26:** Remove a required profile, recipient or notice condition; compilation fails rather than broadens the operation.
+
+**R-02-27 — Nonexpanding installed grants.** Compiled/delegated grants MUST be local, bounded and no broader than all required parent authority.
+
+**Acceptance T-02-27:** Copy a grant or widen one field; protected use counts and scope remain unchanged.
+
+**R-02-28 — Qualified receipts.** Receipts MUST distinguish attempts, protected commits, external acceptance and unknown outcomes.
+
+**Acceptance T-02-28:** Lose an acknowledgment after possible execution; report uncertainty instead of fabricated failure or success.
+
+**R-02-29 — Independent societal purposes.** Wilder activity MUST NOT create Sanctum, Polis or Agora effects without an admitted crossing.
+
+**Acceptance T-02-29:** Compromise Wilder parser and NIC, then attempt private signing, ballot alteration and payment; independent owners deny.
+
+**R-02-30 — Canonical intent approval.** Keystone approval MUST bind the actual canonical parameters installed at the effect owner.
+
+**Acceptance T-02-30:** Substitute recipient, amount, release digest or profile between display and installation; approval binding fails.
+
+**R-02-31 — Profile-scoped civic authority.** Civic and legal authority MUST be evaluated for applicability, scope, contest and recipient under a declared profile.
+
+**Acceptance T-02-31:** Submit an authenticated overbroad request and require scoped denial, suspension or independently admitted extract.
+
+**R-02-32 — Nonconjurable access.** A legal or administrative request MUST NOT be treated as manufacturing unavailable plaintext, keys or access beyond the machine’s admitted capabilities.
+
+**Acceptance T-02-32:** Request an unavailable key or erased object; return a qualified UNAVAILABLE outcome without a hidden bypass.
+
+**R-02-33 — Notice and challenge obligations.** Required notice, appeal, stays and suspension MUST be represented with owners and truthful delivery states.
+
+**Acceptance T-02-33:** Lose connectivity or receive a valid stay before finality; do not claim delivered notice or bypass the stay.
+
+**R-02-34 — Private witness evidence.** Steles MUST receive only admitted evidence and MUST preserve confidentiality and correction semantics.
+
+**Acceptance T-02-34:** Request raw private logs using a witness credential; reject absent independent source authorization.
+
+**R-02-35 — No silent assurance downgrade.** A weaker path, executor or recovery profile MUST be explicitly admitted where policy permits it.
+
+**Acceptance T-02-35:** Attempt automatic cloud fallback during a private link outage; reject or require a distinct disclosed contract.
+
+**R-02-36 — Context-bound relationships.** Family, care, professional and organizational delegation MUST be scoped to context, capacity and nondelegable exclusions.
+
+**Acceptance T-02-36:** Present kinship or job title alone to access protected records; require appropriate applicable authority.
+
+**R-02-37 — Bilateral disclosure and acceptance.** Source disclosure and recipient acceptance MUST be independently verifiable even when their identities share an issuer.
+
+**Acceptance T-02-37:** Use a valid same-organization sender to force receiver publication; absence of receiver policy denies.
+
+**R-02-38 — Public-service continuity.** Protected civic services MUST have declared reserved resources and local failure behavior under bounded encounter threats.
+
+**Acceptance T-02-38:** Flood Wilder and verify reserved local civic work; separately report shared-upstream loss.
+
+**R-02-39 — Carriage without civil power.** Community, regional and upstream carriers MUST NOT gain authority over source contracts or destination effects.
+
+**Acceptance T-02-39:** Compromise a relay and splice path/recipient evidence; effects remain bound to independently admitted identity and purpose.
+
+**R-02-40 — Reviewable scoped change.** System changes MUST have typed scope, reviewable provenance, currentness and independently recoverable installation boundaries.
+
+**Acceptance T-02-40:** Compromise an application update role and attempt guard/watcher/root replacement; enforce artifact-class and root separation.
+
+**R-02-41 — Distinct prevention and observation.** Mandatory guards, passive/active observation and watcher functions MUST have separate contracts and visibility limits.
+
+**Acceptance T-02-41:** Remove observer input while exercising guards; record lost detection without falsely claiming the guard has disappeared or complete observation persists.
+
+**R-02-42 — Observer adversary cases.** Each LSM, MSM, watcher and analyzer MUST be separately evaluated as fully malicious within its scope.
+
+**Acceptance T-02-42:** Fabricate alerts, suppress evidence and attempt watcher reprogramming; neither new policy rights nor universal response become available.
+
+**R-02-43 — Physical directional distribution.** The selected high-assurance MSM-to-LSM configuration edge MUST be physically one-way with separate admitted reports.
+
+**Acceptance T-02-43:** Test reverse signaling and malicious allowed-direction packages; direction and receiver safety are assessed independently.
+
+**R-02-44 — Evidence completeness limits.** Telemetry MUST identify protected source, sequence, loss, sampling, epochs and observation scope.
+
+**Acceptance T-02-44:** Drop, replay and reorder signed events; receiver identifies gaps/uncertainty without treating silence as proof of inactivity.
+
+**R-02-45 — Preauthorized bounded protection.** Automatic protective effects MUST use admitted standing grants with owner, target, expiry, budget, ordering and false-alarm limits.
+
+**Acceptance T-02-45:** Ask for global shutdown from one false alert; only permitted local finite effects can occur, with bounded renewals.
+
+**R-02-46 — Telemetry as private effect.** Baseline and exceptional observation MUST have source authorization, data minimization, recipient permission and retention rules.
+
+**Acceptance T-02-46:** Encode intimate activity or plaintext in a report; reject fields and recipients outside the authorized observation contract.
+
+**R-02-47 — Signed-defect containment.** Update safety MUST remain bounded when a correctly signed artifact is defective or its producer is malicious.
+
+**Acceptance T-02-47:** Deploy a validly signed crashing rule in an isolated cohort; independent guards and recovery continue and blast radius is measured.
+
+**R-02-48 — Separated AI roles.** User interaction, security analysis and code generation MUST be distinct scopes; generated code cannot approve its own tests or installation.
+
+**Acceptance T-02-48:** Give a build agent a proposed patch and a forged passing test; separate oracle/reviewer/installer reject self-authorization.
+
+**R-02-49 — Falsifiable research independence.** Optional physical/quantum/sensing hypotheses MUST have falsifiers and MUST NOT be required for unrelated baseline safety claims.
+
+**Acceptance T-02-49:** Fail a passive or quantum sensor hypothesis and verify that independent guard claims retain only their own proven assumptions.
+
+**R-02-50 — Costed availability.** Evaluation MUST account for fragmentation, copies, cache/tag costs, telemetry storms, energy, recovery and false containment.
+
+**Acceptance T-02-50:** Run mixed useful workloads and attack storms with guards enabled; report all bottlenecks and service losses without substituting invented benchmark figures.
+
