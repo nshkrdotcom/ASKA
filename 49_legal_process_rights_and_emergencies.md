@@ -1,7 +1,5 @@
 # ASKA v6 — Legal process, rights and emergencies
 
-**Status:** proposed architectural requirements. Acceptance oracles specify evidence to obtain; no ASKA implementation or validation result is asserted.
-
 ASKA must support legitimate lawful compulsion, accountable public duties and urgent protection while preserving limits on authority and honest statements of technical ability. It must not treat every requested disclosure as voluntary consent, nor make consent a universal veto over independently applicable duties. Equally, a signed demand is not a universal key. Qualification, applicability, scope, contested predicates, operative stays, custody and actual machine capability remain separate checks.
 
 This chapter specifies architectural procedures. Profiles must be qualified for their intended institutional setting; the architecture does not determine the law of every jurisdiction or replace qualified interpretation. The machine can enforce a bounded admitted decision and preserve evidence of its basis. It cannot guarantee that every institution is honest, every order is correct or every affected person has an effective remedy.

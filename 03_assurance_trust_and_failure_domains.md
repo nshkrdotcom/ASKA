@@ -1,14 +1,14 @@
 # ASKA v6 — Assurance, trust and failure domains
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. Independence is a relation
 
 A component is independent of attacker domain A **for property P** only when A cannot alter the enforcement or evidence functions on which P depends through the declared interfaces and management paths. This is a relation among a property, an attacker and a dependency graph; it is not a synonym for a separate process, die, board or vendor.
 
 For every claim, define `Claim = (property, attacker, observations, trusted_functions, physical_boundary, availability_conditions, evidence)`. A trusted exporter may be independent of a guest but share the guest's FPGA image root. Such an exporter supports a guest-compromise claim while failing an image-producer-compromise claim. A watcher on a second board may survive an LSM crash while sharing its power supply; it does not prove observation during loss of that supply.
 
-The [seL4 assumptions](https://sel4.systems/Verification/assumptions.html) are a useful discipline: proof boundaries include specific low-level and hardware assumptions, and confidentiality covers modeled channels. ASKA MUST state its corresponding assumptions without inferring whole-machine correctness from a verified subcomponent.
+The [seL4 functional-correctness proof](https://researchportalplus.anu.edu.au/en/publications/sel4-formal-verification-of-an-os-kernel/) demonstrates a serious alternative to multiplying unverified guards. Its published [assumptions](https://sel4.systems/Verification/assumptions.html) also show the boundary: proof boundaries include specific low-level and hardware assumptions, and confidentiality covers modeled channels. ASKA MUST state its corresponding assumptions without inferring whole-machine correctness from a verified subcomponent.
+
+[Rushby's separation-kernel analysis](https://www.csl.sri.com/papers/sosp81/) and the [MILS architecture](https://www.inderscience.com/info/inarticle.php?artid=14859) already decompose secure systems into smaller components. ASKA's independence claim therefore needs an observed failure graph and a tested physical cut set, not a claim that separation is new. [Multics](https://doi.org/10.1145/361011.361067) provides an earlier warning about policy-bearing supervisor complexity.
 
 ## 2. Root and function inventory
 

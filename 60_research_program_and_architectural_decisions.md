@@ -1,7 +1,5 @@
 # ASKA v6 — Research program and architectural decisions
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. Governing question and evidence boundary
 
 The research program asks whether granular physical ownership, explicit authority, independent observation and useful general computation can be combined at acceptable cost. It does not assume that a promising processor, sensor, AI model or cryptographic primitive already satisfies the integrated contract. Requirements define the target; experiments establish limited facts about named apparatus. A failed hypothesis does not erase the requirement it was intended to support.
@@ -20,9 +18,9 @@ The first useful application is deliberately complete: import an adversarial doc
 | D-06: authority | Claim, Contract, Grant and Receipt with independent local admission | Evidence and consent must not become global power; simpler machinery must preserve conflict, compulsion and receiver boundaries |
 | D-07: disclosure | Separate source release, exact representation binding, carriage and receiver permission | Prevents an intermediary from accumulating unbounded cross-realm rights; semantic approval remains fallible |
 | D-08: trusted interaction | Keystone owns a minimal canonical approval path without universal plaintext access | Reopen only after equivalent intent integrity, accessibility and compromised-renderer evidence |
-| D-09: observation | Mandatory guards plus separately rooted LSM/MSM observation | Monitoring cannot substitute for inline enforcement; evidence must justify each claimed source of visibility |
+| D-09: observation | Mandatory inline guards; LSM/MSM observation only for an OOB claim | Monitoring cannot substitute for inline enforcement; evidence must justify each claimed source of visibility |
 | D-10: configuration direction | Physically simplex MSM-to-LSM distribution with separate reports | A reverse report link is an explicit second path; replacements must establish directionality and alternate-path resistance |
-| D-11: watchers | Finite WM-L and WM-M layers with independent oversight and declared terminating roots | Avoids infinite regress while exposing common causes; additional layers require a specific threat and measurable benefit |
+| D-11: watchers | Finite WM-L and WM-M only in the OOB_NATIVE profile, with a terminating oversight root | Avoids infinite regress while exposing common causes; additional layers require a specific threat and measurable benefit |
 | D-12: protective response | Finite templates under standing local grants | Bounds false-alarm damage while permitting rapid response; richer templates require independent safety and authority review |
 | D-13: AI roles | Separate user companion, security analysis and synthesis/build agents | No model mints consent, signs its own deployment or modifies its own acceptance oracle |
 | D-14: updates | Separate producer, reviewer, signer, distributor and installer with local scope enforcement | Signed defects are an admitted attacker path; consolidate roles only with an explicit weaker assurance declaration |
@@ -33,17 +31,22 @@ The first useful application is deliberately complete: import an adversarial doc
 
 These are current design decisions and open choices. A decision record records proposition, alternatives, assumptions, evidence, responsible reviewers and reopen conditions. A revision must identify affected requirements, models, diagrams, traces and deployments. Renaming a weakened property is not a valid way to close an adverse result.
 
+**Complexity admission rule.** Introduce a trusted service only after recording (1) the forbidden consequence it prevents or detects; (2) the exact path and installer under its control; (3) the shared roots it adds; (4) a lower-complexity alternative; and (5) an adversarial measurement of its incremental value and cost. A protection property that an inline owner already enforces cannot justify a second policy-enforcing coordinator. The evaluation must compare HARDWARE_GUARDED against OOB_PARTIAL/OOB_NATIVE and against a well-defined verified-software reference; this is a controlled comparison, not an assumption that more confinement is better. [Rushby](https://www.csl.sri.com/papers/sosp81/) and [MILS](https://www.inderscience.com/info/inarticle.php?artid=14859) already make small, composable trusted components the baseline of comparison.
+
+**Retirement rule.** Remove an added security tier or specialized board from the selected profile when it yields no independently measured detection/prevention benefit at acceptable failure, power, latency and operational cost. The integration gate also records whether available verified software meets the same specified contract. Proof of software behavior does not discharge physical DMA, debug or reset assumptions; it can eliminate redundant confinement layers when those assumptions and contracts are otherwise met.
+
 ## 3. Dependency-ordered work program
 
 ```mermaid
 flowchart TB
   S["Semantic contracts and adversarial models"] --> G["Physical guards and lifecycle prototype"]
   S --> A["Accord, trusted approval and application"]
-  G --> O["Independent observation and bounded response"]
-  G --> T["Competing engines and interconnects"]
-  A --> I["Integrated application demonstrator"]
-  O --> I
-  T --> I
+  G --> I["Integrated guarded application demonstrator"]
+  A --> I
+  G -.-> O["Optional independent observation and response"]
+  O -.->|qualified incremental evidence| I
+  G -.-> T["Competing engines and interconnects"]
+  T -.->|tested alternative| I
   I --> D["Independent realms and long-lived operation"]
   F["Optional sensing and substrate research"] -->|"qualified evidence only"| T
   F -->|"qualified evidence only"| O
@@ -76,9 +79,11 @@ Produce executable models for authority, object lifetime, release, replay and pe
 
 A complete gate-A artifact includes a reference interpreter, signed deterministic encoding profile, adversarial application graph, exact positive/negative vectors, an independent source/destination approval case and an uncertain external-outcome case. The interpreter's host is trusted for its memory and physical boundaries. No native physical claim follows. A useful display or successful login alone is insufficient because the target concerns effects after partial compromise.
 
+The LP-1 acceptance dossier must identify the **minimum** guarded apparatus and then measure extra monitors/watchers against it, rather than assuming every tier before the first falsifiable hardware experiment. The owner/guard split, stale-DMA exclusion, debug/reset paths, diode direction and source/receiver contracts remain indispensable physical tests. Cost and availability results use the operator accounting in [Chapter 58](58_performance_cost_power_and_availability.md); evidence from verified software is compared under its own boot, DMA and hardware assumptions.
+
 ## 6. Gate B: first physical demonstrator
 
-Construct LP-1 from [Chapter 57](57_reference_realizations_and_legacy_interoperability.md) with real separate memories, guarded paths, independently installed observer/watcher boards and an inspected one-way configuration interface. Give the attacker the workload kernel, a device queue and a correctly signed defective package. Exercise old DMA after resource reuse, report saturation, missing sequence evidence, local observer loss and reverse-signaling attempts. Re-run the legitimate workflow after each failure.
+Build LP-1 in two stages using [Chapter 57](57_reference_realizations_and_legacy_interoperability.md). First qualify the actual guard, separated memories, DMA paths, durable effect counter, typed approval and local owner grant under hostile workload, stale device traffic and a correctly signed defective package. Inspect physical reachability, reset, debug and recovery. Then add separately installed observer/watcher boards and the inspected one-way configuration interface **only for OOB claims**; exercise report saturation, lost sequence evidence, observer compromise and reverse-signaling attempts. Re-run permitted work after every fault. The first stage can close only a HARDWARE_GUARDED claim; the second supplies evidence for its distinct observation proposition.
 
 The gate closes only for the measured properties of that apparatus. Record electrical schematics, board photographs, pin inventory, debug settings, power/clock roots, bitstream/firmware hashes and instrumentation uncertainty. If FPGA configuration can rewrite both guard and exporter, disclose that cut set. A successful optical-link direction test does not establish that the whole system lacks another feedback path.
 

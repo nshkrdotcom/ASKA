@@ -1,7 +1,5 @@
 # ASKA v6 — PACT protocol and state machines
 
-**Status:** proposed architectural requirements. Acceptance oracles specify evidence to obtain; no ASKA implementation or validation result is asserted.
-
 PACT is the protocol by which parties negotiate bounded terms, present qualifying evidence, obtain local admission decisions, install grants and reconcile consequences. It is not a consensus protocol that makes every participant share one legal judgment. A clinician, a patient, a records custodian and a public authority can participate in one exchange while retaining different obligations, evidence visibility and machine owners. A contract becomes executable only at those owners whose admission rules it satisfies. Agreement between people and installation in machines are separate events.
 
 The object vocabulary is defined in [Claim, contract, grant and receipt schemas](32_claim_contract_grant_receipt_schemas.md); the authority calculus is defined in [Authority calculus and nonexpansion](06_authority_calculus_and_nonexpansion.md). PACT carries references to those objects without enlarging them. It supports interactive negotiation, scheduled transactions and preauthorized protective action. A standing response grant can remain valid without a new negotiation on every alarm, but its trigger, targets, budget and expiry remain enforceable.

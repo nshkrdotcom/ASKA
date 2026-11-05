@@ -10,6 +10,8 @@ The canonical states are `PROPOSED → PREPARED → COMMITTED → RECONCILED`. `
 
 An effect identifier is stable across the retries that the protocol treats as one intended operation. Its idempotency key is bound to the exact permitted operation, principal and relevant object version. Reusing an identifier for different payloads is rejected. A receipt contains the effect and grant references, source/destination binding, object generation, owner epoch, effect counter, finality point, outcome, evidence references and any uncertainty reason. It reports what the owner can establish, not what the caller hoped would happen.
 
+[Herlihy and Wing's linearizability](https://doi.org/10.1145/78969.78972) identifies a local atomic-operation criterion; [sagas](https://www.cs.princeton.edu/techreports/1987/070.pdf) and [Helland's distributed transaction analysis](https://www.cidrdb.org/cidr2007/papers/cidr07p15.pdf) address long-running or multi-party outcomes. ASKA applies these distinctions to typed physical effects and records the unknown interval explicitly.
+
 ## Preparation and the final authorization check
 
 Preparation can parse input, verify proofs, reserve capacity and calculate a candidate result. It does not grant an indefinite right to commit. The effect owner checks current grant state, negative restrictions, destination acceptance, object generation, context, freshness and remaining budget at the final boundary. An early authorization check can speed later work, but it cannot replace a check whose inputs may have changed.
@@ -40,7 +42,7 @@ Promises are represented as admitted obligations, installed grants where applica
 
 ## Independently observed reconciliation
 
-A Promise Keeper-style reconciliation service compares promised, authorized and observed outcomes under an explicit contract. It may observe a command receipt, independent sensor evidence, a destination acknowledgement or a witness commitment. It records agreement, mismatch or unresolved evidence. It does not manufacture a successful outcome when an observation is missing, and it cannot reprogram the effect owner unless a separate installed grant authorizes a bounded response.
+A reconciliation service compares promised, authorized and observed outcomes under an explicit contract. It may observe a command receipt, independent sensor evidence, a destination acknowledgement or a witness commitment. It records agreement, mismatch or unresolved evidence. It does not manufacture a successful outcome when an observation is missing, and it cannot reprogram the effect owner unless a separate installed grant authorizes a bounded response.
 
 The service declares its observation interface, independence relative to the relevant attacker, freshness, sampling and dependencies. A sensor reading supplied by the same compromised actuator controller is not independent evidence against that controller. A second observer on the same controllable power rail may fail with its subject. Independence therefore refers to a named threat and cut set, not merely a second process or separate log file.
 

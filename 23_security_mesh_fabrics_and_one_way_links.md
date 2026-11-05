@@ -1,7 +1,5 @@
 # ASKA v6 — Security mesh fabrics and one-way links
 
-**Status:** proposed physical and protocol requirements. Directionality, absence of bypasses and capacity require realization-specific inspection and measurement.
-
 ## 1. Direction belongs to an interface
 
 A physical data diode constrains propagation across a named interface. It does not make the forward payload safe, authenticate the sender, determine whether a receiver should install the payload, or prevent another cable from carrying a return signal. ASKA uses directional configuration distribution as one part of a larger graph containing reporting, watcher evidence, local proposals, installation and maintenance. Each edge has a different permitted meaning.
@@ -11,6 +9,8 @@ The [UK NCSC’s secure-connectivity Principle 5, data-diode section](https://ww
 In the reference profiles, the MSM distributes configuration to each LSM on a dedicated simplex path. LSM reporting uses a separate simplex path toward the MSM. WM-L and WM-M report to OV independently of the monitored component. The local LSM proposal edge terminates at an effect owner that validates the standing grant; it is not a general-purpose management connection.
 
 **R-23-01 — Physical directional contract.** Any interface claimed as unidirectional MUST identify its transmitting and receiving hardware, medium, electrical or optical direction, endpoint circuitry and inspection boundary. Reverse application traffic, acknowledgement, flow control, link management, reset, debug and power signalling MUST be absent at that boundary or explicitly represented as separate interfaces with separately assessed authority. A software rule on a duplex link MUST NOT be labelled a physical diode.
+
+The cataloged [NIST AC-4(7) one-way-flow control](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final) predates this reference wiring. An optical, electrical or serial simplex edge establishes direction at the measured interface; receiver acceptance, content validation and the absence of bypass wiring are separate claims.
 
 ## 2. The canonical reference interfaces
 

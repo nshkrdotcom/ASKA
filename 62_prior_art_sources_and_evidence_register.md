@@ -1,10 +1,8 @@
 # ASKA v6 — Prior art, sources and evidence register
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. Evidence policy and scope
 
-This register identifies the primary sources used to delimit mechanisms, compare architectural choices and specify falsifiable evidence obligations. It contains 81 distinct source records: 80 records with reviewed primary content at the explicitly stated depth and 1 unavailable or unreviewed full-text candidate. A public overview or abstract is identified as such; it is not counted as a full technical validation. Source access and publication status were checked on 5 November 2026.
+This register identifies the primary sources used to delimit mechanisms, compare architectural choices and specify falsifiable evidence obligations. It contains 106 distinct primary-source records. Entries based on abstracts, catalog records or unavailable full text are identified by their stated access limits. Full text, author summaries, publisher abstracts and catalog metadata have different evidentiary weight; each entry records the material available for the stated comparison.
 
 Each entry names the responsible institution or authors, publication/version status, exact URL, inspected location, supported proposition and boundary beyond which it supplies no evidence. Source IDs are navigation aids accompanied by actual links. They are not certificates. ASKA design obligations remain proposed even when an external system demonstrates a useful related mechanism. No patent grant, novelty determination or manufactured ASKA system is asserted.
 
@@ -16,19 +14,230 @@ The comparison asks which boundary each source controls. The architectural delta
 
 | Property and primary sources | Comparison axis | ASKA evidence gap |
 |---|---|---|
+| Classical protection, privilege and integrity: [H01: Lampson](https://bwlampson.site/08-Protection/WebPage.html); [H02: Saltzer–Schroeder](https://web.mit.edu/Saltzer/www/publications/protection/); [H03: Multics](https://doi.org/10.1145/361011.361067); [H11: Confused Deputy](https://doi.org/10.1145/54289.871709); [H12: Clark–Wilson](https://doi.org/10.1109/SP.1987.10001); [H24: KeyKOS](https://pdos.csail.mit.edu/6.828/2008/readings/keykos-osr.pdf) | Access control, complete mediation, rings, authority confusion and integrity-preserving transactions have a long lineage. | The claimed delta is cross-domain effect binding and physical enforcement in a specified apparatus, not invention of capabilities or a small trusted base. |
+| Flow policy and proof lineage: [H04: Bell–LaPadula](https://lukemuehlhauser.com/wp-content/uploads/Bell-LaPadula-Secure-computer-systems-mathematical-foundations.pdf); [H05: Biba](https://www.cerias.purdue.edu/apps/reports_and_papers/view/2834/); [H06: Denning](https://doi.org/10.1145/360051.360056); [H09: HiStar](https://static.usenix.org/event/osdi06/tech/zeldovich.html); [H10: Flume](https://doi.org/10.1145/1294261.1294293); [H16: robust declassification](https://www.cs.cornell.edu/andru/papers/robdecl-jcs/) | Confidentiality, integrity, lattices, DIFC and controlled release are prior art. | An ASKA-specific refinement must establish semantics and implement all named output channels; terminology supplies no novelty. |
+| Verified and compartmentalized alternatives: [H23: seL4 functional correctness](https://researchportalplus.anu.edu.au/en/publications/sel4-formal-verification-of-an-os-kernel/); [H25: Qubes architecture](https://www.qubes-os.org/doc/QubesArchitecture/) | Machine-checked minimal kernels and purpose-specific isolated VMs are viable pre-existing approaches. | Physical-owner design must justify extra hardware and institution roots with measured separation, useful work and lifecycle economics. |
+| Partition and distributed effect lineage: [H07: Rushby](https://www.csl.sri.com/papers/sosp81/); [H08: MILS](https://www.inderscience.com/info/inarticle.php?artid=14859); [H13: Sagas](https://www.cs.princeton.edu/techreports/1987/070.pdf); [H14: end-to-end arguments](https://web.mit.edu/saltzer/www/publications/endtoend/endtoend.pdf); [H15: Helland](https://www.cidrdb.org/cidr2007/papers/cidr07p15.pdf); [H17: linearizability](https://doi.org/10.1145/78969.78972) | Separability, compositional assurance, compensation and scoped finality are established lines of work. | Source/receiver finality across physical effect owners still requires a defined model, inspection and negative controls. |
+| Attenuating credentials: [H22: Macaroons](https://research.google/pubs/macaroons-cookies-with-contextual-caveats-for-decentralized-authorization-in-the-cloud/); [H11: Confused Deputy](https://doi.org/10.1145/54289.871709) | Caveated distributed credentials already attenuate delegated authority; preventing confused deputies is not a new idea. | ASKA must show its added locally enforced obligations, physical consequence finality and separate recipient admission. |
+| Capability and trusted interaction: [H18: EROS](https://doi.org/10.1145/319151.319163); [H19: EROS trusted window](https://www.usenix.org/conference/13th-usenix-security-symposium/design-eros-trusted-window-system) | Fine-grained object capabilities, persistent object protection and small trusted intent paths have prior implementations. | ASKA must prove its own object-lifetime semantics and exact effect binding under an explicit trusted-input threat model. |
+| AI tool-use control: [H20: Fides](https://www.microsoft.com/en-us/research/publication/securing-ai-agents-with-information-flow-control/); [A17: CaMeL](https://arxiv.org/abs/2503.18813) | Deterministic information-flow restrictions and tool authorization for agents are active prior art. | An ASKA model may propose only effects already admitted and enforced by the local owner; an agent-IFC publication is not an ASKA proof. |
+| Hardware one-way links: [H21: NIST SP 800-53 AC-4(7)](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final) | Hardware-based one-way flow controls and cross-domain policy are documented standards practice. | Inspect every alternate management and data path; independently validate payload and receiver policy before publication. |
 | Owned compute and heterogeneous interfaces: [P01: CHERI FAQ](https://www.cl.cam.ac.uk/research/security/ctsrd/cheri/cheri-faq.html); [P02: M3: A Hardware/Operating-System Co-Design to Tame Heterogeneous Manycores](https://os.inf.tu-dresden.de/papers_ps/asmussen-m3-asplos16.pdf); [P03: Minimizing a Smartphone’s TCB for Security-Critical Programs with Exclusively-Used, Physically-Isolated, Statically-Partitioned Hardware (OctopOS)](https://ics.uci.edu/~ardalan/papers/Yao_MobiSys23.pdf); [P04: CHERIoT book: Memory management](https://cheriot.org/book/memory.html); [P15: CURE: A Security Architecture with CUstomizable and Resilient Enclaves](https://www.usenix.org/system/files/sec21summer_bahmani.pdf) | Local reference checks, external communication guards and exclusive resources are different boundaries. | Native spatial ownership, guard placement, lifetime and common roots require their own combined evidence. |
 | Devices, memory and packaging: [P05: RISC-V IOMMU Introduction](https://docs.riscv.org/reference/iommu/v20260222/iommu_intro.html); [P06: IOPMP architecture](https://github.com/riscv-non-isa/riscv-iopmp/blob/main/chapter2.adoc); [P16: ACAI: Protecting Accelerator Execution with Arm Confidential Computing Architecture](https://www.usenix.org/system/files/usenixsecurity24-sridhara.pdf); [P17: Elasticlave: An Efficient Memory Model for Enclaves](https://www.usenix.org/system/files/sec22-yu-jason.pdf); [P18: Guidelines for Media Sanitization](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-88r2.pdf); [P14: UCIe Specifications overview](https://www.uciexpress.org/specifications) | Device translation, shared enclave memory, accelerator protection and sanitization address specific resource paths. | No cited interface standard eliminates every peer-DMA, management, persistence or package failure path. |
 | Flow, authority and timing: [F01: Securing Distributed Systems with Information Flow Control (DStar)](https://usenix.org/events/nsdi08/tech/full_papers/zeldovich/zeldovich.pdf); [F02: What the Proofs Assume](https://sel4.systems/Verification/assumptions.html); [F03: Flow-Limited Authorization](https://www.cs.cornell.edu/andru/papers/flam/flam-csf15.pdf); [F04: Fabric: A Platform for Secure Distributed Computation and Storage](https://www.cs.cornell.edu/andru/papers/fabric-sosp09.pdf); [F05: Time Protection: The Missing OS Abstraction](https://trustworthy.systems/publications/full_text/Ge_YCH_19.pdf); [F06: HyperFlow: A Processor Architecture for Nonmalleable, Timing-Safe Information Flow Security](https://www.cs.cornell.edu/andru/papers/hyperflow/hyperflow.pdf); [F07: A Verified Information-Flow Architecture](https://davidpichardie.github.io/papers/popl14.pdf); [F08: PUMP: A Programmable Unit for Metadata Processing](https://ic.ese.upenn.edu/pdf/pump_hasp2014.pdf); [F21: Ryoan: A Distributed Sandbox for Untrusted Computation on Secret Data](https://www.usenix.org/system/files/conference/osdi16/osdi16-hunt.pdf) | Distributed labels, authorization logic, tagged execution and request confinement have distinct models and assumptions. | An ASKA implementation must refine its exact release, physical and side-channel claims instead of combining source guarantees by name. |
 | Independent observation and recovery: [S01: Remote ATtestation procedureS (RATS) Architecture, RFC 9334](https://www.rfc-editor.org/rfc/rfc9334.html); [S04: Platform Firmware Resiliency Guidelines, SP 800-193](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-193.pdf); [S05: Security Protocol and Data Model (SPDM), DSP0274](https://www.dmtf.org/sites/default/files/standards/documents/DSP0274_1.4.1.pdf); [S06: DMTF-2026-0003: SPDM FINISH transcript OpaqueData advisory](https://github.com/DMTF/libspdm/security/advisories/GHSA-chjj-xvqx-c8w4); [S12: Copilot—a Coprocessor-based Kernel Runtime Integrity Monitor](https://www.usenix.org/legacy/events/sec04/tech/full_papers/petroni/petroni_html/); [S13: Vigilare: Toward Snoop-based Kernel Integrity Monitor](https://cysec.kr/publications/vigilare.pdf); [F19: Secure connectivity principles for operational technology: Principle 5, Harden your OT boundary](https://www.ncsc.gov.uk/collection/operational-technology/secure-connectivity/principle-5) | Attestation, firmware resilience, snapshot and bus-snoop observation expose different evidence boundaries. | No source supplies complete passive RAM/SSD semantics, infinitely independent watchers or safe arbitrary response. |
 | Distribution and synthesis: [S02: The Update Framework Specification](https://theupdateframework.github.io/specification/v1.0.36/); [S03: Secure Software Development Framework (SSDF) Version 1.1, SP 800-218](https://csrc.nist.gov/pubs/sp/800/218/final); [S07: SLSA v1.2: Build requirements for producing artifacts](https://slsa.dev/spec/v1.2/build-requirements); [S08: Definitions: When is a build reproducible?](https://reproducible-builds.org/docs/definition/); [S09: in-toto: Providing farm-to-table guarantees for bits and bytes](https://www.usenix.org/system/files/sec19-torres-arias.pdf); [S15: SSDF publications and SP 800-218 Revision 1 initial public draft](https://csrc.nist.gov/pubs/sp/800/218/r1/ipd) | Artifact origin, build provenance, reproducibility and development practice are separate from program behavior. | Correctly signed or reproducible defects still require local scope checks, protected tests and controlled deployment. |
 | Authenticated paths and records: [P07: SCION Header Specification](https://docs.scion.org/en/latest/protocols/scion-header.html); [P08: The Transport Layer Security Protocol Version 1.3](https://www.rfc-editor.org/rfc/rfc8446.html); [P09: An Interface and Algorithms for Authenticated Encryption](https://www.rfc-editor.org/rfc/rfc5116.html); [P11: EPIC: Every Packet Is Checked](https://netsec.ethz.ch/publications/papers/Legner_Usenix2020_EPIC.pdf); [P12: Verifying and Enforcing Network Paths with ICING](https://www.cs.utexas.edu/icing/papers/icing-conext11.pdf); [P13: FABRID: Flexible Attestation-Based Routing for Inter-Domain Networks](https://www.usenix.org/system/files/sec23fall-prepub-135-krahenbuhl.pdf); [F22: FIPS 203: Module-Lattice-Based Key-Encapsulation Mechanism Standard](https://csrc.nist.gov/pubs/fips/203/final); [F23: FIPS 204: Module-Lattice-Based Digital Signature Standard](https://csrc.nist.gov/pubs/fips/204/final); [F24: FIPS 205: Stateless Hash-Based Digital Signature Standard](https://csrc.nist.gov/pubs/fips/205/final); [F25: Quantum Cryptographic Solutions are Limited Compared to Post-Quantum Algorithms](https://www.nsa.gov/Cybersecurity/Post-Quantum-Cryptography-Resource-Hub/Article-Display/Article/4616320/quantum-cryptographic-solutions-are-limited-compared-to-post-quantum-algorithms/) | Transport integrity and path validation have defined endpoint and network assumptions. | Physical cable geography, source disclosure and receiving permission are separate obligations. |
+| Optional cross-party computation: [A16: MPC from somewhat homomorphic encryption](https://pure.au.dk/portal/en/publications/multiparty-computation-from-somewhat-homomorphic-encryption/); [A15: threshold cryptography roadmap](https://nvlpubs.nist.gov/nistpubs/ir/2020/NIST.IR.8214A.pdf) | MPC and threshold cryptography give distinct constructions under selected threat models. | Each deployment must specify corruptions, output control, abort and side-channel assumptions; neither method supplies authorizing authority. |
 | Civil objects, provenance and privacy: [A01: Concise Binary Object Representation (CBOR)](https://www.rfc-editor.org/rfc/rfc8949); [A02: CBOR Object Signing and Encryption (COSE): Structures and Process](https://www.rfc-editor.org/rfc/rfc9052); [A03: Verifiable Credentials Data Model v2.0](https://www.w3.org/TR/vc-data-model-2.0/); [A04: Decentralized Identifiers (DIDs) v1.0](https://www.w3.org/TR/did-core/); [A05: OAuth 2.0 Rich Authorization Requests](https://www.rfc-editor.org/rfc/rfc9396); [A06: C2PA Technical Specification](https://spec.c2pa.org/specifications/specifications/2.3/specs/C2PA_Specification.html); [A10: Voluntary Voting System Guidelines Version 2.0](https://www.eac.gov/sites/default/files/TestingCertification/Voluntary_Voting_System_Guidelines_Version_2_0.pdf); [A11: ODRL Information Model 2.2](https://www.w3.org/TR/odrl-model/); [A12: Certificate Transparency Version 2.0](https://www.rfc-editor.org/rfc/rfc9162); [A13: Digital Identity Guidelines: Authentication and Authenticator Management](https://pages.nist.gov/800-63-4/sp800-63b.html); [A14: Guidelines for Evaluating Differential Privacy Guarantees](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-226.pdf); [A15: NIST Roadmap Toward Criteria for Threshold Schemes for Cryptographic Primitives](https://nvlpubs.nist.gov/nistpubs/ir/2020/NIST.IR.8214A.pdf) | Encoding, credentials, provenance and governance guidelines contribute scoped mechanisms or assessment criteria. | They do not establish legal legitimacy, ballot secrecy in an arbitrary deployment, scene truth or universal key access. |
 | AI and signal quality: [A07: Model Context Protocol: Tools](https://modelcontextprotocol.io/specification/2025-06-18/server/tools); [A08: Model Context Protocol: Security Best Practices](https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices); [A09: Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf); [A17: Defeating Prompt Injections by Design (CaMeL)](https://arxiv.org/html/2503.18813v2); [S10: On Calibration of Modern Neural Networks](https://proceedings.mlr.press/v70/guo17a/guo17a.pdf); [S11: Outside the Closed World: On Using Machine Learning for Network Intrusion Detection](https://www.icir.org/robin/papers/oakland10-ml.pdf); [S14: Guide to Operational Technology (OT) Security, SP 800-82 Revision 3](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-82r3.pdf); [S16: SP 800-82 Revision 3 publication record and Revision 4 planning note](https://csrc.nist.gov/pubs/sp/800/82/r3/final) | Tool interfaces, constrained agent execution, calibration and operational risk guidance inform separate design obligations. | Model confidence, tool metadata or a detector alert cannot mint permission or establish actuator safety. |
 | Formal methods, fault cases and frontier physics: [F09: Key words for use in RFCs to Indicate Requirement Levels](https://www.rfc-editor.org/rfc/rfc2119.html); [F10: Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words](https://www.rfc-editor.org/rfc/rfc8174.html); [F11: Identifiers and Test Vectors for HMAC-SHA-224, HMAC-SHA-256, HMAC-SHA-384, and HMAC-SHA-512](https://www.rfc-editor.org/rfc/rfc4231.html); [F12: TLA+ Tools](https://lamport.azurewebsites.net/tla/tools.html); [F13: Tamarin Prover Manual: Introduction](https://tamarin-prover.com/manual/master/book/001_introduction.html); [F14: RCE via OOM corruption](https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w); [F15: RCE via stale global state](https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp); [F16: FORCEDENTRY: Sandbox Escape](https://projectzero.google/2022/03/forcedentry-sandbox-escape.html); [F17: A deep dive into an NSO zero-click iMessage exploit: Remote Code Execution](https://projectzero.google/2021/12/a-deep-dive-into-nso-zero-click.html); [F18: Impossibility of Distributed Consensus with One Faulty Process](https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf); [F20: Limitations on quantum information](https://quantum.cloud.ibm.com/learning/en/courses/basics-of-quantum-information/quantum-circuits/limitations-on-quantum-information); [P19: Intel Demonstrates First Fully Integrated Optical I/O Chiplet](https://www.intel.com/content/www/us/en/newsroom/news/intel-unveils-first-integrated-optical-io-chiplet.html); [P20: A 64-core mixed-signal in-memory compute chip based on phase-change memory for deep neural network inference](https://research.ibm.com/publications/a-64-core-mixed-signal-in-memory-compute-chip-based-on-phase-change-memory-for-deep-neural-network-inference); [P21: Taking Neuromorphic Computing to the Next Level with Loihi 2](https://www.intel.com/content/dam/www/central-libraries/us/en/documents/neuromorphic-computing-loihi-2-brief.pdf) | Conformance notation, primitive vectors, formal tools, real vulnerability analyses and component demonstrations support bounded comparisons. | No finite model, vendor component result or quantum limitation proves the complete machine or a proposed sensor. |
 
 ## 3. Primary source register
 
+The baseline of comparison includes early capability models, information-flow lattices, integrity controls, Multics, separation kernels, MILS and distributed transaction semantics. These are architectural predecessors, not evidence of ASKA novelty. Distinguish a proposed combination from each mechanism already documented in the literature.
+
+### H01 — Protection
+
+**Primary source:** [Protection](https://bwlampson.site/08-Protection/WebPage.html). **Responsibility:** Butler W. Lampson. **Publication:** 1971; Princeton Symposium, reprinted 1974.
+
+**Access and inspected material:** Author-hosted text, introduction and abstract. **Supported proposition:** Access control and protection models predate the proposed grant vocabulary. **Limit:** A protection model alone establishes neither live effect finality nor complete hardware reachability.
+
+**Architectural comparison:** [Chapter 01](01_system_architecture.md), [Chapter 06](06_authority_calculus_and_nonexpansion.md), [Chapter 31](31_accord_system_and_machine_authorization.md).
+
+### H02 — The Protection of Information in Computer Systems
+
+**Primary source:** [The Protection of Information in Computer Systems](https://web.mit.edu/Saltzer/www/publications/protection/). **Responsibility:** Jerome H. Saltzer and Michael D. Schroeder. **Publication:** Proceedings of the IEEE 63(9), 1975.
+
+**Access and inspected material:** Author-hosted text, introduction and design-principle material. **Supported proposition:** Economy of mechanism, complete mediation, least privilege and separation of privilege are established design guidance. **Limit:** Design guidance does not verify the size or correct implementation of an ASKA reference monitor.
+
+**Architectural comparison:** [Chapter 02](02_requirements_and_threat_model.md), [Chapter 03](03_assurance_trust_and_failure_domains.md), [Chapter 31](31_accord_system_and_machine_authorization.md).
+
+### H03 — Protection and the Control of Information Sharing in Multics
+
+**Primary source:** [Protection and the Control of Information Sharing in Multics](https://doi.org/10.1145/361011.361067). **Responsibility:** Jerome H. Saltzer. **Publication:** Communications of the ACM 17(7), 1974.
+
+**Access and inspected material:** Publisher bibliographic record and abstract; author publication record. **Supported proposition:** Multics applied rings, access control and protected sharing in an earlier general-purpose system. **Limit:** The Multics design does not show that per-purpose physical boards are necessary or economically superior.
+
+**Architectural comparison:** [Chapter 03](03_assurance_trust_and_failure_domains.md), [Chapter 04](04_reference_machine_and_reachability.md), [Chapter 10](10_processor_isa_and_execution_semantics.md).
+
+### H04 — Secure Computer Systems: Mathematical Foundations
+
+**Primary source:** [Secure Computer Systems: Mathematical Foundations](https://lukemuehlhauser.com/wp-content/uploads/Bell-LaPadula-Secure-computer-systems-mathematical-foundations.pdf). **Responsibility:** David E. Bell and Leonard J. LaPadula. **Publication:** MITRE MTR-2547, Vol. I; 1973.
+
+**Access and inspected material:** Public copy of report, title and abstract; mirror, not publisher site. **Supported proposition:** Formal confidentiality policy and state-machine security predate the ASKA flow calculus. **Limit:** The model does not settle integrity, declassification, effects or physical device paths.
+
+**Architectural comparison:** [Chapter 06](06_authority_calculus_and_nonexpansion.md), [Chapter 07](07_information_flow_and_release.md), [Chapter 55](55_formal_properties_and_state_models.md).
+
+### H05 — Integrity Considerations for Secure Computer Systems
+
+**Primary source:** [Integrity Considerations for Secure Computer Systems](https://www.cerias.purdue.edu/apps/reports_and_papers/view/2834/). **Responsibility:** Kenneth J. Biba. **Publication:** MITRE ESD-TR-76-372; April 1977.
+
+**Access and inspected material:** Purdue CERIAS report catalog and abstract only; full report not inspected. **Supported proposition:** Integrity is a distinct policy problem from confidentiality, with formal access constraints. **Limit:** Catalog metadata is not an inspected proof; no ASKA endorsement or device guarantee follows.
+
+**Architectural comparison:** [Chapter 06](06_authority_calculus_and_nonexpansion.md), [Chapter 07](07_information_flow_and_release.md), [Chapter 52](52_commerce_enterprise_and_institutional_workflows.md).
+
+### H06 — A Lattice Model of Secure Information Flow
+
+**Primary source:** [A Lattice Model of Secure Information Flow](https://doi.org/10.1145/360051.360056). **Responsibility:** Dorothy E. Denning. **Publication:** Communications of the ACM 19(5), 1976.
+
+**Access and inspected material:** Publisher abstract and bibliographic record. **Supported proposition:** Security classes and information-flow restrictions admit a lattice formulation. **Limit:** ASKA needs explicit endorsement, release, identity and physical-enforcement semantics beyond the lattice.
+
+**Architectural comparison:** [Chapter 06](06_authority_calculus_and_nonexpansion.md), [Chapter 07](07_information_flow_and_release.md), [Chapter 55](55_formal_properties_and_state_models.md).
+
+### H07 — Design and Verification of Secure Systems
+
+**Primary source:** [Design and Verification of Secure Systems](https://www.csl.sri.com/papers/sosp81/). **Responsibility:** John Rushby. **Publication:** SOSP / ACM OSR 15(5), 1981.
+
+**Access and inspected material:** Author/institution landing page and abstract. **Supported proposition:** The separation-kernel argument explicitly considers physically separated components and small verifiable mediation. **Limit:** Separation is not novel by itself; proof and independent hardware claims are apparatus-specific.
+
+**Architectural comparison:** [Chapter 03](03_assurance_trust_and_failure_domains.md), [Chapter 04](04_reference_machine_and_reachability.md), [Chapter 57](57_reference_realizations_and_legacy_interoperability.md).
+
+### H08 — The MILS Architecture for High-Assurance Embedded Systems
+
+**Primary source:** [The MILS Architecture for High-Assurance Embedded Systems](https://www.inderscience.com/info/inarticle.php?artid=14859). **Responsibility:** Jim Alves-Foss, Paul W. Oman, Carol Taylor and W. Scott Harrison. **Publication:** International Journal of Embedded Systems 2(3/4), 2006.
+
+**Access and inspected material:** Publisher abstract and bibliographic record; full text not inspected. **Supported proposition:** MILS decomposes assurance into manageable isolated components and a separation substrate. **Limit:** Composition and physical-path soundness require evidence; the abstract is not an ASKA assurance result.
+
+**Architectural comparison:** [Chapter 03](03_assurance_trust_and_failure_domains.md), [Chapter 04](04_reference_machine_and_reachability.md), [Chapter 20](20_master_and_local_security_meshes.md), [Chapter 57](57_reference_realizations_and_legacy_interoperability.md).
+
+### H09 — Making Information Flow Explicit in HiStar
+
+**Primary source:** [Making Information Flow Explicit in HiStar](https://static.usenix.org/event/osdi06/tech/zeldovich.html). **Responsibility:** Nickolai Zeldovich, Silas Boyd-Wickizer, Eddie Kohler and David Mazières. **Publication:** OSDI 2006.
+
+**Access and inspected material:** USENIX proceedings abstract. **Supported proposition:** An operating system with explicit IFC and no superuser predates ASKA non-universal-administrator terminology. **Limit:** HiStar does not establish ASKA physical device isolation or external effect finality.
+
+**Architectural comparison:** [Chapter 06](06_authority_calculus_and_nonexpansion.md), [Chapter 07](07_information_flow_and_release.md), [Chapter 09](09_ies_cells_resources_and_scheduling.md).
+
+### H10 — Information Flow Control for Standard OS Abstractions
+
+**Primary source:** [Information Flow Control for Standard OS Abstractions](https://doi.org/10.1145/1294261.1294293). **Responsibility:** Maxwell Krohn, Alexander Yip, Micah Brodsky, Natan Cliffer, M. Frans Kaashoek, Eddie Kohler and Robert Morris. **Publication:** SOSP 2007.
+
+**Access and inspected material:** Publisher abstract and bibliographic record. **Supported proposition:** Flume demonstrates DIFC across processes and standard operating-system abstractions. **Limit:** The paper does not prove that software-only isolation survives a hostile kernel or DMA path.
+
+**Architectural comparison:** [Chapter 07](07_information_flow_and_release.md), [Chapter 09](09_ies_cells_resources_and_scheduling.md), [Chapter 38](38_native_apps_toolchains_and_interoperability.md).
+
+### H11 — The Confused Deputy (or Why Capabilities Might Have Been Invented)
+
+**Primary source:** [The Confused Deputy (or Why Capabilities Might Have Been Invented)](https://doi.org/10.1145/54289.871709). **Responsibility:** Norm Hardy. **Publication:** ACM SIGOPS OSR 22(4), 1988.
+
+**Access and inspected material:** Publisher record and author text available through archival copies. **Supported proposition:** A privileged intermediary can misuse its own broad authority on an untrusted caller's behalf. **Limit:** Capability discipline does not by itself identify permissible real-world effects or independent receivers.
+
+**Architectural comparison:** [Chapter 06](06_authority_calculus_and_nonexpansion.md), [Chapter 31](31_accord_system_and_machine_authorization.md), [Chapter 39](39_agents_delegated_workflows_and_effect_approval.md).
+
+### H12 — A Comparison of Commercial and Military Computer Security Policies
+
+**Primary source:** [A Comparison of Commercial and Military Computer Security Policies](https://doi.org/10.1109/SP.1987.10001). **Responsibility:** David D. Clark and David R. Wilson. **Publication:** IEEE Symposium on Security and Privacy, 1987.
+
+**Access and inspected material:** Publisher abstract and bibliographic record. **Supported proposition:** Commercial integrity needs duties and well-formed transactions beyond confidentiality lattices. **Limit:** The model does not establish a particular legal mandate, payment finality or ASKA implementation.
+
+**Architectural comparison:** [Chapter 06](06_authority_calculus_and_nonexpansion.md), [Chapter 35](35_governance_profiles_conflicts_and_institutions.md), [Chapter 52](52_commerce_enterprise_and_institutional_workflows.md).
+
+### H13 — Sagas
+
+**Primary source:** [Sagas](https://www.cs.princeton.edu/techreports/1987/070.pdf). **Responsibility:** Hector Garcia-Molina and Kenneth Salem. **Publication:** Princeton TR-070-87; SIGMOD 1987.
+
+**Access and inspected material:** University-hosted primary report, title and abstract. **Supported proposition:** Long-running workflows can use ordered subtransactions and compensating operations. **Limit:** Compensation cannot literally reverse an external physical effect; exact finality still needs an owner.
+
+**Architectural comparison:** [Chapter 05](05_unified_execution_data_and_effect_contract.md), [Chapter 17](17_transactions_effects_and_reconciliation.md), [Chapter 52](52_commerce_enterprise_and_institutional_workflows.md).
+
+### H14 — End-to-End Arguments in System Design
+
+**Primary source:** [End-to-End Arguments in System Design](https://web.mit.edu/saltzer/www/publications/endtoend/endtoend.pdf). **Responsibility:** Jerome H. Saltzer, David P. Reed and David D. Clark. **Publication:** ACM TOCS 2(4), 1984.
+
+**Access and inspected material:** Author-hosted primary paper, abstract and introduction. **Supported proposition:** Acknowledgment, recovery and security guarantees often require checks at endpoints, not only lower-level carriers. **Limit:** An end-to-end argument does not license omission of mandatory physical enforcement on a hostile path.
+
+**Architectural comparison:** [Chapter 05](05_unified_execution_data_and_effect_contract.md), [Chapter 42](42_physical_transit_topology_and_routing.md), [Chapter 45](45_packet_records_delivery_and_egress.md).
+
+### H15 — Life Beyond Distributed Transactions: An Apostate's Opinion
+
+**Primary source:** [Life Beyond Distributed Transactions: An Apostate's Opinion](https://www.cidrdb.org/cidr2007/papers/cidr07p15.pdf). **Responsibility:** Pat Helland. **Publication:** CIDR 2007; position paper.
+
+**Access and inspected material:** Conference-hosted position paper, abstract. **Supported proposition:** Inter-organizational workflows cannot casually assume a single global atomic transaction. **Limit:** This is an architectural position, not a proof that a specific retry or compensation method is safe.
+
+**Architectural comparison:** [Chapter 05](05_unified_execution_data_and_effect_contract.md), [Chapter 17](17_transactions_effects_and_reconciliation.md), [Chapter 52](52_commerce_enterprise_and_institutional_workflows.md).
+
+### H16 — Enforcing Robust Declassification and Qualified Robustness
+
+**Primary source:** [Enforcing Robust Declassification and Qualified Robustness](https://www.cs.cornell.edu/andru/papers/robdecl-jcs/). **Responsibility:** Andrew C. Myers, Andrei Sabelfeld and Steve Zdancewic. **Publication:** Journal of Computer Security 14(2), 2006.
+
+**Access and inspected material:** Author-hosted abstract. **Supported proposition:** Attacker influence on declassification and endorsement must be part of the formal flow claim. **Limit:** A type-system result does not establish physical guards, trusted approval or ASKA release correctness.
+
+**Architectural comparison:** [Chapter 07](07_information_flow_and_release.md), [Chapter 31](31_accord_system_and_machine_authorization.md), [Chapter 55](55_formal_properties_and_state_models.md).
+
+### H17 — Linearizability: A Correctness Condition for Concurrent Objects
+
+**Primary source:** [Linearizability: A Correctness Condition for Concurrent Objects](https://doi.org/10.1145/78969.78972). **Responsibility:** Maurice P. Herlihy and Jeannette M. Wing. **Publication:** ACM TOPLAS 12(3), 1990.
+
+**Access and inspected material:** Publisher bibliographic record and abstract. **Supported proposition:** Concurrent-object operations can be specified by a single abstract point between invocation and response. **Limit:** Linearizability of a local owner is not remote acknowledgment, physical completion or durable outcome.
+
+**Architectural comparison:** [Chapter 05](05_unified_execution_data_and_effect_contract.md), [Chapter 12](12_memory_cache_and_revocation.md), [Chapter 17](17_transactions_effects_and_reconciliation.md), [Chapter 55](55_formal_properties_and_state_models.md).
+
 “Reviewed” means the relevant content at the stated locator was inspected, not that the entire publication was independently reproduced or verified. Repeated appearances of one URL are consolidated and preserve their source-ID aliases. The chapter list shows where the source controls a comparison; those chapters remain responsible for their ASKA requirements.
+
+### H18 — EROS: A Fast Capability System
+
+**Primary source:** [EROS: A Fast Capability System](https://doi.org/10.1145/319151.319163). **Responsibility:** Jonathan S. Shapiro, Jonathan M. Smith and David J. Farber. **Publication:** ACM SOSP 1999.
+
+**Access and inspected material:** Publisher/proceedings bibliographic record and university-hosted paper abstract. **Supported proposition:** EROS and its KeyKOS lineage demonstrate fast, fine-grained object-capability protection and persistence. **Limit:** Capability object isolation alone does not validate ASKA physical device reachability or governed multi-party effects.
+
+**Architectural comparison:** [Chapter 06](06_authority_calculus_and_nonexpansion.md), [Chapter 09](09_ies_cells_resources_and_scheduling.md), [Chapter 12](12_memory_cache_and_revocation.md), [Chapter 31](31_accord_system_and_machine_authorization.md).
+
+### H19 — Design of the EROS Trusted Window System
+
+**Primary source:** [Design of the EROS Trusted Window System](https://www.usenix.org/conference/13th-usenix-security-symposium/design-eros-trusted-window-system). **Responsibility:** Jonathan S. Shapiro, John Vanderburgh, Eric Northup and David Chizmadia. **Publication:** 13th USENIX Security Symposium, 2004.
+
+**Access and inspected material:** USENIX paper and abstract page. **Supported proposition:** A small trusted display and input mediator with traceability of user intent predates Keystone. **Limit:** Intent-channel isolation alone does not prove users understand consequences or that a downstream effect matches a prompt.
+
+**Architectural comparison:** [Chapter 31](31_accord_system_and_machine_authorization.md), [Chapter 36](36_keystone_trusted_user_interaction.md), [Chapter 57](57_reference_realizations_and_legacy_interoperability.md).
+
+### H20 — Securing AI Agents with Information-Flow Control
+
+**Primary source:** [Securing AI Agents with Information-Flow Control](https://www.microsoft.com/en-us/research/publication/securing-ai-agents-with-information-flow-control/). **Responsibility:** Manuel Costa, Boris Koepf, Aashish Kolluri, Andrew Paverd, Mark Russinovich, Ahmed Salem, Shruti Tople, Lukas Wutschitz and Santiago Zanella-Beguelin. **Publication:** Microsoft Research / arXiv, May 2025.
+
+**Access and inspected material:** Institution-hosted abstract describing the Fides planner and formal IFC model. **Supported proposition:** Deterministic information-flow restrictions on agent plans and tools predate ASKA agent boundaries. **Limit:** Its reported model and evaluation do not prove ASKA owner-installed rights or hardware observation independence.
+
+**Architectural comparison:** [Chapter 25](25_security_analysis_ai_and_false_alarm_control.md), [Chapter 37](37_ai_native_operating_environment.md), [Chapter 39](39_agents_delegated_workflows_and_effect_approval.md).
+
+### H21 — Security and Privacy Controls for Information Systems and Organizations, SP 800-53 Revision 5
+
+**Primary source:** [Security and Privacy Controls for Information Systems and Organizations, SP 800-53 Revision 5](https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final). **Responsibility:** NIST Joint Task Force. **Publication:** NIST SP 800-53 Rev. 5, corrected December 2020; later minor releases noted.
+
+**Access and inspected material:** Official NIST publication page; AC-4(7) one-way flow mechanism description in publication text. **Supported proposition:** Hardware-based one-way flow mechanisms and cross-domain policy controls are established and cataloged, not an ASKA invention. **Limit:** A diode alone cannot authenticate content, classify payloads, remove physical alternate paths or ensure remote admission.
+
+**Architectural comparison:** [Chapter 20](20_master_and_local_security_meshes.md), [Chapter 23](23_security_mesh_fabrics_and_one_way_links.md), [Chapter 42](42_physical_transit_topology_and_routing.md).
+
+### H22 — Macaroons: Cookies with Contextual Caveats for Decentralized Authorization in the Cloud
+
+**Primary source:** [Macaroons: Cookies with Contextual Caveats for Decentralized Authorization in the Cloud](https://research.google/pubs/macaroons-cookies-with-contextual-caveats-for-decentralized-authorization-in-the-cloud/). **Responsibility:** Arnar Birgisson, Joe Gibbs Politz, Úlfar Erlingsson, Ankur Taly, Michael Vrable and Mark Lentczner. **Publication:** NDSS 2014.
+
+**Access and inspected material:** Research-institution publication abstract. **Supported proposition:** Chained caveats support decentralized, attenuating bearer credentials and conditional discharge at a relying service. **Limit:** Credential attenuation is not semantic correctness of policy evidence, user intent, source disclosure or a protected hardware effect.
+
+**Architectural comparison:** [Chapter 06](06_authority_calculus_and_nonexpansion.md), [Chapter 31](31_accord_system_and_machine_authorization.md), [Chapter 39](39_agents_delegated_workflows_and_effect_approval.md). ASKA grant attenuation must not be presented as newly invented; its additional check is the receiver's installed, locally enforced consequence contract.
+
+### H23 — seL4: Formal Verification of an OS Kernel
+
+**Primary source:** [seL4: Formal Verification of an OS Kernel](https://researchportalplus.anu.edu.au/en/publications/sel4-formal-verification-of-an-os-kernel/) (ANU author-institution publication record; [seL4 publication index](https://www.sel4.systems/Research/publications.html)). **Responsibility:** Gerwin Klein and colleagues. **Publication:** ACM Symposium on Operating Systems Principles (SOSP), 2009; DOI [10.1145/1629575.1629596](https://doi.org/10.1145/1629575.1629596).
+
+**Access and inspected material:** Author-institution abstract and project publication record. **Supported proposition:** Machine-checked functional correctness from a formal kernel specification to its C implementation is established prior art, with hardware, assembly, compiler and boot assumptions in the published proof's scope. **Limit:** A kernel proof does not validate ASKA policy interpretation, live hardware paths, human intent or an external effect's finality.
+
+**Architectural comparison:** [Chapter 03](03_assurance_trust_and_failure_domains.md), [Chapter 31](31_accord_system_and_machine_authorization.md), [Chapter 55](55_formal_properties_and_state_models.md), [Chapter 57](57_reference_realizations_and_legacy_interoperability.md). A simpler verified software boundary is an alternative requiring a matched threat model and operating cost comparison; more guards are not automatically stronger.
+
+### H24 — The KeyKOS Architecture
+
+**Primary source:** [The KeyKOS Architecture](https://pdos.csail.mit.edu/6.828/2008/readings/keykos-osr.pdf) (Norman Hardy's document, university-hosted archival copy). **Responsibility:** Norman Hardy and Key Logic. **Publication:** *Operating Systems Review*, September 1985; linked eighth edition, December 1990.
+
+**Access and inspected material:** University-hosted archived edition, bibliographic identification; full edition not independently analyzed. **Supported proposition:** Capability-based kernel objects and message-mediated delegation were established before EROS and ASKA. **Limit:** The paper is not an implementation-specific proof of ASKA's bank guards, modern DMA protections, or social authority interpretation.
+
+**Architectural comparison:** [Chapter 06](06_authority_calculus_and_nonexpansion.md), [Chapter 09](09_ies_cells_resources_and_scheduling.md), [Chapter 16](16_persistent_objects_storage_and_hese_dar.md). The claimed contribution cannot rest on capability names or object isolation alone.
+
+### H25 — Qubes OS Security by Compartmentalization
+
+**Primary source:** [Qubes OS architecture](https://www.qubes-os.org/doc/QubesArchitecture/) (project documentation; [security design goals](https://doc.qubes-os.org/en/r4.3/developer/system/security-design-goals.html)). **Responsibility:** Qubes OS Project. **Publication:** Living project architecture documentation, Qubes OS 4.3 series.
+
+**Access and inspected material:** Primary project architecture and stated design goals. **Supported proposition:** Purpose-specific isolated desktop compartments, protected user-facing separation and constrained cross-VM transfers are deployed design patterns atop a hypervisor. **Limit:** Virtual-machine boundaries and privileged service domains are not equivalent to ASKA's proposed separately owned physical banks; neither the Qubes project nor ASKA has thereby proven the other's scope.
+
+**Architectural comparison:** [Chapter 04](04_reference_machine_and_reachability.md), [Chapter 38](38_native_apps_toolchains_and_interoperability.md), [Chapter 57](57_reference_realizations_and_legacy_interoperability.md), [Chapter 58](58_performance_cost_power_and_availability.md). A credible physical-owner profile must demonstrate incremental protection relative to a compartmentalized software baseline at matched useful work and cost.
 
 ### F01 — Securing Distributed Systems with Information Flow Control (DStar)
 
@@ -674,7 +883,7 @@ The comparison asks which boundary each source controls. The architectural delta
 
 **Primary source:** [Concise Binary Object Representation (CBOR)](https://www.rfc-editor.org/rfc/rfc8949). **Responsibility:** IETF. **Date/version:** RFC 8949; December 2020.
 
-**Publication/access status:** Internet Standard. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** Internet Standard. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Sections 4.2.1–4.2.3 and 5. **Supported proposition:** Defines CBOR encoding and distinct deterministic-encoding requirements. **Limit:** Does not choose ASKA canonical application schemas, authority or replay semantics.
 
@@ -684,7 +893,7 @@ The comparison asks which boundary each source controls. The architectural delta
 
 **Primary source:** [CBOR Object Signing and Encryption (COSE): Structures and Process](https://www.rfc-editor.org/rfc/rfc9052). **Responsibility:** IETF. **Date/version:** RFC 9052; August 2022.
 
-**Publication/access status:** Proposed Standard. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** Proposed Standard. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Sections 3 and 4.4. **Supported proposition:** Defines protected/unprotected headers, critical parameters and signature structures. **Limit:** Does not qualify a signer for an ASKA resource or make an application serialization canonical.
 
@@ -694,7 +903,7 @@ The comparison asks which boundary each source controls. The architectural delta
 
 **Primary source:** [Verifiable Credentials Data Model v2.0](https://www.w3.org/TR/vc-data-model-2.0/). **Responsibility:** W3C. **Date/version:** Recommendation; version 2.0.
 
-**Publication/access status:** W3C Recommendation. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** W3C Recommendation. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Data model and privacy considerations, including identifier correlation. **Supported proposition:** Defines roles and data structures for verifiable credential statements. **Limit:** Does not mint local resource authority or settle the truth and applicability of every credential.
 
@@ -704,7 +913,7 @@ The comparison asks which boundary each source controls. The architectural delta
 
 **Primary source:** [Decentralized Identifiers (DIDs) v1.0](https://www.w3.org/TR/did-core/). **Responsibility:** W3C. **Date/version:** Recommendation; version 1.0.
 
-**Publication/access status:** W3C Recommendation. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** W3C Recommendation. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Privacy considerations: correlation, pairwise identifiers and verification methods. **Supported proposition:** Explains identifier correlation risks and mitigation considerations. **Limit:** Pairwise identifiers do not guarantee anonymity, institutional qualification or legal capacity.
 
@@ -714,7 +923,7 @@ The comparison asks which boundary each source controls. The architectural delta
 
 **Primary source:** [OAuth 2.0 Rich Authorization Requests](https://www.rfc-editor.org/rfc/rfc9396). **Responsibility:** IETF. **Date/version:** RFC 9396; May 2023.
 
-**Publication/access status:** Proposed Standard. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** Proposed Standard. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Sections 2 and 11. **Supported proposition:** Defines structured authorization_details and associated security considerations. **Limit:** Does not define ASKA installation, physical finality, distributed atomicity or label release.
 
@@ -724,7 +933,7 @@ The comparison asks which boundary each source controls. The architectural delta
 
 **Primary source:** [C2PA Technical Specification](https://spec.c2pa.org/specifications/specifications/2.3/specs/C2PA_Specification.html). **Responsibility:** Coalition for Content Provenance and Authenticity. **Date/version:** Version 2.3; accessed 2026-11-05.
 
-**Publication/access status:** Technical specification. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** Technical specification. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Sections 1.2–1.3, asset bindings, trust, validation and harms. **Supported proposition:** Defines signed provenance assertions, asset bindings and validation processes with stated scope. **Limit:** Does not guarantee physical scene truth, consent, legal sufficiency or sensor honesty.
 
@@ -734,7 +943,7 @@ The comparison asks which boundary each source controls. The architectural delta
 
 **Primary source:** [Model Context Protocol: Tools](https://modelcontextprotocol.io/specification/2025-06-18/server/tools). **Responsibility:** Model Context Protocol project. **Date/version:** Specification path 2025-06-18; accessed 2026-11-05.
 
-**Publication/access status:** Protocol specification. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** Protocol specification. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Tool schemas, annotations and security considerations. **Supported proposition:** Describes structured tool interfaces and limits on trusting annotations. **Limit:** Does not establish hardware confinement, ASKA grant semantics or trusted human approval.
 
@@ -744,7 +953,7 @@ The comparison asks which boundary each source controls. The architectural delta
 
 **Primary source:** [Model Context Protocol: Security Best Practices](https://modelcontextprotocol.io/docs/2025-11-25/tutorials/security/security_best_practices). **Responsibility:** Model Context Protocol project. **Date/version:** Documentation path 2025-11-25; resolved and checked 2026-11-05.
 
-**Publication/access status:** Security guidance. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** Security guidance. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Confused deputy, token passthrough, SSRF, session hijacking and scope minimization. **Supported proposition:** Describes protocol-level security hazards and mitigations for tool integrations. **Limit:** Does not prove model robustness or supply ASKA owner, label and effect guarantees.
 
@@ -754,7 +963,7 @@ The comparison asks which boundary each source controls. The architectural delta
 
 **Primary source:** [Artificial Intelligence Risk Management Framework: Generative Artificial Intelligence Profile](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf). **Responsibility:** NIST. **Date/version:** NIST AI 600-1; July 2024.
 
-**Publication/access status:** Voluntary risk-management guidance. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** Voluntary risk-management guidance. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Information-security risks in section 2, including prompt injection. **Supported proposition:** Identifies generative-AI risks, including direct and indirect prompt-injection concerns. **Limit:** Does not certify an agent, prove confinement or establish a complete ASKA implementation.
 
@@ -764,7 +973,7 @@ The comparison asks which boundary each source controls. The architectural delta
 
 **Primary source:** [Voluntary Voting System Guidelines Version 2.0](https://www.eac.gov/sites/default/files/TestingCertification/Voluntary_Voting_System_Guidelines_Version_2_0.pdf). **Responsibility:** U.S. Election Assistance Commission. **Date/version:** February 10, 2021.
 
-**Publication/access status:** Election technical requirements. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** Election technical requirements. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Section 9.1.1 software independence; Principle 10 ballot secrecy. **Supported proposition:** Provides concrete technical voting-system requirements concerning software independence and ballot secrecy. **Limit:** Is not an ASKA certification, universal election law or validation of a proposed microstructure ballot system.
 
@@ -774,7 +983,7 @@ The comparison asks which boundary each source controls. The architectural delta
 
 **Primary source:** [ODRL Information Model 2.2](https://www.w3.org/TR/odrl-model/). **Responsibility:** W3C. **Date/version:** Recommendation; February 15, 2018.
 
-**Publication/access status:** W3C Recommendation. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** W3C Recommendation. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Permissions, prohibitions, duties; section 2.10 conflicts and section 3 profiles. **Supported proposition:** Defines a policy vocabulary including permissions, prohibitions, duties and profiles. **Limit:** Does not determine universal legal precedence, institutional legitimacy or ASKA enforcement.
 
@@ -784,7 +993,7 @@ The comparison asks which boundary each source controls. The architectural delta
 
 **Primary source:** [Certificate Transparency Version 2.0](https://www.rfc-editor.org/rfc/rfc9162). **Responsibility:** IETF. **Date/version:** RFC 9162; December 2021.
 
-**Publication/access status:** Experimental RFC. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** Experimental RFC. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Introduction and authenticated append-only log/consistency model. **Supported proposition:** Provides a transparency-log comparison involving append-only histories and detectable inconsistencies. **Limit:** Does not prove arbitrary witnessed events true or ensure availability, complete observation or no isolated fork.
 
@@ -794,7 +1003,7 @@ The comparison asks which boundary each source controls. The architectural delta
 
 **Primary source:** [Digital Identity Guidelines: Authentication and Authenticator Management](https://pages.nist.gov/800-63-4/sp800-63b.html). **Responsibility:** NIST. **Date/version:** SP 800-63B-4; 2025 edition.
 
-**Publication/access status:** Technical guidance. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** Technical guidance. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Section 3.2.3 biometrics; authentication lifecycle and privacy context. **Supported proposition:** Constrains biometric use within authentication arrangements and addresses alternative mechanisms. **Limit:** Does not establish human intention, legal capacity, trusted display ownership or unrestricted recovery.
 
@@ -804,7 +1013,7 @@ The comparison asks which boundary each source controls. The architectural delta
 
 **Primary source:** [Guidelines for Evaluating Differential Privacy Guarantees](https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-226.pdf). **Responsibility:** NIST. **Date/version:** SP 800-226; March 2025.
 
-**Publication/access status:** Technical guidance. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** Technical guidance. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Privacy definitions and composition; section 4.2 trust models and section 4.4 access controls. **Supported proposition:** Explains how privacy guarantees depend on definitions, parameters, composition and system assumptions. **Limit:** Does not validate arbitrary aggregates, federated learning or cryptographic claims of an ASKA application.
 
@@ -814,25 +1023,31 @@ The comparison asks which boundary each source controls. The architectural delta
 
 **Primary source:** [NIST Roadmap Toward Criteria for Threshold Schemes for Cryptographic Primitives](https://nvlpubs.nist.gov/nistpubs/ir/2020/NIST.IR.8214A.pdf). **Responsibility:** NIST. **Date/version:** NIST IR 8214A; 2020.
 
-**Publication/access status:** Research roadmap. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** Research roadmap. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Section 5 features, corruption/adversary models, composition and termination. **Supported proposition:** Explains dimensions and operational distinctions among threshold cryptographic schemes. **Limit:** A threshold of keys does not establish institutional independence, honest input or authorized release.
 
 **Architectural comparison:** [Chapter 35](35_governance_profiles_conflicts_and_institutions.md), [Chapter 38](38_native_apps_toolchains_and_interoperability.md), [Chapter 48](48_media_provenance_and_physical_evidence.md), [Chapter 53](53_community_realm_governance_and_disputes.md).
 
+### A16 — Multiparty Computation from Somewhat Homomorphic Encryption
+
+**Primary source:** [Multiparty Computation from Somewhat Homomorphic Encryption](https://pure.au.dk/portal/en/publications/multiparty-computation-from-somewhat-homomorphic-encryption/) (Aarhus University research record; [2011 IACR preprint](https://eprint.iacr.org/2011/535); [CRYPTO 2012 publication](https://doi.org/10.1007/978-3-642-32009-5_38)). **Responsibility:** Ivan Damgård, Valerio Pastro, Nigel P. Smart and Sarah Zakarias. **Publication:** IACR Cryptology ePrint 2011/535; peer-reviewed version in CRYPTO 2012, LNCS 7417, pp. 643–662.
+
+**Access and inspected material:** Author-institution preprint abstract and 2012 conference bibliographic record; the ePrint PDF was not inspected. **Supported proposition:** Describes an actively secure multi-party computation protocol with a preprocessing phase based on somewhat homomorphic encryption, under an explicit corruption bound and arithmetic-circuit model. **Limit:** The abstract does not establish security for every application, side-channel resistance, authorization of released outputs or the honesty of participating institutions.
+
+**Architectural comparison:** [Chapter 38](38_native_apps_toolchains_and_interoperability.md) and [Chapter 53](53_community_realm_governance_and_disputes.md). An ASKA profile using MPC must select and validate its actual corruption, input, output, abort and composition assumptions.
+
 ### A17 — Defeating Prompt Injections by Design (CaMeL)
 
 **Primary source:** [Defeating Prompt Injections by Design (CaMeL)](https://arxiv.org/html/2503.18813v2). **Responsibility:** Authors of arXiv:2503.18813. **Date/version:** Version 2; June 24, 2025.
 
-**Publication/access status:** Research preprint. Primary full text opened and selected relevant sections inspected with web tools; access date 2026-11-05.
+**Publication/access status:** Research preprint. Primary full text opened and selected relevant sections inspected with web tools.
 
 **Inspected location:** Sections 3, 5 and 7: threat model, capability/data-control design and limitations. **Supported proposition:** Studies separation of control/data and capability-mediated tool execution under a stated threat model. **Limit:** Does not establish universal prompt-injection immunity, ASKA hardware isolation or all side-channel protection.
 
 **Architectural comparison:** [Chapter 37](37_ai_native_operating_environment.md).
 
 ## 4. Access gaps and non-evidence
-
-**A16 — [Cryptology ePrint record 2011/535 — full-text access gap](https://eprint.iacr.org/2011/535.pdf).** IACR ePrint Archive; Version and title not verified. Inaccessible; not used as evidence. HTTP 403 on PDF retrieval; no full text reviewed and no publication claim relies on it. No technical result from inaccessible full text is used to establish an ASKA claim. No claim about MPC, zero knowledge or any implementation may rely on this inaccessible response.
 
 Public overviews, educational derivations, vendor briefs and abstract-only comparisons in the main register retain their stated limits. Unspecified proprietary algorithms, undisclosed passive-memory decoding mechanisms and conceptual physical-media constructions have no supplied reproducible evidence. Their hypotheses and defeating experiments are recorded in the owning chapters and the research program; a missing mechanism is not filled by an invented implementation.
 

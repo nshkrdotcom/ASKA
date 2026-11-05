@@ -1,7 +1,5 @@
 # ASKA v6 — Monitoring privacy and observation authority
 
-**Status:** proposed observation and disclosure rules. Legal applicability, privacy mechanisms and technical access must be established for the selected deployment.
-
 ## 1. Observation is access to information
 
 Security telemetry can reveal private information without containing a document’s plaintext. Object names, memory addresses, timing, contact patterns, device identities, program selection and the fact that a particular alarm fired may disclose a person’s activity. A protected observer therefore needs an observation contract. Its physical independence does not grant a right to collect everything it can measure.

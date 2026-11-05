@@ -1,7 +1,5 @@
 # ASKA v6 — Software update and supply-chain safety
 
-**Status:** proposed lifecycle and admission controls. No ASKA build, release process, firmware resilience certification or production rollout result is asserted.
-
 ## 1. The signed producer is inside the threat model
 
 An update can be authentic and dangerous. Its producer may be malicious, its tests incomplete, its parser faulty, its model poisoned, or its device assumptions wrong. A correctly signed driver can crash every workload that loads it. A signed observer rule can hide an attack or exhaust the observer. A valid guard bitstream can invalidate the very boundary intended to contain other faults. Authentic distribution is therefore one requirement among several.

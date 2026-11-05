@@ -1,7 +1,5 @@
 # ASKA v6 — Steles, witness receipts and notice
 
-**Status:** proposed architectural requirements. Acceptance oracles specify evidence to obtain; no ASKA implementation or validation result is asserted.
-
 Steles provides scoped evidence that specified events or commitments were recorded. It does not observe all machine behavior, determine whether every asserted fact is true, or replace independent security watchers. A witness can preserve a source owner's signed receipt, expose equivocation relative to known checkpoints and support later review. Its evidence is only as strong as the event source, custody, clock, signature and publication assumptions that the selected profile declares.
 
 Witnessing serves several distinct purposes: retaining evidence of a person's approval, proving that a machine installed a grant, recording local effect finality, preserving a legal-process step, documenting a notice attempt, or committing to a software artifact. These events must not be collapsed into an undifferentiated “transaction succeeded” entry. The receipt schema is owned by [Claim, contract, grant and receipt schemas](32_claim_contract_grant_receipt_schemas.md).

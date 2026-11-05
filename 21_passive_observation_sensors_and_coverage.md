@@ -1,7 +1,5 @@
 # ASKA v6 — Passive observation, sensors and coverage
 
-**Status:** specified observation contracts and research candidates. No undisclosed sensor is assumed to provide complete memory or device visibility.
-
 ## 1. Four different acquisition mechanisms
 
 An observer can be physically separate and still interact with the resource it examines. ASKA therefore classifies acquisition by what it does at the observed interface, not by whether its software calls the operation “read-only.” A DMA read creates a transaction, consumes bandwidth and may involve coherence. A debug read can halt a core or change architectural state. An instrumented export consumes implementation resources even when it is inaccessible to the workload. These distinctions affect both the security claim and the performance comparison.

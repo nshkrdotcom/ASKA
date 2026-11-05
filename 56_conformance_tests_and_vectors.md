@@ -1,12 +1,10 @@
 # ASKA v6 — Conformance tests and vectors
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. Evidence classes and acceptance rule
 
 This chapter specifies the conformance campaign and supplies a small reproducible semantic demonstration. Tests for actual hardware, firmware, operating software, observers, diodes, cryptographic protocols and civil workflows are **specified but unexecuted** unless a result explicitly says otherwise. The successful finite checks below are evidence about their code and abstraction only. No physical ASKA apparatus, complete protocol implementation or end-to-end proof is certified by this publication.
 
-Every requirement has an owning chapter, a named enforcer, assumptions and a concrete acceptance oracle in [Chapter 61](61_requirement_decision_evidence_traceability.md). Its matching `T-NN-XX` identifier denotes the obligation, not a claim of a test implementation or pass. A campaign record includes requirement, build identity, fixture, attacker powers, initial protected state, ordered stimuli, expected state/effects, observations, positive control, actual result and residual limitations. A missing observation is not automatically a successful denial.
+Every requirement and acceptance oracle is defined in its owning chapter. [Chapter 61](61_requirement_decision_evidence_traceability.md) indexes the owners and the implementation evidence required for qualified claims. Its matching `T-NN-XX` identifier denotes the obligation, not a claim of a test implementation or pass. A campaign record includes requirement, build identity, fixture, attacker powers, initial protected state, ordered stimuli, expected state/effects, observations, positive control, actual result and residual limitations. A missing observation is not automatically a successful denial.
 
 The test oracle must observe the relevant consequence independently of the component under attack. For egress, observe the actual output boundary; for persistence, cut power and recover through the declared durability mechanism; for a watcher, use independent input/output counters; for a physical actuator, measure the device-specific consequence. A guest log saying “blocked” cannot establish that DMA or an external effect was blocked.
 
@@ -216,7 +214,7 @@ Before data collection, the evaluator specifies representative participant and a
 
 A failed oracle identifies the exact claim defeated and whether the defect lies in the implementation, model or stated assumption. Preserve the failing input and state trajectory. A correction is accepted only after replaying that counterexample and the corresponding permitted-work control. Broadening the assumption to exclude an ordinary admitted attacker requires an explicit weaker profile, not a silent pass.
 
-The full requirement/test mapping is in [Chapter 61](61_requirement_decision_evidence_traceability.md). Implementation reports bind results to artifact digests and retain raw evidence under appropriate privacy controls. This publication supplies obligations, a bounded executed demonstration and reproducible primitive checks; all remaining proposed tests retain their unvalidated status until actual evidence is supplied.
+Requirement/test ownership is indexed in [Chapter 61](61_requirement_decision_evidence_traceability.md); the binding test text remains in each owning chapter. Implementation reports bind results to artifact digests and retain raw evidence under appropriate privacy controls. This publication supplies obligations, a bounded executed demonstration and reproducible primitive checks; all remaining proposed tests retain their unvalidated status until actual evidence is supplied.
 
 ## Normative requirements and acceptance obligations
 

@@ -1,7 +1,5 @@
 # ASKA v6 — AI-native operating environment
 
-**Status:** proposed architectural requirements. Acceptance oracles specify evidence to obtain; no ASKA implementation or validation result is asserted.
-
 An AI-native environment makes language, planning, contextual retrieval and task composition ordinary ways to use the machine. It does not make a model the operating system's root authority. The user companion AI, UAI, can interpret requests, locate permitted information, propose workflows, assemble views and help build software. Resource owners and guards continue to decide which inputs it can read and which consequences can occur. The environment must remain controllable when the model is unavailable, mistaken or manipulated by hostile content.
 
 The roles are deliberately separable. UAI supports the person's work; security analysis AI, SAI, analyzes admitted security evidence; build agents prepare artifacts; local orchestrators manage bounded execution graphs; service owners enforce their own interfaces. A single model may implement several roles in a laboratory only if each session's memory, credentials, observation scope and effect authority remain separated and the resulting common failure domain is declared. A single privileged AI hub is not an architectural requirement.
@@ -25,6 +23,8 @@ A candidate local interaction-context profile connects the trusted UI event owne
 Its response returns through a separately admitted presentation-proposal interface to a display owner; any consequential approval still follows [Keystone's trusted interaction path](36_keystone_trusted_user_interaction.md). Neither observation nor that proposal interface gives the model input-injection, approval-signing, trusted-region writing or installer authority.
 
 A realization claiming a physical diode qualifies its actual transmitter, receiver, sidebands and inspection boundary under [the directional-link contract](23_security_mesh_fabrics_and_one_way_links.md); the separate response path remains visible in the complete graph. Directionality constrains that particular channel. It does not make sanitized content truthful or harmless, establish prompt-injection immunity, or turn the complete feedback workflow into an air gap. This is a proposed profile requiring implementation evidence, not a completed physical realization. A selecting realization inventories these additional local interfaces, their roots and any reverse-path dependencies.
+
+[CaMeL](https://arxiv.org/abs/2503.18813) and Microsoft's [Fides](https://www.microsoft.com/en-us/research/publication/securing-ai-agents-with-information-flow-control/) use information-flow restrictions around LLM tool use. Model labeling and deterministic tool checks are prior art; ASKA requires the owner to validate the already-installed grant for each consequence.
 
 ## 37.2 Planning, tools and prompt injection
 

@@ -1,7 +1,5 @@
 # ASKA v6 — Boot, key custody, recovery and continuity
 
-**Status:** proposed root and recovery contract. The choice of devices, cryptographic suites, protected state and physical service mechanisms remains a realization-specific evidence gate.
-
 ## 1. Roots are finite and scoped
 
 ASKA’s protections ultimately depend on finite roots: immutable or protected boot code, key stores, ownership and finality logic, physical wiring, manufacturing assumptions and authorized custodians. A root is trusted for a named function and scope. It is not a universal credential that can authorize every operation in every realm. The installation and recovery roots for a boundary, observer, watcher, Keystone and Steles have different consequences.

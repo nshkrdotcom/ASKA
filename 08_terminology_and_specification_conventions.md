@@ -1,7 +1,5 @@
 # ASKA v6 — Terminology and specification conventions
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. Normative language and scope
 
 **MUST** denotes a design obligation, **MUST NOT** a prohibition, **SHOULD** an important recommendation whose deviation needs a documented rationale, and **MAY** a permitted optional choice. These terms specify the proposed architecture. They do not assert that a component exists, has been fabricated or has passed a test. Their conventional requirements-language basis is [BCP 14 / RFC 2119](https://www.rfc-editor.org/rfc/rfc2119.html) and its uppercase clarification [RFC 8174](https://www.rfc-editor.org/rfc/rfc8174.html).
@@ -92,15 +90,23 @@ A schema version identifies an encoding contract, not an architecture history. U
 
 ## 7. Identifiers and dependencies
 
-Requirements use `R-NN-XX`, acceptance oracles use `T-NN-XX`, architectural decisions use `D-XX`, end-to-end traces use `C-XX`, and finite executable demonstrations use `M-XX`. `NN` is the canonical owner chapter. The requirement registry in [Chapter 61](61_requirement_decision_evidence_traceability.md) records enforcer, assumptions, oracle and evidence status. A referenced ID must resolve to a definition.
+Requirements use `R-NN-XX`, acceptance oracles use `T-NN-XX`, architectural decisions use `D-XX`, end-to-end traces use `C-XX`, and finite executable demonstrations use `M-XX`. `NN` is the canonical owner chapter. The ownership index in [Chapter 61](61_requirement_decision_evidence_traceability.md) resolves requirement/test IDs to their chapter definitions and identifies evidence dependencies. The definition and acceptance oracle occur only in the owning chapter. A referenced ID must resolve to a definition.
 
 “Depends on” means a claim fails or becomes unestablished when its prerequisite fails. “Uses” means a functional relationship that may permit degraded alternatives. “Observes” names a visibility boundary. “Authorizes” means a particular installed effect right, never an arrow drawn for explanatory convenience. Diagrams distinguish these edge types and refer to the same physical interface register as the prose.
 
 ## Cross-register identifiers
 
-`R-NN-XX` identifies a normative requirement owned by Chapter NN; `T-NN-XX` identifies its acceptance obligation. `INV-XX` identifies a formal proof obligation in Chapter 55, not a proved theorem. `D-XX` identifies a current architectural decision and `H-XX` a falsifiable hypothesis in Chapter 60. `C-XX` identifies a complete conceptual incident or transaction in Chapter 54. Source prefixes F, P, S and A identify entries in Chapter 62; every citation must still resolve to an actual URL. These namespaces are disjoint, and none of their identifiers is executable authority.
+`R-NN-XX` identifies a normative requirement owned by Chapter NN; `T-NN-XX` identifies its acceptance obligation. `INV-XX` identifies a formal proof obligation in Chapter 55, not a proved theorem. `D-XX` identifies a current architectural decision and `H-XX` a falsifiable hypothesis in Chapter 60. `C-XX` identifies a complete conceptual incident or transaction in Chapter 54. Source prefixes H, F, P, S and A identify entries in Chapter 62; every citation must still resolve to an actual URL. These namespaces are disjoint, and none of their identifiers is executable authority.
 
 Protocol object types, PACT states, effect states, evaluation dispositions and security event families are separate enums. A receipt may record a denied evaluation, an established local commit and a separately uncertain downstream effect without merging those state machines. Unknown critical values fail admission under the applicable schema; prose aliases never select a more permissive operation.
+
+## Requirement wording and testability
+
+Normative statements identify one responsible enforcing boundary, one checkable consequence and the assumptions under which it holds. A security claim needs a positive authorized control and an adversarial falsifier; a documentation obligation is normative only when the document or manifest is itself the protected artifact. Keep rationale and comparative literature outside the requirement sentence. The [NASA requirements checklist](https://www.nasa.gov/reference/appendix-c-how-to-write-a-good-requirement/) distinguishes necessary, testable requirements from aspirations.
+
+Use one term per technical concept and define its scope at first use. Prefer a direct actor–action sentence, explicit field or state name, and a short counterexample over a string of synonyms or generic exclusions. Put common claims once at the owning boundary and cross-reference them elsewhere; do not duplicate a test oracle in the traceability index. The [NASA Kennedy technical-documentation style guide](https://standards.nasa.gov/sites/default/files/standards/KSC/F/0/ksc-df-107_rev_f_07082017.pdf) and the [UK Government functional-standards writing guide](https://www.gov.uk/government/publications/handbook-for-standard-managers/functional-standards-writing-style-guide) likewise prefer short direct sentences, explicit responsibility and one idea per requirement. This follows [IBM's consistency guidance](https://www.ibm.com/docs/en/technical-content?topic=standards-style), [the RFC Editor's requirement to preserve technical meaning](https://www.rfc-editor.org/rfc/rfc7322.html), and [Microsoft's guidance on precise, concise terminology](https://learn.microsoft.com/en-us/style-guide/word-choice/use-simple-words-concise-sentences).
+
+Use uppercase `MUST`, `MUST NOT`, `SHOULD` and `MAY` only with the [BCP 14 interpretation](https://www.rfc-editor.org/rfc/rfc8174.html). A numerical bound is either part of a named implementation profile or an explicit open parameter; a sample value is never a hidden universal limit. Source links identify the exact publication and the proposition used. Unknown evidence remains unknown; labels such as *verified*, *independent* and *secure* always name a property and apparatus.
 
 ## Normative requirements and acceptance obligations
 

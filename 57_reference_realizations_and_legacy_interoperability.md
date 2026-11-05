@@ -1,12 +1,12 @@
 # ASKA v6 — Reference realizations and legacy interoperability
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. What constitutes a realization
 
 A realization is a named apparatus, its installed software and firmware, its wiring, the responsible custodians, and a reproducible evidence dossier. A reference organization is a design target. A simulator is evidence about its model. Neither becomes an implemented physical boundary by adopting an ASKA name. The authoritative physical interfaces and counts are in [Chapter 04](04_reference_machine_and_reachability.md); this chapter assigns operating roles and deployment workflows to those interfaces. [Chapter 59](59_assurance_claims_profiles_and_manifests.md) defines the claims each apparatus may publish.
 
 The implementation boundary includes powered-off maintenance paths, provisioning tools and restoration equipment. A demonstration that disables its ordinary debugger only during the attack test has not established the production claim. Every result identifies which attacker credentials and physical access were actually granted, which components were substituted with models, and which sources of power, clock, storage, network and installation authority survived the attack.
+
+[Rushby's separation-kernel work](https://www.csl.sri.com/papers/sosp81/) and [MILS](https://www.inderscience.com/info/inarticle.php?artid=14859) are the primary comparative baselines, alongside [seL4](https://researchportalplus.anu.edu.au/en/publications/sel4-formal-verification-of-an-os-kernel/), [Qubes OS](https://www.qubes-os.org/doc/QubesArchitecture/), OctopOS, M3 and CHERI in [Chapter 62](62_prior_art_sources_and_evidence_register.md). Qualification must compare the same hostile paths and useful workloads rather than assuming that more boards confer more security.
 
 ## 2. RP-A: personal or professional workstation
 
@@ -49,9 +49,11 @@ LP-1 is a proposed build, not a claim that equipment has been assembled. It mini
 | Oversight receiver | Receives watcher reports on separate simplex link | Loss affects oversight, not generic guard authority |
 | Trusted approval unit | Displays destination and exact operation for one task | Prototype trusted display assurance is separately evaluated |
 
-The minimum wiring is compute-to-guard request links; guard-to-owned-memory/device links; exporter-to-LSM; independent exporter/health-to-watcher; MSM-to-LSM configuration; LSM-to-MSM reporting; watcher-to-OV export; LSM-to-effect-owner proposal; and approval-to-local-admission. Each is recorded as simplex or duplex with the actual parser, destination and reset owner. No general Ethernet management switch silently joins these domains. If bench tooling requires such a switch, LP-1 declares that additional reachability and restricts its conclusions accordingly.
+**Stage 1 (guarded prevention)** requires compute-to-guard requests, guarded owned-memory/device links, a protected effect/consumption owner, and canonical approval-to-local-admission. The compute boards, guard board and storage/effect board, plus the trusted approval unit, establish this test boundary. Its output is independently measured; no watcher verdict is needed to reject a stale DMA or overbroad effect.
 
-The initial application imports an adversarial image or invoice, extracts a bounded representation, obtains exact approval and appends one authorized durable result. The adversary owns C-1, supplies delayed DMA, floods report inputs and proposes a correctly signed but invalid observer configuration. Positive controls must still complete under the same policy. An independently instrumented output records whether any forbidden append or emission escaped; guest log messages are insufficient evidence.
+**Stage 2 (OOB evidence)** adds the observer, watcher, distribution and oversight apparatus: exporter-to-LSM, independent exporter/health taps, MSM-to-LSM simplex configuration, LSM-to-MSM reporting, watcher-to-OV report and bounded LSM-to-effect-owner proposals. These added boards and links are not prerequisites for Stage 1. Each path is recorded as simplex or duplex with its actual parser, destination and reset owner. A shared bench-management switch must be inventoried as additional reachability, not assumed harmless.
+
+The initial application imports an adversarial image or invoice, extracts a bounded representation, obtains exact approval and appends one authorized durable result. The adversary owns C-1 and supplies delayed DMA during Stage 1; during Stage 2 it also floods reports and proposes a correctly signed but invalid observer configuration. Each stage includes a positive authorized control under the same policy. An independently instrumented output records whether any forbidden append or emission escaped; guest log messages are insufficient evidence.
 
 LP-1 first measures isolation and observability with simple electrical links. An optical component, capability ISA or advanced package is useful only when its specific hypothesis is under test. A single FPGA partition can validate an interface state machine while leaving configuration-root independence unestablished. Changing from an existing core to a minimal object ISA is a separate experiment, with the same externally visible contract and adversarial workload.
 

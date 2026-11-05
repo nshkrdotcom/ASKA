@@ -1,7 +1,5 @@
 # ASKA v6 — Performance, cost, power and availability
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. Evaluation contract
 
 The native architecture has explicit costs: physical allocation can strand compute or memory; confinement adds staging and metadata; observation consumes bandwidth and power; separate roots add hardware, lifecycle and operational work. These costs must be measured with required protections enabled and against alternatives under the same attacker and workload model.
@@ -53,6 +51,12 @@ Availability is measured for a named service, workload, observer and interval. C
 Energy accounting includes useful compute, idle isolated resources, memory movement, cryptographic engines, always-on observers/watchers, optical/electrical interfaces, cooling and recovery. Report joules per completed useful operation and total idle power. A faster accelerator can increase total energy if its host, memory and observation overhead dominate. Process-node forecasts and vendor maximum throughput cannot substitute for apparatus measurements.
 
 Shared supply, cooling, clock and provider facilities remain correlated failure sources. Redundant links do not yield multiplied availability probabilities without evidence about the dependence structure. RP-A and RP-B declare different physical assumptions in [Chapter 04](04_reference_machine_and_reachability.md).
+
+### Operating and custody cost
+
+A deployable profile must name an operator for each installed guard, monitor, witness, key, recovery path and maintained physical interface. Its annual cost model counts acquisition, reserved spare capacity, energy/cooling, facility and network service, staff for patching and key rotation, independent audits, custody incidents, replacement parts, repair travel, qualification re-runs and decommissioning. A separately rooted watcher may have a separate **technical** installer yet rely on the same employer, contractor or power utility; record those common causes and their cost rather than claiming administrative independence from circuit separation.
+
+Report `cost_per_approved_effect = (amortized_capital + annual_operations + qualification + failure_recovery) / successful_authorized_effects`, using measured workload and accounting period. Also report useful-work share and energy per permitted effect at the same security contract. A zero-throughput denial-only implementation has no finite cost-per-useful-effect success claim. None of these ratios establishes a market, operator incentive or financial sustainability without named payers and practical maintenance arrangements.
 
 ## 8. Required workload matrix
 

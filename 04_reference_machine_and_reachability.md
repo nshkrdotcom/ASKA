@@ -1,16 +1,16 @@
 # ASKA v6 — Reference machine and reachability
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. Reference status and indexing
 
 This chapter defines two conceptual physical reference profiles, **RP-A** and **RP-B**. They are implementable board/appliance organizations to be refined into schematics, RTL, firmware and measured apparatus. No production layout, completed fabrication, electrical compliance or demonstrated isolation is asserted. Connector and module counts below are sample profile counts at a stated boundary, not a universal consequence of the four societal purposes.
 
 In tables, `p ∈ {S,P,A,W}` denotes Sanctum, Polis, Agora and Wilder. `t ∈ {S,P,A,W,T}` additionally includes trusted-service observation. A parameterized row expands into one independently identified interface per listed value; it never means a shared unguarded bus. The implementation manifest MUST expand these rows into actual pins, lanes, modules, wiring and firmware identities before claiming physical conformance.
 
+[Separation kernels](https://www.csl.sri.com/papers/sosp81/) and [MILS](https://www.inderscience.com/info/inarticle.php?artid=14859) are the starting comparison for protected partitions. RP-A adds separately inventoried device, reset, debug, power and installation paths. It claims neither original physical partitioning nor greater assurance before a circuit-level inspection. [Qubes OS](https://www.qubes-os.org/doc/QubesArchitecture/) is a deployment comparison for purpose compartments sharing a virtualization stack; RP-A must demonstrate a concrete reduction in reachable attacker paths before justifying its extra boards.
+
 ## 2. RP-A: split-board sovereign workstation
 
-Each purpose has a compute module `C-p`, a physically assigned writable bank `B-p`, a boundary module `G-p` and a purpose PHY `J-p`. `G-p` contains protected MG, DG, BG, PO commit control, EO and EG/RG functions for that purpose. Its complex parsers and persistent-service transition workers run in confined cells; its ownership/finality tables are outside those workers' authority. A single boundary-module failure can affect its purpose, so these functions are not counted as mutually independent merely because their names differ.
+Each purpose has a compute module `C-p`, an assigned writable bank `B-p`, one boundary guard `G-p`, and a purpose PHY `J-p`. The names MG (memory), DG (device/DMA), BG (handoff), PO (persistent commit), EO (effect) and EG/RG (egress/receive) identify **functions inside that one guard**, not extra chips or independent protection roots. Each claimed transaction must pass its applicable function before the irreversible boundary. Parsers and transition workers run in confined cells; only protected guard state holds ownership and finality tables. Loss of `G-p` compromises that purpose's full boundary.
 
 `C-p` may contain internally coherent cores and caches. The memory controller path through MG-p enforces the bank allocation; writebacks and retries carry protected owner/lifetime identity. No CPU in C-W has a direct wired load/store path to B-S. Cross-purpose application communication uses a BG handoff and a source/receiver contract. DMNoC is the conceptual guarded interconnect connecting these endpoints; it does not grant routing controllers access to bank contents.
 
@@ -50,7 +50,7 @@ flowchart TB
 
 There are also LS-T and WM-L-T for authorized K/ST/service exports, and WM-M for MSM oversight. T is an observation scope, not a fifth general-purpose application plane. WM-M's export reaches OV independently of the MSM report parser. Each watcher retains its own boot root and local evidence buffer. ST can receive a separately released commitment about oversight; it does not absorb the watcher's authority or replace OV's receiver policy.
 
-## Native first-contact domain E
+### First-contact domain E
 
 Both RP-A and RP-B add one dedicated duplex encounter port `J-E`, with a separate parser/receive lane, FIFO, buffer bank `B-E`, compute domain `C-E` and device/DMA path behind `G-E`. E is a Wilder-governed first-contact resource domain, not a fifth societal purpose. The ordinary `J-W` purpose port remains distinct and can carry established admitted Wilder sessions. Established ATN/STN traffic never traverses E's FIFO and never depends on E's free-buffer pool, parser, allocator or recovery progress.
 
@@ -72,6 +72,16 @@ The following E-specific bindings override the ordinary purpose/service indices.
 | I10-E | E exporter, configuration, output and health taps → WM-L-W | Independently admitted E evidence and counters; neither LS-W self-report nor W traffic can substitute for E coverage |
 
 I01-E through I03-E instantiate only E-owned resources and guarded handoff. I04-E retains the narrow owner restriction above. Admission promotion is a separate receiving-owner decision; successful encounter parsing or an observer proposal does not confer that authority.
+
+### Minimum boundary versus monitored realization
+
+| Claim profile | Required apparatus | Additional permitted evidence and costs |
+|---|---|---|
+| `HARDWARE_GUARDED` | `C-p`, `B-p`, `G-p` with protected owner tables, admitted physical ports, local install/recovery and an independent actual device-path inspection | Qualifies prevention for inventoried paths; it does not claim watcher-independent detection |
+| `OOB_PARTIAL` | The guarded apparatus plus explicitly bounded outside observation | Must disclose coverage gaps, observer write paths and added sharing |
+| `OOB_NATIVE` / RP-A extended example | Above plus LS/MSM, WM-L/WM-M and OV where a measured threat demands them | Each new root, link, exporter, key custody role and maintenance path enters the cost, trust and assurance register |
+
+The RP-A diagram and I01–I22 bill describe the **extended** configuration; they are not minimum manufacturing requirements. A per-purpose `G-p` may use internal submodules only when the interface register shows their physical routes and shared roots. The installation manifest distinguishes hardware guards from merely named software services.
 
 ## 3. Component and installation roots
 
@@ -117,6 +127,20 @@ This is the complete **logical interface-class register** for RP-A. An implement
 | I20-x | Clock source → component x | Named oscillator/clock-conditioning domain | Counter continuity/fault handling | Hidden clock mux or debug clock invalidates manifest |
 | I21 | Supply/cooling → modules | Physical infrastructure | Fault detection and declared safe-state response | Shared facilities remain common-cause dependencies |
 | I22-p | Peripheral output owner → display/print/media/actuator port | Exact admitted physical output | Device-specific final guard and safety interlock | Raw device maintenance emission must be gated or physically absent |
+
+### Guard transaction profile required for implementation
+
+The interface table names consequences, but does not choose a silicon encoding. Before LP-1 or a production board can claim an implementable guard, its profile must specify **wire widths, endian convention, canonical encoding, queue ordering, clock/reset domain, authentication, timeout, replay state and the final acknowledgment event** for each selected interface. These parameters are deliberately open in the reference architecture.
+
+| Guard operation | Fields whose meaning must be fixed | Required fault trial |
+|---|---|---|
+| MG memory access | Requester/IES identity, owner generation, byte range, read/write/atomic operation, permissions and protected reply code | Stale writeback after generation retirement |
+| DG device transaction | Device/queue identity, descriptor and extent commitment, source generation, DMA direction, completion ownership | Delayed burst to a reassigned bank or peer device |
+| BG transfer | Source and receiving owner, object generation, class/label, operation type, immutable copy/loan commitment, cancellation epoch | Ownership changes between bind and publication |
+| PO/EO operation | Operation identity and idempotency key, contract/grant digest, object generation, budget reservation, finality/receipt ordering | Reset between irreversible action and durable consumption |
+| EG/RG emission or receipt | Exact output/destination binding, session and policy epochs, record sequence, replay state, receiver quota, commit result | Authenticated rejected high sequence must not poison valid replay state |
+
+The guard controls its protected tags and transaction acceptance. A workload field is a *claim* until attached to a trusted requester or channel. An address, sequence counter or signature cannot stand in for physical requester identity. An implementation that has not selected these fields and run the corresponding bus trace is an architecture candidate, not a fabrication-ready clean-room specification.
 
 `EO-T` denotes only the specifically admitted K/ST/service protective owners. It does not authorize disabling emergency stop, overriding K approval, or rewriting witness history. A response proposal can reach an owner; it cannot bypass that owner's predicate.
 

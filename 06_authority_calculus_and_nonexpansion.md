@@ -1,12 +1,14 @@
 # ASKA v6 — Authority calculus and non-expansion
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. Authority describes a derivation
 
 An ASKA operation is authorized by a specific derivation from recognized evidence, applicable rules and installed rights. Neither physical possession, a network address, a role title, a cryptographic identity nor an AI recommendation creates all the prerequisites of that derivation. A person may own a device without owning every hosted institution's records; an institution may issue an applicable order without controlling the device's boot keys.
 
 The candidate action is `a = (actor, operation, target, content_selector, recipient, purpose, plane, time_window, budget, output_contract, obligations)`. Evaluation occurs in a bounded context `Γ = (profiles, claims, relationships, revocations, resource_ownership, clock_basis, local_policy, recipient_policy)`. A decision applies to that action and context, not to all actions by the actor.
+
+The protection algebra follows [Lampson's access-control model](https://bwlampson.site/08-Protection/WebPage.html) and the longstanding [confused-deputy failure](https://doi.org/10.1145/54289.871709). Classical [confidentiality](https://lukemuehlhauser.com/wp-content/uploads/Bell-LaPadula-Secure-computer-systems-mathematical-foundations.pdf), [integrity](https://www.cerias.purdue.edu/apps/reports_and_papers/view/2834/) and [lattice-flow](https://doi.org/10.1145/360051.360056) models inform the distinct policy dimensions. [HiStar](https://static.usenix.org/event/osdi06/tech/zeldovich.html) previously demonstrated a system without a superuser; the absence of a universal ASKA administrator is a design constraint, not a novelty claim.
+
+[KeyKOS](https://pdos.csail.mit.edu/6.828/2008/readings/keykos-osr.pdf), [EROS](https://doi.org/10.1145/319151.319163), [macaroons](https://research.google/pubs/macaroons-cookies-with-contextual-caveats-for-decentralized-authorization-in-the-cloud/) and the [confused-deputy analysis](https://doi.org/10.1145/54289.871709) establish capability confinement, scoped delegation and credential attenuation as prior art. The ASKA derivation adds typed approvals and multiple independent consequence owners; its non-expansion theorem remains an implementation obligation.
 
 ## 2. Evidence kinds and independent rights
 

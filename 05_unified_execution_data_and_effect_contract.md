@@ -1,7 +1,5 @@
 # ASKA v6 — Unified execution, data and effect contract
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. One contract at every consequence boundary
 
 A protected action names a source, a target, an operation and the finality point at which the consequence becomes externally meaningful. The same framework applies to a memory ownership transfer, durable object update, network emission, screen presentation, actuator command, telemetry release or recipient publication. Local computation that cannot affect another boundary still has resource, lifetime and information-flow constraints.
@@ -9,6 +7,8 @@ A protected action names a source, a target, an operation and the finality point
 The action descriptor contains `(effect_id, source_ref, subject_ref, target_ref, operation, input_commitment, output_contract, recipient_ref, grant_ref, policy_epoch, budget_ref, path_constraint, idempotency_key)`. Object references use `(realm_id, owner_id, object_id, generation)`. Raw addresses and untrusted descriptors are implementation details; they cannot replace protected identity attachment.
 
 [Chapter 32](32_claim_contract_grant_receipt_schemas.md) owns wire-object schemas. This chapter owns the semantic contract to which encodings, instruction interfaces and distributed protocols must refine.
+
+The local consequence point follows the distinction between [linearizable local operations](https://doi.org/10.1145/78969.78972) and external outcomes. [End-to-end arguments](https://web.mit.edu/saltzer/www/publications/endtoend/endtoend.pdf), [sagas](https://www.cs.princeton.edu/techreports/1987/070.pdf) and [distributed-transaction limits](https://www.cidrdb.org/cidr2007/papers/cidr07p15.pdf) are the relevant lineage for the later reconciliation states. The scope of a receipt remains an ASKA design choice, not a new transaction primitive.
 
 ## 2. Authority predicates
 
@@ -75,7 +75,7 @@ An idempotency key identifies one logical effect under a particular owner, contr
 
 For local state, reserve resources, record the prepared intent as required, recheck live authority, perform atomic consumption and commit, then emit receipt. For remote or irreversible effects, the protocol must identify the uncertainty interval between command transmission and trustworthy completion evidence. Blind replay within that interval is forbidden where it could duplicate harm. Compensation is a separately authorized effect; it is not time reversal.
 
-Promise Keeper-style reconciliation associates admitted intent, owner transition, observed consequence and declared tolerance. It can detect a mismatch between a promised file write and a recovered object version, or between a valve command and observed position. It cannot infer physical completion from command issuance, or trust a compromised sensor merely because the sensor signed its report.
+Outcome reconciliation associates admitted intent, owner transition, observed consequence and declared tolerance. It can detect a mismatch between a promised file write and a recovered object version, or between a valve command and observed position. It cannot infer physical completion from command issuance, or trust a compromised sensor merely because the sensor signed its report.
 
 ## 7. Leases and obligations
 

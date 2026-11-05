@@ -64,8 +64,6 @@ Suppose a minimal-object engine offers `propose_append(handle, version, payload)
 
 The ISA decision should compare proof obligations, resource overhead, failure containment, code availability and workload suitability. Instruction count, transistor count or simulation throughput alone cannot settle it. A small custom processor may simplify the protected interface while increasing compiler and verification effort. A capable commodity core may provide mature tools while introducing shared microarchitectural state and a larger trusted implementation. These are explicit tradeoffs, not a ranking by novelty.
 
-**R-10-06 — Evidence-based ISA selection.** Any selection of an ISA for a deployment MUST document the workloads, protection obligations, compatibility costs, residual risks and evidence used. An unvalidated candidate MUST remain labeled as a candidate; performance simulations and formal models MUST be distinguished from measured implementation behavior.
-
 Acceptance specifications are:
 
 - **T-10-01:** Load an artifact requiring an unavailable protection feature or wrong semantic revision. Admission must fail before execution, with a precise incompatibility record.
@@ -73,4 +71,3 @@ Acceptance specifications are:
 - **T-10-03:** Forge serialized handles, widen bounds and replay a prior-generation reference. Each attempt must fail at the protected operation without transferring authority.
 - **T-10-04:** Inject a trap immediately before and after an effect enqueue. The resulting receipt must distinguish no enqueue, established local enqueue and unresolved outcome; no untracked retry may occur.
 - **T-10-05:** Replace a runtime dependency or reuse a JIT cache after a grant-epoch change. The loader or runtime must reject the mismatch or invalidate the stale state.
-- **T-10-06:** Review a candidate deployment dossier. It passes only if every claimed property has a named semantic obligation and appropriate evidence; an emulator result presented as manufactured-silicon proof is a failing counterexample.

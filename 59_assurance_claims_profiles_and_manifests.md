@@ -1,7 +1,5 @@
 # ASKA v6 — Assurance claims, profiles and manifests
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. A claim names an apparatus and a proposition
 
 Assurance is a structured account of what a particular realization establishes against a named attacker, with named assumptions and evidence. The phrase “ASKA compliant” is incomplete without a configuration, profile, requirement set and evidence status. The reference architecture is proposed; it is not a certified implementation. A component's commercial description, signature, numerical risk score or successful boot does not establish the machine's security properties.
@@ -40,6 +38,8 @@ Alternative paths require separate arguments. A system claiming tolerance of one
 | OOB_PARTIAL | At least one independently rooted observation boundary, explicit shared dependencies | Particular observation and compromise scopes only |
 | OOB_NATIVE | Scoped LSM/MSM/watchers, one-way configuration, independent reports, protected response, root/update evidence | Integrated out-of-band target under its declared cut sets and visibility |
 | WITNESS_ONLY | Receipt provenance, retention, privacy and correction evidence | Accountability for received commitments, without live host-memory observation |
+
+The smallest physical proof target is **HARDWARE_GUARDED** with a protected owner, an external guard on every claimed path, local authority admission and qualified effect receipts. It does not need a second security AI, a central observer, a witness network or two watcher tiers to establish the *prevention* property. OOB_PARTIAL and OOB_NATIVE add observation and response claims only after a specific threat, distinct roots and measured value justify them. Legal, civic, synthesis and advanced-sensing services likewise are profile extensions, not prerequisites for memory/DMA isolation. The semantic model remains testable under RESEARCH_MODEL before any board is constructed.
 
 These families are composable descriptors. RP-A and RP-B are physical design targets that seek specified combinations; they have no automatic established status. LP-1 can produce HARDWARE_GUARDED and OOB_PARTIAL evidence if its tests support them. The finite examples in [Chapter 56](56_conformance_tests_and_vectors.md) support RESEARCH_MODEL statements only. No family grants an action, and no receiving realm must accept a profile merely because its issuer self-attests.
 

@@ -1,7 +1,5 @@
 # ASKA v6 — Independent watchers and meta-monitoring
 
-**Status:** proposed rooted oversight architecture. Independence and detection bounds require physical and operational evidence.
-
 ## 1. What a watcher watches
 
 A watcher evaluates the reliability of an observer within a stated scope. WM-L watches a particular LSM and relevant source/export interfaces. WM-M watches MSM distribution and health. The independent oversight receiver OV receives their reports. Watchers do not replace memory, device or effect guards, and Steles does not become a watcher because it stores a commitment about a watcher report.

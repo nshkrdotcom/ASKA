@@ -1,7 +1,5 @@
 # ASKA v6 — Keystone and trusted user interaction
 
-**Status:** proposed architectural requirements. Acceptance oracles specify evidence to obtain; no ASKA implementation or validation result is asserted.
-
 Keystone provides a bounded path through which a person can understand and authorize a consequential machine action. It does not possess every key or override every resource owner. Its job is to bind a qualified human interaction to specific terms and report that evidence to the admitting owner. A compromised application may suggest an action, but it must not replace the destination, amount, release transformation or effect scope after approval.
 
 The trusted path includes more than a dialog box. Input hardware, display ownership, rendering logic, focus indication, firmware, transport, accessibility mechanisms and freshness all affect what a person actually approved. A deployment must state which parts are trusted and which are outside its guarantee. Remote authentication, local physical presence, deliberate approval and legal capacity are separate predicates. Keystone must not silently substitute one for another.
@@ -15,6 +13,8 @@ A consequential request is converted into a canonical presentation derived from 
 An approval may authorize one effect or a standing delegation. The difference must be visible. A standing authorization should expose its operation set, budget, duration, renewal rules and stopping procedure. Presenting a broad recurring grant as a single harmless action is a trusted-path failure even if its underlying signature verifies.
 
 Not every operation needs a human interruption. An admitted standing contract can permit routine reminders, bounded purchases or a protective freeze. Keystone provides the initial delegation and subsequent review where required; it should not create meaningless approval fatigue by asking for the same already authorized consequence repeatedly.
+
+The [EROS Trusted Window System](https://www.usenix.org/conference/13th-usenix-security-symposium/design-eros-trusted-window-system) demonstrates an earlier small trusted window/input mediator. Keystone's remaining obligation is to bind the displayed canonical consequence to the exact owner-admitted effect and to evaluate the human-interpretation failure modes stated below.
 
 ## 36.2 Trusted display and input ownership
 

@@ -1,7 +1,5 @@
 # ASKA v6 — AESDS, IAMA and autonomous evolution
 
-**Status:** proposed AI-native engineering lifecycle. Structural modelling, predictive vulnerability analysis and autonomous improvement remain bounded capabilities requiring evidence for each deployment.
-
 ## 1. Native software synthesis as a first-class function
 
 The Automated Evolutionary Software Development System (AESDS) supports requirements analysis, software synthesis, adaptation, testing and candidate preparation. It can generate native applications and proposed changes to runtime services, security analysis, gateways and platform components. Its purpose extends beyond anomaly detection: users and institutions can delegate useful application development, repair and optimization within explicit resource, data and effect contracts.
@@ -54,11 +52,11 @@ A standing engineering contract can allow repeated application-level refinements
 
 The installer follows [chapter 27](27_software_update_and_supply_chain_safety.md). Its receipt identifies the exact artifact and activation point. Expansion depends on observed cohort behavior and independent stop criteria. If a model service or MSM is lost, the current admitted application and deterministic enforcement can continue according to the local continuity profile; automated evolution can pause without disabling ordinary useful computation.
 
-## 6. Promise Keeper reconciliation
+## 6. Reconciliation of generated and adapted work
 
-The Promise Keeper workflow connects a declared goal with evidence of what actually happened. Before execution it records the contract, relevant initial object versions, resource/grant context and expected finality points. During execution it correlates owner receipts with TE and watcher observations. Afterward it compares the promised outcome with durable state and available physical or external evidence.
+The build-and-deployment reconciliation procedure connects an admitted goal to the observed result. Before execution it records the contract, relevant initial object versions, resource/grant context and expected finality points. During execution it correlates owner receipts with TE and watcher observations. Afterward it compares the promised outcome with durable state and available physical or external evidence.
 
-**R-28-07 — Evidence-bound promise reconciliation.** A reconciliation workflow MUST preserve the initial state references, admitted promise, effect identifiers, owner receipts, observation coverage and final-state evidence. It MUST distinguish fulfilled, violated and unresolved propositions without inventing missing events or causal proof. Corrective work MUST be separately authorized, and irreversible effects or established committed receipts MUST not be erased by rollback language.
+**R-28-07 — Outcome evidence reconciliation.** A reconciliation workflow MUST preserve the initial state references, admitted operation, effect identifiers, owner receipts, observation coverage and final-state evidence. It MUST distinguish fulfilled, violated and unresolved propositions without inventing missing events or causal proof. Corrective work MUST be separately authorized, and irreversible effects or established committed receipts MUST not be erased by rollback language.
 
 A failed application update might be recoverable by selecting an earlier immutable code object and restoring a compatible local version under the owner’s grant. A payment already transmitted, a printed document or an actuator movement is different. The reconciler can identify an uncertainty, seek additional evidence or propose compensation; it cannot make the original event disappear. A committed command-acceptance receipt remains committed even when the physical outcome is unresolved.
 

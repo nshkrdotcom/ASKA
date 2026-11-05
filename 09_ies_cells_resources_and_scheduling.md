@@ -10,6 +10,8 @@ The resource owner maintains a protected allocation record containing the resour
 
 An IES can contain general-purpose cores, bounded interpreters, accelerators or specialized pipelines. Physical ownership concerns the resources the implementation can actually exclude. Two software compartments on a shared processor may be useful cells, but they do not acquire independent reset, cache, power or firmware roots merely by receiving separate names. Likewise, a zone groups authorized participants; it is not a bypass around the guards between them.
 
+[HiStar](https://static.usenix.org/event/osdi06/tech/zeldovich.html) and [Flume](https://doi.org/10.1145/1294261.1294293) provide important process and information-flow precedents. An IES adds a stronger *physical ownership claim* only when all alias, DMA and lifecycle paths have been inspected and tested. The comparison must measure the cost of losing software resource sharing.
+
 ## Cell descriptor and lifecycle
 
 A cell descriptor binds an executable artifact digest and semantic revision to a resource set, initial input-object versions, confinement labels, attenuated handles, output schemas, instruction or work budget, memory quota, deadline policy and permitted effect requests. The descriptor distinguishes computations that can be suspended and resumed from those that must be abandoned on loss of continuity. A parent can provision a child without gaining access to every child input or output: the child’s principals and object owners independently authorize those flows.

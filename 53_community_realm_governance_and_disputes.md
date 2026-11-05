@@ -1,7 +1,5 @@
 # ASKA v6 — Community, realm governance and disputes
 
-**Status:** proposed architectural requirements. Acceptance oracles specify evidence to obtain; no ASKA implementation or validation result is asserted.
-
 A community deployment joins independently governed participants without creating a universal authority over their private realms. It may provide shared compute, connectivity, public information, mutual assistance, local services, dispute procedures and collective infrastructure. Membership defines a relationship with specified rights and duties. It does not make every member's data public or give a community administrator authority to operate all connected machines.
 
 A realm has a bounded namespace, resource owners, policy roots, accepted profiles and interfaces to other realms. Different realms can cooperate through negotiated contracts while retaining different admission decisions. Federation requires interoperable evidence and consequences, not agreement on every institutional judgment. A community may decline a service contract without being entitled to inspect the prospective participant's unrelated private data.

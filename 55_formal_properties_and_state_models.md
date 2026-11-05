@@ -1,7 +1,5 @@
 # ASKA v6 — Formal properties and state models
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. State and attacker transitions
 
 Let `Σ = (Roots, Profiles, Claims, Contracts, Grants, Cells, Banks, Objects, Transfers, Sessions, Replay, Effects, Receipts, Exports, Watchers, Installations, Resources, Epochs)`. Every protected reference includes its namespace and lifetime. Ordinary workload memory and proposals are attacker-controlled; protected ownership tables, installation boundaries and effect-owner state are trusted only under the selected failure case.
@@ -9,6 +7,8 @@ Let `Σ = (Roots, Profiles, Claims, Contracts, Grants, Cells, Banks, Objects, Tr
 Transitions are typed by owner. `Propose` changes untrusted input only. `Admit` creates a contract after applicable evidence/obligation checks. `Install` creates an attenuated local grant. `Allocate` establishes exclusive resources and a fresh lifetime. `PrepareTransfer` captures identity and excludes writers. `CommitEffect` performs the final check and consequence. `Observe` exports a permitted fact about a visible interface. `ProposeResponse` creates no effect authority. `InstallUpdate` applies a typed artifact only inside a separately authorized scope.
 
 The malicious transition set includes arbitrary guest computation, malformed descriptors, stale handles, forged untrusted labels, legitimate-but-malicious received data, reordering, replay, suppression, reset attempts and resource exhaustion. Observer, watcher and update-producer campaigns replace the corresponding behavior with arbitrary actions available through that component's actual ports. They do not silently grant the attacker protected paths absent from its scope.
+
+[Bell–LaPadula](https://lukemuehlhauser.com/wp-content/uploads/Bell-LaPadula-Secure-computer-systems-mathematical-foundations.pdf), [Denning](https://doi.org/10.1145/360051.360056), [robust declassification](https://www.cs.cornell.edu/andru/papers/robdecl-jcs/) and [linearizability](https://doi.org/10.1145/78969.78972) establish important formal precedents. INV-01–INV-12 are ASKA proof obligations only; none of those publications proves this combined state machine or its physical refinements.
 
 ## 2. Safety obligations
 
@@ -30,6 +30,28 @@ The following invariants are proof obligations, not completed machine-checked AS
 | INV-12: no rights from routing | Adding an admitted physical route alone creates no object/effect grant | Per-port physical binding and independent endpoint policy |
 
 Invariants about values and rights do not imply that all results are correct or all services remain available. A permitted recipient can return false data. An attacker can prevent its own computation from terminating. Every proof statement names which of these behaviors is excluded, admitted or constrained.
+
+### Authority and effect kernel
+
+The following abstract state is sufficient to express the authorization part of a single-owner effect; it is **not** a model of the whole network or physical guard:
+
+`S = (owner, object_generation, policy_epoch, grants, spent, prepared, receipts)`.
+
+For effect `e`, let `C(e)` be its admitted contract, `G(e)` its installed owner grant and `R(e)` its required source, destination, path and obligation checks. `G(e) ⊑ C(e)` means that every permitted set is a subset, restrictions are no weaker, budgets do not increase and the interval is contained. The protected owner may emit exactly when
+
+`Enabled(e,S) = live_generation(e,S) ∧ live_policy(e,S) ∧ G(e) ⊑ C(e) ∧ MayEffect(e,S) ∧ not_spent(e,S)`.
+
+| Abstract transition | Guard | Atomic protected change | Forbidden counterexample |
+|---|---|---|---|
+| `Install(g,c)` | Qualified installer; canonical verifier proves `g ⊑ c`; enforceable obligations | Add `g` at current policy epoch | A signed compiler artifact adds a recipient absent from `c` |
+| `Prepare(e)` | `Enabled(e,S)`; immutable object/output binding; budget reserved | Record operation identity, grant/policy epochs, object generation and commitment | Concurrent object replacement changes the prepared bytes |
+| `Commit(e)` | Prepared record still matches current owner/policy; unique consumption; physical path admitted | Persist spent operation and finality receipt before or atomically with the named effect | Crash/retry emits twice or uses a revoked grant |
+| `Revoke(scope)` | Qualified revocation owner | Advance policy epoch; block new prepares; invalidate affected uncommitted work | Old epoch reused by a delayed queue writer |
+| `Reconcile(e,outcome)` | Existing effect identity and authenticated qualified observation | Append linked receipt without rewriting earlier finality | Remote success inferred solely from local emission |
+
+Composition across owners requires separate `Commit` transitions, each with its own issuer, receiver and resource conditions; no abstract global atomic commit is assumed. An implementation must refine `Prepare` and `Commit` into the concrete exclusion/drain, persistent ordering, transmission and receiver-publish steps below. The evaluator's semantic correctness, current issuer qualification, guard hardware and human intent remain explicit premises rather than hidden inside `Enabled`.
+
+A formal campaign must check at least these mutations: overbroad compiled grant; stale generation; authorization withdrawal between prepare and emit; crash after durable consumption; receiver replay advance on policy-invalid traffic; and reconciliation that incorrectly upgrades an unknown remote outcome. The already executed [Chapter 56](56_conformance_tests_and_vectors.md) fixture covers only its stated subset. No full TLA+/Alloy verification is asserted.
 
 ## 3. Freeze, transfer and revocation refinement
 

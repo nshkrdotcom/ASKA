@@ -1,7 +1,5 @@
 # ASKA v6 — Commerce, enterprise and institutional workflows
 
-**Status:** proposed architectural requirements. Acceptance oracles specify evidence to obtain; no ASKA implementation or validation result is asserted.
-
 Commercial and enterprise systems need useful delegation, predictable costs, reliable records and enforceable separation of responsibilities. ASKA supports purchasing, invoicing, payments, payroll, asset management, contracts, supply chains and regulated record handling through explicit owners and bounded effects. An organization's authority over its resources does not make it the administrator of every employee, customer, supplier or partner realm.
 
 The principal architectural distinction is between institutional roles and ambient account power. A purchasing role can prepare an order; a budget owner can reserve funds; an approver can accept a commitment; a payment owner can submit an instruction. These roles may be combined for a small organization under a declared profile, but the resulting concentration of control must not be presented as independent oversight.

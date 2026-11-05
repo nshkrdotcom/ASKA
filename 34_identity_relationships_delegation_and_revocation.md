@@ -1,7 +1,5 @@
 # ASKA v6 — Identity, relationships, delegation and revocation
 
-**Status:** proposed architectural requirements. Acceptance oracles specify evidence to obtain; no ASKA implementation or validation result is asserted.
-
 ASKA represents identity as evidence relevant to a context, not as a universal identifier that automatically connects a person's household, employment, medical care, civic activity and commerce. A principal may have several keys and several identifiers; a key may act for a person, organization, device, service or narrowly defined role. The machine must determine what an identifier denotes, who controls its current authentication material, which relationship is asserted and what authority follows under an applicable profile. Those questions have different evidence and failure modes.
 
 Authentication establishes a claim about control of an authenticator. It does not by itself establish informed consent, professional qualification, capacity, legal jurisdiction or ownership of every object associated with a name. The [Accord system](31_accord_system_and_machine_authorization.md) evaluates those predicates separately. A credential issuer supplies qualified evidence only within the predicates for which the accepting owner trusts it.

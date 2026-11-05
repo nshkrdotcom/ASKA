@@ -1,10 +1,8 @@
 # ASKA v6 — Requirements and threat model
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. Normative coverage
 
-The requirements below define system-wide obligations. Subsystem chapters refine them into component interfaces and acceptance oracles; the complete canonical register of both global and subsystem requirements is [Chapter 61](61_requirement_decision_evidence_traceability.md). Its entries identify each owner, enforcer, assumption, test and evidence status. Requirements are design targets unless an attributable conformance record establishes otherwise.
+The requirements below define system-wide obligations. Subsystem chapters refine them into component interfaces and acceptance oracles; the owner index for global and subsystem requirements is [Chapter 61](61_requirement_decision_evidence_traceability.md). Its entries identify each owner, enforcer, assumption, test and evidence status. Requirements are design targets unless an attributable conformance record establishes otherwise.
 
 The protected machine must remain useful under bounded adversarial conditions. Denying every operation is not evidence of successful service. A correct authority check can coexist with malicious permitted output, observer blindness, an unavailable remote service or an unmodeled physical channel. Those outcomes must be reported separately.
 

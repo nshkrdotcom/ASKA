@@ -1,7 +1,5 @@
 # ASKA v6 — Security analysis AI and false-alarm control
 
-**Status:** proposed analysis and evaluation contract. No proprietary detector algorithm, trained ASKA model or measured error rate is asserted.
-
 ## 1. Three AI roles with different authority
 
 The user-facing AI companion, UAI, helps a person understand information, plan work and interact with native applications. Security analysis AI, SAI, examines admitted evidence and proposes security interpretations or responses. AESDS agents generate and test software candidates. These roles can exchange explicitly released records, but they must not share ambient context, tools or privileged credentials merely because each uses a model.
@@ -72,7 +70,7 @@ An adaptation budget can permit frequent parameter updates within a preapproved 
 
 **R-25-07 — Actionable uncertainty.** An analytical result MUST distinguish observed facts, transformations, hypotheses, missing evidence and recommended actions. It MUST provide evidence references and the scope of its confidence statement. Uncertainty, model failure or a malicious SAI MUST NOT bypass the protected owner’s decision; a safe deterministic operating mode and an authorized review path MUST remain available according to the deployment profile.
 
-An explanation is useful when it exposes which evidence supports a conclusion and which alternatives remain plausible. Fluent narrative alone is not evidence of causation. A model may correctly notice that a firmware update preceded a fault without establishing that the update caused it. Promise Keeper reconciliation can compare initial state, artifact identities, owner receipts and later observations, while retaining unresolved causes.
+An explanation is useful when it exposes which evidence supports a conclusion and which alternatives remain plausible. Fluent narrative alone is not evidence of causation. A model may correctly notice that a firmware update preceded a fault without establishing that the update caused it. Outcome reconciliation can compare initial state, artifact identities, owner receipts and later observations, while retaining unresolved causes.
 
 Human review is also an authority boundary. The interface should present the actual target, proposed effect, duration, budget and consequence, with links to the underlying records. A reviewer must not approve an ambiguous natural-language command that is later translated into broader machine effects. Keystone binds consequential approval to canonical intent as specified in [chapter 36](36_keystone_trusted_user_interaction.md). The reviewer’s role does not acquire access to private evidence beyond its own observation grant.
 

@@ -1,7 +1,5 @@
 # ASKA v6 — System architecture
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. Machine thesis and boundary
 
 ASKA is a networked physical machine in which computation, owned memory, devices, persistent objects, observation and external effects have separately enforceable boundaries. Its native unit of isolation is an **Isolated Execution Stack (IES)**: an assigned set of execution engines, writable memory and protected communication endpoints. A cell runs for a bounded lifetime inside that scope. A kernel or model inside a cell may be fully compromised without acquiring another IES's memory, a security observer's installation keys, or a recipient's execution rights.
@@ -9,6 +7,8 @@ ASKA is a networked physical machine in which computation, owned memory, devices
 The architecture combines mandatory guards, independent observation and explicit effect authority. A memory guard is necessarily in the memory transaction path it governs. An observer receives evidence without becoming the workload's supervisor. A watcher observes an observer through separately rooted paths. Neither a well-formed alert nor a trusted signature creates permission to intervene. A protected effect owner performs a consequence only under installed authority derived from an admitted contract.
 
 The reference machine in [Chapter 04](04_reference_machine_and_reachability.md) is a conceptual board arrangement, not a fabrication claim. Native confinement can use separate boards or appropriately guarded chiplets. Die boundaries alone do not establish independent reset, power, debug, firmware or supplier failure domains. Coherence is permitted **inside one trust domain**; cross-trust writable sharing requires a separately justified ownership protocol rather than an ambient shared address space.
+
+The [Saltzer–Schroeder protection principles](https://web.mit.edu/Saltzer/www/publications/protection/), [Lampson capability model](https://bwlampson.site/08-Protection/WebPage.html) and [Rushby separation argument](https://www.csl.sri.com/papers/sosp81/) precede this design. ASKA's subject for verification is the *combination* of owner-bound effects, bilateral admission and inspectable physical paths; no claim of originality follows from renaming these mechanisms.
 
 ## 2. Integrated machine graph
 

@@ -6,8 +6,6 @@ ASKA permits new physical substrates where they can implement the same ownership
 
 The first question is what the mechanism is intended to improve: communication distance, energy, memory locality, parallelism, observation, tamper evidence or a specific computational task. The second is which security obligations remain outside it. Faster transport does not authenticate an owner. An unusual memory medium does not authorize release. A physically distinctive object does not prove that the processor attached to it implements the claimed circuit.
 
-**R-19-01 — Falsifiable candidate admission.** Every unconventional substrate proposal MUST identify its intended benefit, assumptions, required interfaces, evidence class and defeating counterexample. It MUST remain optional until it satisfies the same applicable authority, lifecycle and consequence-boundary requirements as the conventional implementation.
-
 ## Optical communication and advanced integration
 
 Optical interconnect is a candidate for longer reach or improved bandwidth and energy characteristics in a selected workload. [Intel’s June 2024 announcement](https://www.intel.com/content/www/us/en/newsroom/news/intel-unveils-first-integrated-optical-io-chiplet.html) reports a co-packaged optical I/O chiplet carrying live data. This is primary manufacturer evidence of that demonstration, not independent qualification of ASKA guards, isolation or reliability.
@@ -17,8 +15,6 @@ An ASKA optical experiment must include electrical conversion, buffering, link t
 The falsifiable hypothesis is that a selected optical arrangement improves an end-to-end metric while preserving the admitted boundary. Measurements must include conversion and guard overhead, realistic message sizes, link errors, recovery and environment. Failure to meet the metric after those costs defeats that advantage. A successful transport benchmark says nothing by itself about source release or destination acceptance.
 
 Three-dimensional stacking, interposers and heterogeneous chiplets are treated similarly. Their placement can improve locality, but common power, heat, reset and test access remain dependencies. [Packaging qualification](11_heterogeneous_compute_chiplets_and_packaging.md) defines the required inventory. Neither speculative transistor-density forecasts nor a chosen number of compute tiers is a substitute for an area, memory, wiring and cooling budget.
-
-**R-19-02 — End-to-end substrate comparison.** Substrate comparisons MUST include conversion, guard, buffering, control, cooling and lifecycle costs relevant to the claimed benefit. Shared physical dependencies MUST remain visible, and a favorable component metric MUST NOT be promoted to an unmeasured system guarantee.
 
 ## Near-memory and analogue computation
 
@@ -72,13 +68,8 @@ A candidate moves from concept to physical model, bounded prototype, adversarial
 
 The comparison baseline is an implementable conventional arrangement with the same authority and workload contract. A candidate can be valuable without replacing that baseline: optical links may carry guarded records, an analogue engine may propose an inference result, or a physical sensor may add evidence to reconciliation. These integrations keep benefits local and prevent a speculative substrate from acquiring machine-wide trust.
 
-**R-19-06 — Staged evidence gates.** Research promotion MUST require documented passage through the applicable physical, semantic, adversarial and integration gates. Failure MUST preserve a viable conventional fallback or explicitly remove the unsupported service from the deployment claim.
-
 Acceptance specifications are:
 
-- **T-19-01:** Review a candidate without a measurable hypothesis or defeating counterexample. It must remain a research proposal and cannot become a mandatory protection dependency.
-- **T-19-02:** Recalculate a claimed benefit including omitted conversion, guard and cooling costs. The claim must be revised or rejected if the advantage no longer holds.
 - **T-19-03:** Cancel a stateful accelerator during learning or calibration, then reassign it. No prior-owner state or pending event may affect the new owner outside the declared sanitization scope.
 - **T-19-04:** Demand a repeatable preparation, operation and readout experiment for an auxiliary quantum-memory claim. An analogy, simulation alone or unrelated coherence observation cannot pass the gate.
 - **T-19-05:** Crash a key reader after pad consumption but before receipt delivery, and replay a physical identifier under altered conditions. Pad reuse must remain impossible, and identity evidence must retain its measured limits.
-- **T-19-06:** Disable a proposed frontier component. The stated conventional fallback must preserve the claimed service, or the system must explicitly report that the unsupported service is unavailable.

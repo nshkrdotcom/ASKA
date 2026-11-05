@@ -1,7 +1,5 @@
 # ASKA v6 — CLAIM, CONTRACT, GRANT and RECEIPT schemas
 
-**Status:** proposed normative schema contract. Examples are semantic illustrations, not registered wire formats, signed packets or cryptographic test vectors.
-
 ## 1. Type discipline and common envelope
 
 This chapter owns the canonical Accord object fields. A protocol profile selects one registered wire revision and publishes its complete schema, bounds and encoding rules. Implementations must distinguish absence, an explicit null value and an empty collection. They cannot infer policy from an omitted field or from a field name supplied by untrusted content.

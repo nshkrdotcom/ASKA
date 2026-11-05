@@ -1,7 +1,5 @@
 # ASKA v6 — Family, care, professional and personal authority
 
-**Status:** proposed architectural requirements. Acceptance oracles specify evidence to obtain; no ASKA implementation or validation result is asserted.
-
 Relationships make computing useful. A person may ask a family member to help with bills, authorize a caregiver to receive alerts, retain a professional, appoint a representative or plan for incapacity and succession. These relationships involve different rights, duties and protected interests. ASKA must represent them without making the relationship holder the universal owner of another person's data or decisions.
 
 A shared household is not a single security principal. A dependent person has interests distinct from a guardian's convenience. A professional may owe duties to a client that neither party can freely delegate. An institution may own equipment while personal information on that equipment remains protected under an applicable profile. The machine needs explicit evidence of relationship scope and activation, as defined in [Identity and relationships](34_identity_relationships_delegation_and_revocation.md).

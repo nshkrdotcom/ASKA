@@ -1,7 +1,5 @@
 # ASKA v6 — End-to-end traces and incident walkthroughs
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. Trace interpretation
 
 These are specified adversarial campaigns and complete conceptual walkthroughs. They are not claims that physical ASKA tests have run. Each begins with an attacker already controlling the named component; exploit prevention is evaluated separately. A campaign instantiates exact ports, keys, epochs, grants, budgets and instruments from its realization manifest before execution. The finite semantic demonstrations in [Chapter 56](56_conformance_tests_and_vectors.md) cover only explicitly stated subsets.

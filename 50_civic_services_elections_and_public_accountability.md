@@ -1,7 +1,5 @@
 # ASKA v6 — Civic services, elections and public accountability
 
-**Status:** proposed architectural requirements. Acceptance oracles specify evidence to obtain; no ASKA implementation or validation result is asserted.
-
 Civic systems must combine reliable service delivery, bounded institutional authority, individual rights and inspectable public decisions. ASKA supports eligibility checks, benefits, permits, taxation, public notices, infrastructure operations and election workflows through explicit contracts and consequence owners. Civic participation does not require a universal identity graph, and an institution's legitimate service role does not grant it general access to a person's private realm.
 
 Public accountability and personal privacy are complementary requirements with different objects. Rules, decision criteria, procurement commitments and aggregate service outcomes can be made inspectable while individual applications, ballots, medical facts and protected third-party information remain restricted. A dashboard that exposes all raw records is not a prerequisite for accountable government. An opaque score that decides eligibility without a review path is not an adequate substitute for a qualified procedure.

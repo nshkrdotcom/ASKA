@@ -1,7 +1,5 @@
 # ASKA v6 — Protective response and containment
 
-**Status:** proposed response contract. Response timing and safety require measurement and device-specific validation; no universal nanosecond reaction is claimed.
-
 ## 1. Timely action with prior authority
 
 ASKA distinguishes prevention at a mandatory boundary from detection and later containment. A memory guard denies an unauthorized transaction under its installed predicate. An LSM may subsequently recognize a pattern and propose a wider but bounded protective action. The latter cannot be credited with preventing a consequence that already crossed its finality point.

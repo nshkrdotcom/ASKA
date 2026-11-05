@@ -4,11 +4,13 @@
 
 ## What ASKA specifies
 
-ASKA is a networked spatial computer whose application engines own bounded physical compute and writable memory, whose consequential operations pass through protected owners, and whose security observation has separately declared roots. It combines native execution, storage, devices, purpose-separated communication, human and institutional authority, AI-mediated work, independent monitoring and accountable outcomes. The central engineering question is what a compromised component can physically reach and cause while useful authorized work remains possible.
+ASKA specifies protected physical resource owners, local consequence checks and a networked authority model. Independent observation is a separately qualified extension. It combines native execution, storage, devices, purpose-separated communication, human and institutional authority, AI-mediated work, independent monitoring and accountable outcomes. The central engineering question is what a compromised component can physically reach and cause while useful authorized work remains possible.
 
 An isolated execution stack (IES) owns a physical resource domain. A cell is a bounded execution lifetime within it. Coherent cores and caches may exist inside one IES; cross-trust communication uses guarded copies, immutable objects or acknowledged exclusive transfer. Memory, DMA, object handoff, persistent commits and external emissions each retain current owner, generation, grant and label bindings. Changing a process name, route or representation cannot create new authority.
 
 Accord supplies the chain **CLAIM → CONTRACT → GRANT → RECEIPT**. A claim is evidence; a contract records admitted terms; a grant installs bounded local authority; a receipt identifies the particular consequence established. Source disclosure and destination acceptance remain independent. Consent, duty, delegation, guardianship and legal compulsion are distinct authority bases. No AI, institution, firmware signer, Keystone module or network membership is a universal administrator.
+
+The minimum security target consists of protected resource/effect owners, explicit grants, ownership generations, source/receiver checks and physical path inspection. Additional watcher tiers, autonomous synthesis, specialized transports and civil workflows are useful only under profiles that give them a specific threat or operational purpose. [Assurance profiles](59_assurance_claims_profiles_and_manifests.md) define the resulting differences. The foundations include [Lampson's protection model](https://bwlampson.site/08-Protection/WebPage.html), [Saltzer–Schroeder's design principles](https://web.mit.edu/Saltzer/www/publications/protection/), [Rushby's separation kernels](https://www.csl.sri.com/papers/sosp81/), [MILS](https://www.inderscience.com/info/inarticle.php?artid=14859), [HiStar](https://static.usenix.org/event/osdi06/tech/zeldovich.html) and [Flume](https://doi.org/10.1145/1294261.1294293). These are cited predecessors; no component-level novelty is claimed.
 
 ## Integrated architecture
 
@@ -32,7 +34,7 @@ flowchart TB
   WM --> OV
 ```
 
-The diagram shows roles and authorized relationships, not all physical wiring. [Chapter 04](04_reference_machine_and_reachability.md) owns the full interface classes, roots, reset/clock/power/debug reachability and counted physical reference profiles. A functional arrow never substitutes for a guarded physical path or a grant.
+The diagram shows the extended RP-A/OOB_NATIVE role set, not the minimum hardware-guarded profile or all physical wiring. [Chapter 04](04_reference_machine_and_reachability.md) owns the full interface classes, roots, reset/clock/power/debug reachability and counted physical reference profiles. A functional arrow never substitutes for a guarded physical path or a grant.
 
 Inline guards prevent a forbidden consequence at a declared boundary. LSM and MSM observation can identify suspicious events or coverage loss within their actual visibility. WM-L and WM-M watch separately rooted observer behavior; they do not form an infinite chain or acquire policy control. Steles witnesses received commitments and notices. These roles are distinct, and common suppliers, power, installers or exporters remain explicit dependencies.
 
@@ -49,7 +51,7 @@ Protective responses use finite templates and preinstalled standing grants with 
 | Security fabrics | Configuration, reporting, oversight and response-proposal interfaces | Separate direction, parser, budget and authority contracts; two opposite links are not a whole-system air gap |
 | Physical realization | RP-A, RP-B and LP-1 | Concrete reference arrangements with explicit weaker laboratory assumptions and evidence gaps |
 
-RP-A is a split-board workstation target. RP-B distributes the same logical roles across independently powered community appliances with separately inventoried local and upstream routes. LP-1 is a proposed smaller laboratory apparatus for testing real guards, observation and lifecycle boundaries. None is represented as built. Each native reference also includes a dedicated first-contact encounter port and separate parser/FIFO/bank/DMA resources, so established sessions do not depend on the encounter pool. Port counts are specific to the installation boundary in Chapter 04; four purposes plus one witness do not imply a universal transceiver count.
+RP-A is a split-board workstation target. RP-B distributes the same logical roles across independently powered community appliances with separately inventoried local and upstream routes. LP-1 is a staged laboratory apparatus: guarded lifecycle/effect tests come first; observer and watcher boards add separate evidence for OOB claims. None is represented as built. Each native reference also includes a dedicated first-contact encounter port and separate parser/FIFO/bank/DMA resources, so established sessions do not depend on the encounter pool. Port counts are specific to the installation boundary in Chapter 04; four purposes plus one witness do not imply a universal transceiver count.
 
 ## AI, applications and institutions
 
@@ -76,7 +78,7 @@ The specification distinguishes requirements, decisions, assumptions, candidates
 
 ## Complete chapter map
 
-The root contains this README and the following 62 chapters. Each numbered chapter owns its normative requirements and acceptance obligations; Chapter 61 maps them to enforcers, assumptions, evidence and status. Relative links are intended to work after extracting the ZIP into one directory.
+The root contains this README and the following 62 chapters. Each numbered chapter owns its normative requirements and acceptance obligations; Chapter 61 indexes their owners and defines the evidence dossier needed to establish claims. Relative links are intended to work after extracting the ZIP into one directory.
 
 ### I — Governing architecture and system semantics
 

@@ -1,7 +1,5 @@
 # ASKA v6 — Information flow and release
 
-**Status:** proposed normative target. Requirements describe obligations; they do not certify an implemented machine.
-
 ## 1. Observation boundary
 
 Information-flow protection specifies which differences in protected state may affect which observers. The observer set can include object values, published outputs, result categories, packet sizes, traffic existence, timing, termination, resource use, screen pixels, power and electromagnetic signals. A proof about explicit values does not cover every one of these channels.
@@ -9,6 +7,8 @@ Information-flow protection specifies which differences in protected state may a
 Each conformance profile declares an observation function `Obs_A(trace)` for attacker A, allowed releases and excluded physical channels. For two initial states equivalent in A's authorized view, noninterference requires equivalent observations under the stated scheduler and release model. With explicit declassification, the comparison also fixes the admitted release events; otherwise authorized disclosures would trivially violate the property. This is a formal obligation, not a claim that a complete ASKA noninterference theorem exists.
 
 The [time-protection study](https://trustworthy.systems/publications/full_text/Ge_YCH_19.pdf) provides a concrete comparison for partitioning and flushing shared microarchitectural state, with hardware-specific limitations. ASKA must measure its own observation boundary; isolation of writable memory alone does not establish timing confidentiality.
+
+The flow model builds on [Denning's lattice](https://doi.org/10.1145/360051.360056), [Bell–LaPadula confidentiality](https://lukemuehlhauser.com/wp-content/uploads/Bell-LaPadula-Secure-computer-systems-mathematical-foundations.pdf), [Biba integrity](https://www.cerias.purdue.edu/apps/reports_and_papers/view/2834/), [HiStar](https://static.usenix.org/event/osdi06/tech/zeldovich.html) and [Flume](https://doi.org/10.1145/1294261.1294293). [Robust declassification](https://www.cs.cornell.edu/andru/papers/robdecl-jcs/) specifically addresses attacker influence on release. ASKA must separately demonstrate its output-boundary implementation and release authority.
 
 ## 2. Labels and partial orders
 

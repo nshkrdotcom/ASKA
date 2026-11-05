@@ -1,7 +1,5 @@
 # ASKA v6 — Security event provenance and telemetry
 
-**Status:** proposed event contract. Field semantics are normative targets; production encodings, counters and cryptographic vectors require implementation-specific validation.
-
 ## 1. Events are bounded evidence
 
 An event says that a particular exporter reported an observation at a declared interface. Its evidential value depends on the exporter’s protection, its physical attachment, the event schema, its continuity state and the observer’s coverage contract. A signature cannot correct a sensor that measured the wrong signal or an exporter that attached the wrong owner. A trusted origin also does not make the report complete: a real event stream can contain sampling, intentional omission and overflow.
@@ -73,7 +71,7 @@ An event and a receipt answer different questions. A pre-gate event can establis
 
 **R-24-07 — Finality-aware correlation.** Telemetry correlated with an effect MUST retain the effect identifier, owner epoch, finality point and evidence references of the authoritative receipt. A committed receipt MUST remain committed at that established finality point. Unresolved external or physical outcomes MUST be separately scoped; when finality itself cannot be established after an attempt, the effect MUST remain `UNCERTAIN` until evidence supports reconciliation.
 
-For example, EO records that a valve command was accepted by its device interface. That receipt can remain `COMMITTED` while the valve-position sensor fails and the physical movement remains unknown. Reissuing the command as if no effect occurred may be unsafe. The Promise Keeper workflow in [chapter 28](28_aesds_iama_and_autonomous_evolution.md) uses evidence to investigate and propose authorized correction; it cannot erase the old receipt or reverse an irreversible physical effect.
+For example, EO records that a valve command was accepted by its device interface. That receipt can remain `COMMITTED` while the valve-position sensor fails and the physical movement remains unknown. Reissuing the command as if no effect occurred may be unsafe. The reconciliation procedure in [Chapter 17](17_transactions_effects_and_reconciliation.md) investigates the mismatch and may propose an authorized correction; it cannot erase the old receipt or reverse an irreversible physical effect.
 
 ## 7. Test obligations
 

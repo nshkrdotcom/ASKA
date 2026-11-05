@@ -1,7 +1,5 @@
 # ASKA v6 — Governance profiles, conflicts and institutions
 
-**Status:** proposed architectural requirements. Acceptance oracles specify evidence to obtain; no ASKA implementation or validation result is asserted.
-
 A governance profile makes a bounded institutional interpretation executable. It identifies the rules, authorities, procedures and evidence that a resource owner accepts for a class of operations. It cannot settle disputed law by declaring its own interpretation correct. Different institutions may apply different profiles to the same proposed exchange, and a source owner may be technically unable or institutionally unauthorized to fulfill a request that another participant considers valid. ASKA must expose that difference without inventing a universal administrator.
 
 Profiles apply to people, organizations, services and resource owners through explicit applicability rules. They are not numerical trust ranks. A court, employer, credential issuer, professional body, family member and community council hold different kinds of authority. None thereby acquires another institution's keys or every person's private data. An AI may help identify relevant documents or simulate consequences, but its interpretation remains a proposal subject to the admitted qualification and review rules.

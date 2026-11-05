@@ -1,7 +1,5 @@
 # ASKA v6 — Accord system and machine authorization
 
-**Status:** proposed normative target. The rules specify interfaces and obligations; they do not establish an implemented or verified machine.
-
 ## 1. Position in the physical machine
 
 Accord connects human and institutional authority to the resources and consequence boundaries of ASKA. It describes why an operation may be admitted, what must remain forbidden, who may receive its result, and what evidence must survive execution. The physical machine remains the enforcement foundation: an IES owns its execution and writable memory; a cell receives bounded views and handles; a persistent object owner or effect owner checks the operation where its consequence becomes final. An Accord document cannot replace those boundaries.
@@ -11,6 +9,8 @@ The suite comprises CLAIM, CONTRACT, GRANT and RECEIPT, with PACT for negotiatio
 **R-31-01 — Separate evidence, decision, authority and outcome.** Implementations MUST preserve the chain CLAIM → CONTRACT → GRANT → RECEIPT. Parsing, signing, witnessing or accepting a CLAIM MUST NOT itself change executable authority. A contract is an admitted decision only after its admission prerequisites hold; a grant is usable only after the responsible local installer accepts it.
 
 The distinction survives apparent convenience. A professional credential may qualify someone to request a medical operation. It does not name the patient's object, supply consent or other applicable basis, reserve storage, or authorize a recipient. A security finding may justify considering a port freeze. It is neither a freeze command nor permission to export the affected person's memory. A payment receipt can establish a named bank's reported disposition without proving that purchased goods arrived.
+
+[The confused-deputy problem](https://doi.org/10.1145/54289.871709) motivates keeping a coordinator's own power distinct from a caller's grant. [Saltzer and Schroeder](https://web.mit.edu/Saltzer/www/publications/protection/) already prescribe economical, completely mediated mechanisms; [Clark and Wilson](https://doi.org/10.1109/SP.1987.10001) show why commercial integrity requires more than confidentiality. The evaluator and grant compiler are trusted interpreters of these obligations and must be included in the failure analysis.
 
 ## 2. Independent roles and their interfaces
 
@@ -63,7 +63,21 @@ Attackers can submit validly signed but irrelevant claims, cyclic relationship g
 
 **R-31-07 — Make authority provenance inspectable without universal exposure.** Each admitted contract MUST retain a reconstructible, access-controlled reason graph identifying relevant evidence, exclusions, decisions, approver roles and installed scope. Auditors MUST receive only the views their own contracts permit; administrative inspection MUST NOT imply access to every participant's identity or data.
 
-## 7. Operational example and acceptance obligations
+## 7. Trusted evaluator and grant compiler
+
+The evaluator and compiler belong to the transitive trusted computing base for any grant they cause to be installed. A mathematically correct attenuation check against a **wrongly admitted contract** does not repair a semantic error: a compiler can install a narrow grant for a contract whose object scope or consenting party was misread. Signing the result only authenticates that mistake.
+
+Admission uses a versioned, finite grammar for evidence and contract predicates. An implementation profile supplies positive upper bounds for `B_input` (encoded bytes), `N_claim` (claims), `N_edge` (relationship edges), `D_proof` (dependency depth), `W_eval` (evaluation work), `Q_pending` (outstanding decisions), and `B_grants` (installed entries). Parsing, graph expansion and profile selection reject exhaustion before an unbounded step or allocation; cyclic dependencies terminate without grant creation. The exact values are deployment parameters and are not supplied by this architecture. Critical fields and operations admit one canonical interpretation; unknown values deny installation.
+
+The compiler emits a canonical contract digest, immutable provenance identifiers and candidate owner-specific rights. At the protected owner, a small **grant verifier** validates type, object generation, operation set, restrictions, recipient, duration and non-additive budgets against the admitted contract and local standing ceilings. The verifier operates on canonical fields rather than compiler-provided descriptions and rejects any unsupported obligation. This second check limits compiler mistakes; it cannot prove an institution's authority or a person's comprehension. The profile therefore declares the semantic evaluator, approved policy grammar, qualified issuers and any trusted human judgment as distinct failure assumptions.
+
+For each deployable profile, the assurance dossier measures the **transitive** trusted base: executable size and update roots of parser, evaluator, policy/role interpreter, compiler, grant verifier, local installer, recovery logic and privileged dependencies; the mutable state and privilege edges for each; worst-case admission memory and work; and the number of shared installation/reset paths. A complexity ceiling is set before qualification and justified against a simpler guarded alternative. A candidate that exceeds its ceiling is rejected or assigned a weaker assurance claim, not silently exempted because its functions reside in different processes.
+
+**R-31-08 — Independently check canonical grant bounds at the owner.** The local owner MUST reject any candidate grant whose canonical fields exceed the admitted contract, active exclusions, object generation, installer ceiling or enforceable obligations. Compiler output, provenance signatures and evaluator success MUST NOT bypass this check.
+
+**R-31-09 — Publish and enforce a transitive TCB budget.** A qualified implementation MUST pin finite admission limits and a profile-specific trusted-component budget, including evaluation grammar, dependency roots and privileged state. Exceeding a limit MUST block promotion or installation without widening authority.
+
+## 8. Operational example and acceptance obligations
 
 A supplier delivers an invoice into Wilder. A disposable parser produces a candidate amount and account identifier. Agora separately retrieves the purchase order and checks the supplier relationship. A user companion proposes settlement, but an approved account directory supplies the recipient binding. Keystone shows the amount, currency, account, fees, permitted source fields and actual authority basis. The local payment owner installs a one-use grant, charges its protected allowance with submission finality, and records a receipt. A lost bank response leaves bank settlement uncertain while the local submission receipt remains committed. Reconciliation queries the named bank operation before any retry.
 
@@ -78,7 +92,9 @@ The following are specified tests, not reported execution results.
 | T-31-05 | Supply an authentic false alarm outside a standing template's target or lifetime; no protective effect occurs outside the installed scope. |
 | T-31-06 | Submit a cyclic, oversized evidence graph; work and retained state stay within declared bounds and protected useful service continues. |
 | T-31-07 | Give an auditor receipt access without relationship access; it verifies the scoped outcome without obtaining the complete proof graph. |
+| T-31-08 | Corrupt compiler output to add a different recipient, expired generation, wider budget or missing obligation; owner verification rejects every overbroad grant while admitting an unchanged control. |
+| T-31-09 | Submit validly signed but oversized and cyclic graphs, then alter the privileged dependency inventory; bounded rejection occurs and the qualification dossier fails until the added root and costs are evaluated. |
 
-## 8. Standards comparison and limits
+## 9. Standards comparison and limits
 
-The [W3C ODRL Information Model 2.2](https://www.w3.org/TR/odrl-model/) distinguishes permissions, prohibitions, duties and constraints. It is a useful vocabulary comparison, not an ASKA enforcement implementation or a determination of applicable law. [OAuth Rich Authorization Requests, RFC 9396](https://www.rfc-editor.org/rfc/rfc9396) provides a comparison for structured action details. Accord additionally requires independently installed resource authority and explicit consequence finality. Neither source establishes whole-system physical confinement.
+[Macaroons](https://research.google/pubs/macaroons-cookies-with-contextual-caveats-for-decentralized-authorization-in-the-cloud/) already support attenuation through contextual caveats; the distinct ASKA question is whether a local owner can enforce each admitted consequence. The [W3C ODRL Information Model 2.2](https://www.w3.org/TR/odrl-model/) distinguishes permissions, prohibitions, duties and constraints. It is a useful vocabulary comparison, not an ASKA enforcement implementation or a determination of applicable law. [OAuth Rich Authorization Requests, RFC 9396](https://www.rfc-editor.org/rfc/rfc9396) provides a comparison for structured action details. Accord additionally requires independently installed resource authority and explicit consequence finality. Neither source establishes whole-system physical confinement.

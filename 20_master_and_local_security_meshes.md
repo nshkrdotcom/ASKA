@@ -1,7 +1,5 @@
 # ASKA v6 — Master and local security meshes
 
-**Status:** proposed normative target. The physical realization, detection coverage and resilience described here require implementation evidence.
-
 ## 1. Security outside the execution domain
 
 ASKA places its local security analysis outside the authority of the workload being observed. A compromised application, kernel, driver or UAI cell should not be able to stop the observation hardware, replace its policy or forge the protected source identity of its events. This is a relative claim: independence from a compute module does not imply independence from a shared power supply, boundary controller, manufacturing defect or installation custodian. The declaration of those dependencies is part of the claim.
@@ -36,7 +34,7 @@ At deployment, the local owner admits a coverage contract, export schema, receiv
 
 MSM-to-LSM configuration travels over the dedicated directional interface. LSM-to-MSM reporting uses a different interface. A request for a new rule may therefore return in a report and influence later engineering work, but the report is never an installation command. Any resulting package passes the producer, reviewer, signer and receiver controls of [chapter 27](27_software_update_and_supply_chain_safety.md). This is a feedback loop of typed records and admitted effects, with no assumption that the complete system graph is acyclic.
 
-The mesh may help reconcile a promised operation. It can show that an owner emitted a receipt, that a device command crossed an observed interface, or that an expected event was missing. It does not substitute for the finality owner. The Promise Keeper integration in [chapter 28](28_aesds_iama_and_autonomous_evolution.md) combines those observations with durable state and preserves disagreement instead of choosing whichever account looks most confident.
+The mesh may help reconcile a promised operation. It can show that an owner emitted a receipt, that a device command crossed an observed interface, or that an expected event was missing. It does not substitute for the finality owner. The reconciliation procedure in [Chapter 17](17_transactions_effects_and_reconciliation.md) compares those observations with durable state and records unresolved disagreement.
 
 ## 4. Compromised security components
 

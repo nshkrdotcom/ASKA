@@ -1,7 +1,5 @@
 # ASKA v6 — Agents, delegated workflows and effect approval
 
-**Status:** proposed architectural requirements. Acceptance oracles specify evidence to obtain; no ASKA implementation or validation result is asserted.
-
 An agent executes a task under explicit delegated authority. Its ability to reason over a goal does not supply missing permission. A useful agent may search admitted sources, compare options, prepare artifacts, schedule bounded work and invoke authorized tools without asking a person to approve every mechanical step. The limits that make this autonomy safe must be installed at consequence boundaries: scope, duration, recipients, budgets, object generations, obligations and stopping conditions.
 
 The delegation is a contract, not an informal instruction embedded in a prompt. The agent's current plan can change while its authority remains fixed. If a better plan needs broader authority, the agent proposes a new contract or narrows the task. It must not reinterpret a general objective as permission to contact additional people, expose additional data or make a qualitatively different commitment.
@@ -13,6 +11,8 @@ A task manifest identifies the principal and agent role, goal representation, al
 **R-39-01 — Concrete delegated scope.** Every autonomous workflow MUST derive its exercisable authority from installed grants that name its sources, tools, effects, recipients, budgets and lifetime. Natural-language goals and tool descriptions MUST NOT enlarge that scope.
 
 Tool metadata may be supplied by an untrusted server. Descriptions, examples and annotations can help the planner, but the caller must use a pinned and admitted semantic registration for consequence checks. A server that changes its advertised “read” operation into a state-changing operation must not inherit the old authorization. Conversely, a legitimate read can expose protected data and requires source authority even when it has no external write.
+
+[The EROS capability lineage](https://doi.org/10.1145/319151.319163) limits authority by held references, while [Fides](https://www.microsoft.com/en-us/research/publication/securing-ai-agents-with-information-flow-control/) and [CaMeL](https://arxiv.org/abs/2503.18813) address agent tool-use information flow. Agent planning is advisory to the independent effect owner in the selected ASKA contract.
 
 ## 39.2 Planning and execution separation
 

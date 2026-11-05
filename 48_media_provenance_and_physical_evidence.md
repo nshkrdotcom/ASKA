@@ -1,7 +1,5 @@
 # ASKA v6 — Media provenance and physical evidence
 
-**Status:** proposed architectural requirements. Acceptance oracles specify evidence to obtain; no ASKA implementation or validation result is asserted.
-
 Media evidence combines several claims that must be assessed separately: who controlled a capture device, what bytes it produced, which transformations followed, how the artifact was held, and whether the depicted event corresponds to the physical world. Cryptographic provenance can authenticate signed statements and bind them to an artifact. It cannot, by itself, establish that a camera faced the claimed scene, that a sensor was calibrated, that a person consented to recording, or that an institution's interpretation is correct.
 
 ASKA supports ordinary signed media, derived-artifact provenance, sensor-rich capture and experimental physical evidence media. These are distinct profiles with different costs and assumptions. None is a universal prerequisite for communication. A deployment may accept conventional photographs or documents while labeling their provenance limits. A research mechanism must not be marketed as irrefutable evidence merely because its internal algorithm is proprietary or difficult to inspect.
@@ -68,8 +66,6 @@ A zero-knowledge proof may demonstrate that an admitted verification computation
 
 Consider a field scientist documenting an instrument reading. The capture device signs an image and calibrated sensor record with a time interval. A reviewer checks device status, calibration and custody. A privacy transformer removes bystanders' identifying regions under an admitted rule and produces a derivative with a linked transformation record. The public receives the derivative and selected provenance; qualified reviewers retain a path to inspect the original. If a proposed microstructure is issued, its enrollment binds the specific receipt, and later verification reports its measured match and tolerance. No stage claims that the signature alone proves the scientific conclusion.
 
-**R-48-08 — Research evidence discipline.** Every claimed physical authenticity improvement MUST identify a baseline, test population, adversarial trials, error metrics, environmental conditions and independent replication status. Simulation, a patent-style description or an unpublished proprietary assertion MUST NOT be reported as a validated implementation result.
-
 | Oracle | Falsifiable acceptance condition |
 |---|---|
 | T-48-01 | Verify a signed staged or synthetic scene; the result confirms only supported provenance claims and does not certify world truth. |
@@ -79,4 +75,3 @@ Consider a field scientist documenting an instrument reading. The capture device
 | T-48-05 | Remove calibration or custody evidence while keeping a valid signature; verification remains explicitly incomplete. |
 | T-48-06 | Disable the specialized verifier; conventional fallback cannot inherit the unavailable physical-evidence assurance label. |
 | T-48-07 | Present a valid proof of a verification computation; the prover still cannot export the protected original without release authority. |
-| T-48-08 | Compare a claimed improvement against its declared baseline and replication record; absent measurements remain labeled unvalidated. |
