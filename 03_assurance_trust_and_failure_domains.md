@@ -1,6 +1,6 @@
 # ASKA v6 — Assurance, trust and failure domains
 
-## 1. Independence is a relation
+## Independence is a relation
 
 A component is independent of attacker domain A **for property P** only when A cannot alter the enforcement or evidence functions on which P depends through the declared interfaces and management paths. This is a relation among a property, an attacker and a dependency graph; it is not a synonym for a separate process, die, board or vendor.
 
@@ -10,7 +10,7 @@ The [seL4 functional-correctness proof](https://researchportalplus.anu.edu.au/en
 
 [Rushby's separation-kernel analysis](https://www.csl.sri.com/papers/sosp81/) and the [MILS architecture](https://www.inderscience.com/info/inarticle.php?artid=14859) already decompose secure systems into smaller components. ASKA's independence claim therefore needs an observed failure graph and a tested physical cut set, not a claim that separation is new. [Multics](https://doi.org/10.1145/361011.361067) provides an earlier warning about policy-bearing supervisor complexity.
 
-## 2. Root and function inventory
+## Root and function inventory
 
 | Root/function | Permitted authority | Separate dependency to declare |
 |---|---|---|
@@ -27,7 +27,7 @@ The [seL4 functional-correctness proof](https://researchportalplus.anu.edu.au/en
 
 A key held in the same unrestricted management processor as another key is not a separate failure domain simply because the certificates differ. Likewise, threshold signatures by two services built from the same compromised image do not establish independent review.
 
-## 3. Dependency graph and cut sets
+## Dependency graph and cut sets
 
 ```mermaid
 flowchart TB
@@ -63,7 +63,7 @@ For a property P, a cut set is a set of failed or malicious functions sufficient
 
 When a lower boundary fails, a surviving outer boundary may limit propagation. It does not retroactively restore integrity or secrecy inside the failed scope. This distinction is essential when discussing redundant checks.
 
-## 4. Finite watcher roots
+## Finite watcher roots
 
 WM-L observes the relevant LSM intake, configuration installation, output health and response proposals through independent taps or attestable exports. WM-M observes distribution and management health. The observed mesh MUST lack access to watcher keys, reset, firmware or policy writers within the asserted compromise model. The watcher itself is assumed or assessed at a declared terminal root; independent bench inspection, physical root custody and separately administered recovery close the assurance argument without infinite regress.
 
@@ -71,7 +71,7 @@ A watchdog proves only the property measured by its counter or challenge. A mali
 
 If watcher availability disappears, the system reports **unknown oversight**, not healthy observation. Existing guards may continue under a minimum policy and previously admitted bounded grants. A profile can require suspension of particular high-consequence activities, but cannot use blindness to authorize a universal shutdown or surveillance expansion.
 
-## 5. Evidence classes and status
+## Evidence classes and status
 
 | Evidence class | Minimum record | Permitted interpretation |
 |---|---|---|
@@ -86,19 +86,19 @@ If watcher availability disappears, the system reports **unknown oversight**, no
 
 Attestation, signature validation, proof checking and witness consistency are evidence operations with distinct meanings. None proves that a sensor's physical input was truthful, that a legal order was just, or that signed code has safe behavior. Negative tests should include authenticated lies and correctly signed defects.
 
-## 6. Assurance loss and recovery
+## Assurance loss and recovery
 
 Each claim has a runtime status: `supported-under-manifest`, `degraded`, `unknown`, or `withdrawn`. These are assurance statuses, not common effect outcomes. A newly detected shared dependency withdraws affected independence claims. A disconnected report path degrades completeness. A missing monotonic counter makes session continuity unknown and may require retirement of the affected epoch.
 
 Recovery must re-establish specific prerequisites: identity, applicable policy, installation provenance, monotonic state, sanitized resource ownership and any required independent observation. It must not restore broad historical rights from a backup merely because a service has restarted. The recovery receipt identifies which guarantees resumed and which remain unestablished.
 
-## 7. Review procedure
+## Review procedure
 
 Reviewers enumerate every data, control, management, debug, clock/reset and power edge in [Chapter 04](04_reference_machine_and_reachability.md). They select a target property and give the attacker every capability assigned by the threat model. They compute direct and indirect write influence, then test cut sets using independent instruments. The observer used as an oracle must not be the only component whose correctness is disputed.
 
 For availability, reviewers record service lost as well as forbidden effects blocked. For privacy, they include sizes, timing, error categories, logs and sensor patterns in the observation boundary. For suppliers, they record shared source code, toolchains and review infrastructure. Administrative separation is useful, but it is not itself physical or implementation diversity.
 
-## Normative requirements and acceptance obligations
+## Required behavior and test oracles
 
 **R-03-01 — Relative independence.** An independence claim MUST name the attacker, property, observation boundary and full dependency graph.
 
@@ -123,4 +123,3 @@ For availability, reviewers record service lost as well as forbidden effects blo
 **R-03-06 — Assurance transition.** Loss of an assumption MUST downgrade or withdraw the affected claim and preserve the reason in a scoped receipt.
 
 **Acceptance T-03-06:** Disconnect oversight, roll back a counter and recover; check explicit intermediate uncertainty and requalification before claim restoration.
-

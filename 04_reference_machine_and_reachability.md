@@ -1,6 +1,6 @@
 # ASKA v6 — Reference machine and reachability
 
-## 1. Reference status and indexing
+## Reference status and indexing
 
 This chapter defines two conceptual physical reference profiles, **RP-A** and **RP-B**. They are implementable board/appliance organizations to be refined into schematics, RTL, firmware and measured apparatus. No production layout, completed fabrication, electrical compliance or demonstrated isolation is asserted. Connector and module counts below are sample profile counts at a stated boundary, not a universal consequence of the four societal purposes.
 
@@ -8,7 +8,7 @@ In tables, `p ∈ {S,P,A,W}` denotes Sanctum, Polis, Agora and Wilder. `t ∈ {S
 
 [Separation kernels](https://www.csl.sri.com/papers/sosp81/) and [MILS](https://www.inderscience.com/info/inarticle.php?artid=14859) are the starting comparison for protected partitions. RP-A adds separately inventoried device, reset, debug, power and installation paths. It claims neither original physical partitioning nor greater assurance before a circuit-level inspection. [Qubes OS](https://www.qubes-os.org/doc/QubesArchitecture/) is a deployment comparison for purpose compartments sharing a virtualization stack; RP-A must demonstrate a concrete reduction in reachable attacker paths before justifying its extra boards.
 
-## 2. RP-A: split-board sovereign workstation
+## RP-A: split-board sovereign workstation
 
 Each purpose has a compute module `C-p`, an assigned writable bank `B-p`, one boundary guard `G-p`, and a purpose PHY `J-p`. The names MG (memory), DG (device/DMA), BG (handoff), PO (persistent commit), EO (effect) and EG/RG (egress/receive) identify **functions inside that one guard**, not extra chips or independent protection roots. Each claimed transaction must pass its applicable function before the irreversible boundary. Parsers and transition workers run in confined cells; only protected guard state holds ownership and finality tables. Loss of `G-p` compromises that purpose's full boundary.
 
@@ -83,7 +83,7 @@ I01-E through I03-E instantiate only E-owned resources and guarded handoff. I04-
 
 The RP-A diagram and I01–I22 bill describe the **extended** configuration; they are not minimum manufacturing requirements. A per-purpose `G-p` may use internal submodules only when the interface register shows their physical routes and shared roots. The installation manifest distinguishes hardware guards from merely named software services.
 
-## 3. Component and installation roots
+## Component and installation roots
 
 | Component set | Installation/policy authority | Permitted operational writers | Reset/debug ownership |
 |---|---|---|---|
@@ -99,7 +99,7 @@ The RP-A diagram and I01–I22 bill describe the **extended** configuration; the
 
 The term “per-purpose” means a separately scoped authority domain. If a deployment uses the same firmware image, toolchain or human custodian for several domains, it records that common cause. A single board with several guard functions can be a useful first realization, but does not demonstrate independent silicon or supplier faults.
 
-## 4. Protected reachability register
+## Protected reachability register
 
 This is the complete **logical interface-class register** for RP-A. An implementation must provide an exhaustive physical expansion, including unbonded/debug/test and maintenance routes. “No alternate” means none is authorized by this profile; a discovered route invalidates the applicable claim until mediated or excluded explicitly.
 
@@ -144,7 +144,7 @@ The guard controls its protected tags and transaction acceptance. A workload fie
 
 `EO-T` denotes only the specifically admitted K/ST/service protective owners. It does not authorize disabling emergency stop, overriding K approval, or rewriting witness history. A response proposal can reach an owner; it cannot bypass that owner's predicate.
 
-## 5. Observer, reset and fault bindings
+## Observer, reset and fault bindings
 
 | Interface classes | Protected evidence and watcher | Policy/root dependency | Failure interpretation |
 |---|---|---|---|
@@ -158,7 +158,7 @@ The guard controls its protected tags and transaction acceptance. A workload fie
 
 Watcher records must distinguish direct hardware measurements, authenticated software exports and self-reported health. Production debug is closed by local physical policy; lab access that can rewrite guards is marked a trusted operator boundary, not hidden as a harmless maintenance exception.
 
-## 6. RP-A interface and sample PHY bill
+## RP-A interface and sample PHY bill
 
 The count covers this workstation's external-purpose interfaces and both ends of its intermodule security links. External network peers are outside the count. A simplex endpoint is a transmit-only or receive-only endpoint module; two constitute one one-way link. Interface counts are not a claim about packages, sockets, connector pin counts or fiber strands.
 
@@ -179,7 +179,7 @@ The count covers this workstation's external-purpose interfaces and both ends of
 
 The purpose/witness subtotal is five duplex interfaces. Including the dedicated J-E encounter interface, the named long-link total is **6 duplex interfaces plus 16 simplex links / 32 simplex endpoints**. Local exporter, proposal, health, peripheral and maintenance interfaces are additional and are explicitly listed above. Physical realizations must inventory actual devices; no universal transceiver total follows from these interface classes.
 
-## 7. RP-B: independently powered community appliances
+## RP-B: independently powered community appliances
 
 RP-B instantiates the same four purpose slices in separate realm appliances, places K/ST trusted services in an independently governed service appliance, and separates LSM, watcher and distribution installation domains. Each purpose appliance has two guarded duplex carriage ports: one local/community route and one distinct region/upstream route. Steles has two witness replication ports to independent receivers. The installation therefore has **10 duplex purpose/witness interfaces**, plus one dedicated local J-E encounter interface: **11 duplex interfaces in total**, with the same **16 simplex security links / 32 endpoint modules** before any optional redundancy. E has separate local compute, bank, parser/FIFO and DMA resources under the Wilder-governed scope described above; no established local or upstream service depends on E’s pool.
 
@@ -194,15 +194,15 @@ Each security link uses its own admitted physical interface; carrying configurat
 | One watcher or OV unavailable | Guard operation can continue under declared degraded profile; oversight completeness is not claimed |
 | Site-wide utility or disaster | Only independently powered/located facilities with tested reserves can support continuity |
 
-Distinct power circuits without independent upstream supply are not complete power independence. Battery duration, cooling and restart behavior are measured requirements, not implied by the RP-B name. [Chapter 57](57_reference_realizations_and_legacy_interoperability.md) provides deployment workflows and the deliberately weaker LP-1 laboratory arrangement.
+Distinct power circuits without independent upstream supply are not complete power independence. Battery duration, cooling and restart behavior are measured requirements, not implied by the RP-B name. [Chapter 48](48_reference_realizations_and_legacy_interoperability.md) provides deployment workflows and the deliberately weaker LP-1 laboratory arrangement.
 
-## 8. Installation acceptance
+## Installation acceptance
 
 The physical team expands the interface register, tests reverse signaling on each diode, searches for alternate DMA/egress/reset paths, and gives the attacker control of each parser and ordinary management endpoint. It measures authorized traffic and recovery under the same guard configuration. The authority team verifies that every control-bearing interface terminates in a scoped owner. The observation team proves where counters originate and which data never reach its sensors.
 
-A failed test withdraws the affected claim. Reclassifying an unguarded link as management traffic, or a shared root as implementation detail, is not a valid resolution. [Chapter 59](59_assurance_claims_profiles_and_manifests.md) defines how these facts enter a conformance manifest.
+A failed test withdraws the affected claim. Reclassifying an unguarded link as management traffic, or a shared root as implementation detail, is not a valid resolution. [Chapter 50](50_assurance_claims_profiles_and_manifests.md) defines how these facts enter a conformance manifest.
 
-## Normative requirements and acceptance obligations
+## Required behavior and test oracles
 
 **R-04-01 — Exhaustive physical paths.** A realization MUST expand every reference interface into an exhaustive physical and management reachability register.
 
@@ -231,7 +231,6 @@ A failed test withdraws the affected claim. Reclassifying an unguarded link as m
 **R-04-07 — Profile-specific continuity.** Failure claims MUST identify the exact independent surviving path and resources, with no automatic cross-purpose fallback.
 
 **Acceptance T-04-07:** Cut community, upstream and distribution routes separately; useful local work continues where specified and forbidden fallback remains denied.
-
 
 **R-04-08 — Native encounter allocation.** Native reference realizations MUST instantiate the dedicated encounter domain and enumerate its separate port, parser lane, FIFO, bank, DMA, exporter and response paths. Established ATN/STN service MUST NOT depend on encounter queues or free buffers. Physical counts MUST include J-E without treating it as an additional societal purpose.
 

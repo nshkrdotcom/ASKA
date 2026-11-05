@@ -1,6 +1,6 @@
 # ASKA v6 — Information flow and release
 
-## 1. Observation boundary
+## Observation boundary
 
 Information-flow protection specifies which differences in protected state may affect which observers. The observer set can include object values, published outputs, result categories, packet sizes, traffic existence, timing, termination, resource use, screen pixels, power and electromagnetic signals. A proof about explicit values does not cover every one of these channels.
 
@@ -10,7 +10,7 @@ The [time-protection study](https://trustworthy.systems/publications/full_text/G
 
 The flow model builds on [Denning's lattice](https://doi.org/10.1145/360051.360056), [Bell–LaPadula confidentiality](https://lukemuehlhauser.com/wp-content/uploads/Bell-LaPadula-Secure-computer-systems-mathematical-foundations.pdf), [Biba integrity](https://www.cerias.purdue.edu/apps/reports_and_papers/view/2834/), [HiStar](https://static.usenix.org/event/osdi06/tech/zeldovich.html) and [Flume](https://doi.org/10.1145/1294261.1294293). [Robust declassification](https://www.cs.cornell.edu/andru/papers/robdecl-jcs/) specifically addresses attacker influence on release. ASKA must separately demonstrate its output-boundary implementation and release authority.
 
-## 2. Labels and partial orders
+## Labels and partial orders
 
 A confidentiality label is `C = (realm, compartments, recipients, purpose, retention)`. An integrity label records `(source_class, transformations, evidence_confidence)` without treating confidence as a universal authority rank. A label references the policies defining its interpretation. Realm-local orders may be incomparable; crossing realms requires explicit policy mapping rather than comparing arbitrary numeric trust scores.
 
@@ -18,7 +18,7 @@ For the simple closed model, information from several inputs accumulates all con
 
 Labels attach to objects, snapshots, messages, surface content, model context, generated code, telemetry and receipts. References also carry confidentiality: the existence of a record can reveal a diagnosis, membership or business relationship even if its payload is encrypted. Hashes of small predictable values are not inherently confidential commitments.
 
-## 3. Flow, endorsement and release
+## Flow, endorsement and release
 
 Ordinary flow preserves restrictions and does not increase integrity. **Declassification** authorizes a bounded reduction of confidentiality restrictions. **Endorsement** authorizes use of selected low-integrity data under a stronger integrity policy after an explicitly trusted validation. These are different operations and may require different approvers.
 
@@ -26,7 +26,7 @@ A parser can validate syntax without endorsing the truth of an invoice. A signat
 
 [FLAM](https://www.cs.cornell.edu/andru/papers/flam/flam-csf15.pdf) analyzes how delegation and changes to trust can themselves affect information security. ASKA treats policy changes and authorization responses as outputs for this reason. [DStar](https://usenix.org/events/nsdi08/tech/full_papers/zeldovich/zeldovich.pdf) supplies a distributed comparison; trusting an exporter for a category is a substantive decision about remote enforcement, not a consequence of connectivity.
 
-## 4. Exact-output release contract
+## Exact-output release contract
 
 A release record binds:
 
@@ -46,7 +46,7 @@ Two modes are permitted. In **fixed-output mode**, the approved output bytes or 
 
 The release guard must bind bytes to destination and operation together. Approving a report does not authorize sending the same report to every endpoint. Approving one rendering does not authorize a higher-resolution source image, hidden metadata or a print spool containing the original document.
 
-## 5. Transformation continuity
+## Transformation continuity
 
 | Transformation | Restrictions that must survive | Specific adversarial test |
 |---|---|---|
@@ -61,7 +61,7 @@ The release guard must bind bytes to destination and operation together. Approvi
 
 Integrity also follows transformations. A content digest establishes equality to committed bytes, not faithful transcription, accurate classification, honest capture or freedom from manipulated context.
 
-## 6. Cross-realm and human limits
+## Cross-realm and human limits
 
 A source may release to a recipient whose post-receipt confinement is supported by an accepted profile and evidence. It must name that dependence. If the recipient is unrestricted or malicious within granted rights, ASKA cannot make the recipient forget plaintext, prevent manual transcription or guarantee all future use. Contractual duties, notice and evidence can aid accountability without providing an impossible technical guarantee.
 
@@ -69,7 +69,7 @@ Human-readable display is disclosure to the person observing it. A protected UI 
 
 An authorized legal disclosure does not globally relabel the source object as public. Only the admitted extract, recipient and purpose change. Likewise, a public civic notice does not release the confidential evidence used to produce it.
 
-## 7. Repetition, timing and availability
+## Repetition, timing and availability
 
 A one-bit answer repeated over many selected queries can disclose an entire secret. A per-request output schema is therefore insufficient. Release owners track cumulative query families, privacy budgets where supported, recipients and time horizons. Differential privacy requires a selected mechanism, composition rule and justified parameters; merely adding noise or naming a technique is not a guarantee.
 
@@ -77,13 +77,13 @@ Timing protection may require isolated resources, deterministic scheduling, padd
 
 False containment is also observable. A security rule that freezes only when a particular private activity occurs may disclose that activity through service availability. The standing grant and telemetry policy must consider this channel, especially for Sanctum operations.
 
-## 8. Example: restricted analysis without public forwarding
+## Example: restricted analysis without public forwarding
 
 A service receives an authorized restricted dataset into quarantine. Its receiver checks the exact source mapping and installs a scoped compute grant. The worker produces an aggregate and a verbose diagnostic. Both inherit restrictions. A dedicated release transform validates the permitted aggregate schema and cumulative output budget. The source authorizes that exact output for a named Agora recipient; the recipient independently accepts publication.
 
 The worker then attempts to send the verbose diagnostic to a public Wilder endpoint. Its ordinary read and compute grants cannot satisfy the release guard, so emission is denied. If the allowed aggregate itself encodes a secret because the trusted transform was malicious or too permissive, that is a failure of the semantic release assumption. The test must show this distinction rather than crediting successful packet authentication as successful confidentiality.
 
-## Normative requirements and acceptance obligations
+## Required behavior and test oracles
 
 **R-07-01 — Declared observations.** Every confidentiality claim MUST state the observer function, allowed releases and unmodeled channels.
 
@@ -112,4 +112,3 @@ The worker then attempts to send the verbose diagnostic to a public Wilder endpo
 **R-07-07 — Recipient and human limits.** Claims MUST state residual exposure after authorized release to an unconstrained recipient or human.
 
 **Acceptance T-07-07:** Permit an authorized screen/report and record that photographing or malicious reuse is outside digital forgetting guarantees.
-

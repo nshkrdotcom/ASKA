@@ -1,184 +1,141 @@
-# ASKA v6 — Integrated machine specification
+# ASKA v6 — System specification
 
-**Status:** proposed normative architecture and research specification. The requirements define a target machine; they do not certify manufactured hardware, a complete implementation or an end-to-end proof.
+ASKA is a proposed architecture for physically scoped computing, purpose-aware networking and enforceable authorization of consequences. The documentation specifies target behavior, security assumptions, test oracles and unresolved engineering choices. It is not a claim of manufactured hardware, completed formal verification or certified operation.
 
-## What ASKA specifies
+An **isolated execution stack (IES)** owns an assigned physical compute and writable-resource domain. A **cell** is an execution lifetime within that domain. Guards mediate memory, DMA, object transfer, release and effect paths. Accord derives **CLAIM → CONTRACT → GRANT → RECEIPT**: claims supply evidence, contracts describe admitted terms, grants install owner-local rights, and receipts record a named finality point. Source release and receiver admission are separately checked. Observation, watchers and response owners supply distinct prevention, detection and response properties; their trust roots and visibility limits must be assessed separately.
 
-ASKA specifies protected physical resource owners, local consequence checks and a networked authority model. Independent observation is a separately qualified extension. It combines native execution, storage, devices, purpose-separated communication, human and institutional authority, AI-mediated work, independent monitoring and accountable outcomes. The central engineering question is what a compromised component can physically reach and cause while useful authorized work remains possible.
+The architecture does not assume that verified code is benevolent. Incorrect specifications, malicious signers, compromised build pipelines, hostile authorized actors and physical bypasses remain within the defined analysis. Research options and illustrative cost figures do not establish implementation feasibility. The finite semantic exercises in the conformance chapter are not hardware-test results.
 
-An isolated execution stack (IES) owns a physical resource domain. A cell is a bounded execution lifetime within it. Coherent cores and caches may exist inside one IES; cross-trust communication uses guarded copies, immutable objects or acknowledged exclusive transfer. Memory, DMA, object handoff, persistent commits and external emissions each retain current owner, generation, grant and label bindings. Changing a process name, route or representation cannot create new authority.
+## System views
 
-Accord supplies the chain **CLAIM → CONTRACT → GRANT → RECEIPT**. A claim is evidence; a contract records admitted terms; a grant installs bounded local authority; a receipt identifies the particular consequence established. Source disclosure and destination acceptance remain independent. Consent, duty, delegation, guardianship and legal compulsion are distinct authority bases. No AI, institution, firmware signer, Keystone module or network membership is a universal administrator.
-
-The minimum security target consists of protected resource/effect owners, explicit grants, ownership generations, source/receiver checks and physical path inspection. Additional watcher tiers, autonomous synthesis, specialized transports and civil workflows are useful only under profiles that give them a specific threat or operational purpose. [Assurance profiles](59_assurance_claims_profiles_and_manifests.md) define the resulting differences. The foundations include [Lampson's protection model](https://bwlampson.site/08-Protection/WebPage.html), [Saltzer–Schroeder's design principles](https://web.mit.edu/Saltzer/www/publications/protection/), [Rushby's separation kernels](https://www.csl.sri.com/papers/sosp81/), [MILS](https://www.inderscience.com/info/inarticle.php?artid=14859), [HiStar](https://static.usenix.org/event/osdi06/tech/zeldovich.html) and [Flume](https://doi.org/10.1145/1294261.1294293). These are cited predecessors; no component-level novelty is claimed.
-
-## Integrated architecture
+### Cross-purpose transfer: separate authority and finality
 
 ```mermaid
 flowchart TB
-  K["Keystone: protected intent and input"] --> A["Accord: claims, contracts and local admission"]
-  U["User companion and confined applications"] --> A
-  A --> G["Installed grants and protected owners"]
-  C["IES cells, private banks and devices"] --> G
-  G --> E["Memory, persistence, output and receiving effects"]
-  E --> ST["Steles: permitted receipt commitments"]
-  G --> TE["Trusted exporters: scoped boundary evidence"]
-  TE --> LS["LSM: independent local observation"]
-  MS["MSM: scoped configuration distribution"] -->|"physical one-way configuration"| LS
-  LS -->|"separate report path"| MS
-  LS -->|"bounded response proposal"| G
-  TE --> WL["WM-L: independent local oversight"]
-  LS -->|"health and configuration evidence"| WL
-  MS --> WM["WM-M: independent master oversight"]
-  WL --> OV["Independent oversight receiver"]
-  WM --> OV
+  P["Proposed action and typed evidence"] --> A["Accord: admitted contract"]
+  A --> G["Protected installer: owner-local grant"]
+  G --> S["Source owner: exact release check"]
+  S --> E["Guarded egress: source finality"]
+  E --> Q["Transport and receive quarantine"]
+  Q --> D["Destination owner: independent admission"]
+  D --> O["Protected publication: destination finality"]
+  E --> R1["Source receipt"]
+  O --> R2["Destination receipt"]
+  R1 -.-> W["Steles: admitted witness record"]
+  R2 -.-> W
 ```
 
-The diagram shows the extended RP-A/OOB_NATIVE role set, not the minimum hardware-guarded profile or all physical wiring. [Chapter 04](04_reference_machine_and_reachability.md) owns the full interface classes, roots, reset/clock/power/debug reachability and counted physical reference profiles. A functional arrow never substitutes for a guarded physical path or a grant.
+This view follows one cross-purpose transfer. Accord evaluates claims and the applicable contract, but an admitted decision creates usable authority only after a protected installer accepts a grant for its own resources. The source owner then checks the live grant, source version, permitted representation, recipient, labels and budget at the release boundary. The derivation and enforcement rules are specified in [authority calculus](06_authority_calculus_and_nonexpansion.md), [information flow](07_information_flow_and_release.md) and [Accord admission](27_accord_system_and_machine_authorization.md).
 
-Inline guards prevent a forbidden consequence at a declared boundary. LSM and MSM observation can identify suspicious events or coverage loss within their actual visibility. WM-L and WM-M watch separately rooted observer behavior; they do not form an infinite chain or acquire policy control. Steles witnesses received commitments and notices. These roles are distinct, and common suppliers, power, installers or exporters remain explicit dependencies.
+The transport path carries an authorized representation; it supplies no further permission. Received content remains quarantined until the destination verifies its own admission conditions and publishes the object. A source release can succeed even if the destination subsequently rejects the transfer. [Purpose boundaries](34_purpose_planes_and_network_roles.md), [gateway crossings](36_dynamic_trust_gateways_and_crossings.md) and [record admission](38_packet_records_delivery_and_egress.md) specify those checks. The two receipts identify different finality points, not a single end-to-end success. Steles may receive a permitted commitment to either event without acquiring the underlying content or authority over either owner; see [effect reconciliation](17_transactions_effects_and_reconciliation.md) and [witnessing](40_witnesses_media_provenance_and_notice.md). The arrows identify logical decisions, not a shared implementation service or a prescribed network route.
 
-Protective responses use finite templates and preinstalled standing grants with targets, budgets, expiry, cumulative limits and safety interlocks. They can operate locally without fresh human negotiation for each alarm. A model's alarming output cannot authorize a global shutdown or arbitrary program execution. Correctly signed bad updates, compromised observers and forged watcher evidence are included in the threat model.
+### Purpose domains and network roles
 
-## Purposes, trust roles and physical fabrics
+```mermaid
+flowchart LR
+  subgraph Purposes["Purpose contexts"]
+    S["Sanctum: private work"]
+    P["Polis: civic work"]
+    A["Agora: exchange"]
+    W["Wilder: untrusted encounter"]
+  end
+  subgraph Connectivity["Distinct connectivity roles"]
+    ST["STN: trust governance and roots"]
+    AT["ATN: authenticated peers and sessions"]
+    MC["MCN: channels and carriage"]
+  end
+  S --> M["Deployment mapping: owners, ports, guards and dependencies"]
+  P --> M
+  A --> M
+  W --> M
+  ST -.-> M
+  AT -.-> M
+  MC -.-> M
+  M --> B["Guarded endpoints, instantiated per purpose"]
+  V["Steles: separately admitted witness role"] -.-> M
+```
 
-| Layer | Named roles | Meaning and limit |
-|---|---|---|
-| Societal purposes | Sanctum, Polis, Agora, Wilder | Personal, civic, commercial/institutional and open-world contexts; no universal clearance ordering |
-| Independent witness | Steles | Scoped commitments, receipts, notice and correction; separate from security watchers |
-| Protected human interaction | Keystone | Canonical trusted intent, input and key use; no universal data reader |
-| Network trust organization | STN, ATN, MCN | Sovereign trust governance, authenticated connectivity and multiple channels; carriage does not create effect permission |
-| Security fabrics | Configuration, reporting, oversight and response-proposal interfaces | Separate direction, parser, budget and authority contracts; two opposite links are not a whole-system air gap |
-| Physical realization | RP-A, RP-B and LP-1 | Concrete reference arrangements with explicit weaker laboratory assumptions and evidence gaps |
+Sanctum, Polis, Agora and Wilder identify the purpose and governing conditions of work; they are neither security clearance levels nor a fixed physical connector count. Steles has a separate, scoped witnessing role. A deployment maps each purpose to actual execution resources, ingress and egress guards, data owners and shared dependencies. The box labeled *deployment mapping* represents that inventory, not a central machine with authority over every purpose. See [reference-machine reachability](04_reference_machine_and_reachability.md), [purpose boundaries and network roles](34_purpose_planes_and_network_roles.md) and [assurance dependencies](03_assurance_trust_and_failure_domains.md).
 
-RP-A is a split-board workstation target. RP-B distributes the same logical roles across independently powered community appliances with separately inventoried local and upstream routes. LP-1 is a staged laboratory apparatus: guarded lifecycle/effect tests come first; observer and watcher boards add separate evidence for OOB claims. None is represented as built. Each native reference also includes a dedicated first-contact encounter port and separate parser/FIFO/bank/DMA resources, so established sessions do not depend on the encounter pool. Port counts are specific to the installation boundary in Chapter 04; four purposes plus one witness do not imply a universal transceiver count.
+STN addresses governance and trust roots; ATN concerns authenticated connectivity; MCN describes channel use. The dotted lines mark dependencies that a deployment may use, not authority delegated by the network. A valid peer session or route therefore gives no right to bridge purpose domains, disclose data or install a grant. The [physical transit](35_physical_transit_topology_and_routing.md), [session admission](37_admission_identity_and_sessions.md) and [system-wide release](39_system_wide_release_and_output_channels.md) chapters specify the distinct checks. Native first-contact traffic also requires its own encounter buffers, parser resources and DMA path, separate from established-session resources; [Chapter 34](34_purpose_planes_and_network_roles.md) defines that boundary. The diagram summarizes roles; physical wiring and interface counts remain in [Chapter 04](04_reference_machine_and_reachability.md).
 
-## AI, applications and institutions
+## Document map
 
-The onboard user companion is a primary interaction and planning interface. It receives bounded task context and proposes effects under installed authority. Security analysis AI evaluates authorized telemetry with explicit uncertainty and calibration. AESDS synthesis agents build and test in isolation; IAMA is a candidate for analyzing legacy behavior and proposing transformations. These roles have separate contexts and privileges. No role signs or installs its own expanded authority or changes its acceptance oracle.
+### Machine, authority and resource boundaries
 
-Native applications separate untrusted parsing, private computation, durable state, trusted presentation and final effects. Compatibility domains can host conventional operating systems and cloud adapters, with their weaker assumptions disclosed. Collaboration, MPC, zero-knowledge and federated-learning candidates require protocol-specific privacy and output controls; cryptographic names alone do not establish confidentiality.
+- [01 — System architecture](01_system_architecture.md)
+- [02 — Requirements and threat model](02_requirements_and_threat_model.md)
+- [03 — Assurance, trust and failure domains](03_assurance_trust_and_failure_domains.md)
+- [04 — Reference machine and reachability](04_reference_machine_and_reachability.md)
+- [05 — Unified execution, data and effect contract](05_unified_execution_data_and_effect_contract.md)
+- [06 — Authority calculus and non-expansion](06_authority_calculus_and_nonexpansion.md)
+- [07 — Information flow and release](07_information_flow_and_release.md)
+- [08 — Terminology and specification conventions](08_terminology_and_specification_conventions.md)
+- [09 — IES, cells, resources and scheduling](09_ies_cells_resources_and_scheduling.md)
+- [10 — Processor ISA and execution semantics](10_processor_isa_and_execution_semantics.md)
+- [11 — Heterogeneous compute, chiplets and packaging](11_heterogeneous_compute_chiplets_and_packaging.md)
+- [12 — Memory, cache and revocation](12_memory_cache_and_revocation.md)
+- [13 — DMA, devices and accelerators](13_dma_devices_and_accelerators.md)
+- [14 — DMNoC and internal communications](14_dmnoc_and_internal_communications.md)
+- [15 — Object mailboxes and handoff](15_object_mailboxes_and_handoff.md)
+- [16 — Persistent objects and storage recovery](16_persistent_objects_and_storage_recovery.md)
+- [17 — Transactions, effects and reconciliation](17_transactions_effects_and_reconciliation.md)
+- [18 — Physical side channels and temporal protection](18_physical_side_channels_and_temporal_protection.md)
 
-Civil chapters specify conflicting obligations, notice, challenge, unavailable keys, care relationships, commerce, civic services and community governance. The machine can enforce admitted technical scope and preserve evidence. It does not determine universal legal legitimacy, infer consent from identity, or establish truth merely because a sensor or institution signed a statement.
+### Observation, response and controlled evolution
 
-## Evidence and limits
+- [19 — Security observation, mesh roles and sensor coverage](19_security_observation_and_local_meshes.md)
+- [20 — Independent watchers and meta-monitoring](20_independent_watchers_and_meta_monitoring.md)
+- [21 — Security fabrics, one-way links and event provenance](21_security_fabrics_telemetry_and_provenance.md)
+- [22 — Security analysis AI and false-alarm control](22_security_analysis_ai_and_false_alarm_control.md)
+- [23 — Protective response and containment](23_protective_response_and_containment.md)
+- [24 — Software updates, generated artifacts and supply-chain safety](24_software_update_generation_and_supply_chain.md)
+- [25 — Monitoring privacy and observation authority](25_monitoring_privacy_and_observation_authority.md)
+- [26 — Boot, key custody, recovery and continuity](26_boot_key_custody_recovery_and_continuity.md)
 
-The specification distinguishes requirements, decisions, assumptions, candidates, hypotheses, model results, measurements and independent replication. The primary-source register records exact URLs, publication status, inspected locations and limitations. External research informs individual mechanisms; it does not prove ASKA as a whole.
+### Contracts, people, software and agents
 
-[Chapter 56](56_conformance_tests_and_vectors.md) contains an executable finite semantic demonstration, deliberate failing variants, a replay-order check and two real HMAC vectors. Its results are limited to that code and abstraction. Hardware containment, complete protocol interoperability, physical diode behavior, observer independence, passive RAM/SSD sensing, dense packaging, safe autonomous evolution and measured whole-system cost remain implementation and research obligations. Advanced physical or quantum sensing is optional research and cannot be a hidden dependency of baseline guard conformance.
+- [27 — Accord system and machine authorization](27_accord_system_and_machine_authorization.md)
+- [28 — Authority schemas and PACT state machines](28_authority_schemas_and_pact_protocol.md)
+- [29 — Identity, relationships, delegation and revocation](29_identity_relationships_delegation_and_revocation.md)
+- [30 — Governance profiles, conflicts and institutions](30_governance_profiles_conflicts_and_institutions.md)
+- [31 — Keystone and trusted user interaction](31_keystone_trusted_user_interaction.md)
+- [32 — AI environment, delegated agents and effect approval](32_ai_environment_agents_and_effect_approval.md)
+- [33 — Native applications, toolchains and interoperability](33_native_apps_toolchains_and_interoperability.md)
 
-[Chapter 59](59_assurance_claims_profiles_and_manifests.md) evaluates physical separation, observation, confidentiality, forwarding, effect finality, update resilience and conditional availability separately. A strong result in one dimension cannot average away a failed boundary in another. Every deployment must declare its actual roots, paths, assumptions, surviving services and counterexamples.
+### Purpose networks and output
 
-## Reading paths
+- [34 — Purpose planes and network roles](34_purpose_planes_and_network_roles.md)
+- [35 — Physical transit topology and routing](35_physical_transit_topology_and_routing.md)
+- [36 — Dynamic trust gateways and crossings](36_dynamic_trust_gateways_and_crossings.md)
+- [37 — Admission, identity and sessions](37_admission_identity_and_sessions.md)
+- [38 — Packet records, delivery and egress](38_packet_records_delivery_and_egress.md)
+- [39 — System-wide release and output channels](39_system_wide_release_and_output_channels.md)
 
-- **Architecture and implementers:** begin with Chapters 01–08, then physical compute/storage 09–19, security 20–30 and networking 40–46. Use Chapter 04 as the canonical physical inventory.
-- **Applications, AI and authority:** read 05–08, Accord and applications 31–39, witness/media 47–48 and institutional workflows 49–53.
-- **Assurance and evaluation:** read the threat/failure model 02–03, complete traces 54, formal/test chapters 55–56, realizations/cost 57–58 and profiles/research/traceability/sources 59–62.
-- **First demonstrator:** combine the LP-1 wiring and roles in 57 with the complete application and dependency gates in 60. Use the acceptance obligations in 56 and 61 without mistaking them for completed hardware tests.
+### Evidence and institutional profiles
 
-## Complete chapter map
+- [40 — Witnessing, notice and media provenance](40_witnesses_media_provenance_and_notice.md)
+- [41 — Legal process, rights and emergencies](41_legal_process_rights_and_emergencies.md)
+- [42 — Civic services, elections and community governance](42_civic_services_elections_and_community_governance.md)
+- [43 — Family, care, professional and personal authority](43_family_care_professional_and_personal_authority.md)
+- [44 — Commerce, enterprise and institutional workflows](44_commerce_enterprise_and_institutional_workflows.md)
 
-The root contains this README and the following 62 chapters. Each numbered chapter owns its normative requirements and acceptance obligations; Chapter 61 indexes their owners and defines the evidence dossier needed to establish claims. Relative links are intended to work after extracting the ZIP into one directory.
+### Tests, assurance and research
 
-### I — Governing architecture and system semantics
+- [45 — End-to-end traces and incident walkthroughs](45_end_to_end_traces_and_incident_walkthroughs.md)
+- [46 — Formal properties and state models](46_formal_properties_and_state_models.md)
+- [47 — Conformance tests and vectors](47_conformance_tests_and_vectors.md)
+- [48 — Reference realizations and legacy interoperability](48_reference_realizations_and_legacy_interoperability.md)
+- [49 — Performance, cost, power and availability](49_performance_cost_power_and_availability.md)
+- [50 — Assurance claims, profiles and manifests](50_assurance_claims_profiles_and_manifests.md)
+- [51 — Research program and candidate substrates](51_research_program_and_candidate_substrates.md)
+- [52 — Prior art, sources and evidence register](52_prior_art_sources_and_evidence_register.md)
 
-| Chapter | Owning subject |
-|---|---|
-| [01 — System architecture](01_system_architecture.md) | Physical machine, trusted boundaries and integrated operating model |
-| [02 — Requirements and threat model](02_requirements_and_threat_model.md) | System requirements, attackers, trusted functions and conditional progress |
-| [03 — Assurance, trust and failure domains](03_assurance_trust_and_failure_domains.md) | Root dependencies, common failures and the meaning of independence |
-| [04 — Reference machine and reachability](04_reference_machine_and_reachability.md) | Authoritative RP-A/RP-B topology, interfaces, custodians and physical counts |
-| [05 — Unified execution, data and effect contract](05_unified_execution_data_and_effect_contract.md) | Common object, computation, transfer and consequence semantics |
-| [06 — Authority calculus and non-expansion](06_authority_calculus_and_nonexpansion.md) | Capabilities, grants, delegation, budgets, conflicts and non-expansion |
-| [07 — Information flow and release](07_information_flow_and_release.md) | Confidentiality, integrity, exact release and observation limits |
-| [08 — Terminology and specification conventions](08_terminology_and_specification_conventions.md) | Canonical terms, identifiers, normative keywords and state namespaces |
+## Interpretation and qualification
 
-### II — Native physical compute and storage
+- `MUST`, `SHOULD` and `MAY` are normative only as defined in the terminology chapter. A requirement identifier names a target obligation, not a completed result. Tests and fixtures become evidence only when a specified apparatus is executed and the observations are retained.
+- **COMMITTED** establishes the operation's declared finality point, and no more; external delivery and real-world effects require their own evidence. **UNCERTAIN** remains unresolved until reconciliation supplies that evidence.
+- Independence claims are relative to named physical, administrative, firmware, power, key and maintenance dependencies. A signature, duplicated log or separate software process is not proof of independent origin.
+- Each deployment profile identifies the actual enforcers, access paths, trust roots, applicable requirements, service assumptions, negative controls, and qualified evidence status. The research plan records decisions still needed to construct an implementation.
 
-| Chapter | Owning subject |
-|---|---|
-| [09 — IES, cells, resources and scheduling](09_ies_cells_resources_and_scheduling.md) | Physical allocation, cells, resource borrowing and safe reclamation |
-| [10 — Processor ISA and execution semantics](10_processor_isa_and_execution_semantics.md) | Candidate ISAs, protected operations and refinement obligations |
-| [11 — Heterogeneous compute, chiplets and packaging](11_heterogeneous_compute_chiplets_and_packaging.md) | Specialized compute, chiplets, packaging and shared physical constraints |
-| [12 — Memory, cache and revocation](12_memory_cache_and_revocation.md) | Ownership tables, coherence, caches, generations and revocation |
-| [13 — DMA, devices and accelerators](13_dma_devices_and_accelerators.md) | Device assignment, DMA, accelerators and maintenance paths |
-| [14 — DMNoC and internal communications](14_dmnoc_and_internal_communications.md) | Internal routing, guarded communication, queueing and service reservations |
-| [15 — Object mailboxes and handoff](15_object_mailboxes_and_handoff.md) | Copies, immutable sharing, exclusive transfer and protected publication |
-| [16 — Persistent objects, storage and HESE-DAR](16_persistent_objects_storage_and_hese_dar.md) | Durable owners, keys, media behavior, backup and sanitization |
-| [17 — Transactions, effects and reconciliation](17_transactions_effects_and_reconciliation.md) | Preparation, commit, uncertainty, receipts and independent reconciliation |
-| [18 — Physical side channels and temporal protection](18_physical_side_channels_and_temporal_protection.md) | Timing, power, thermal and electromagnetic channels and physical attack scope |
-| [19 — Substrate and unconventional compute research](19_substrate_and_unconventional_compute_research.md) | Optional substrates, quantum concepts, sensing hypotheses and falsifiers |
-
-### III — Independent security and controlled evolution
-
-| Chapter | Owning subject |
-|---|---|
-| [20 — Master and local security meshes](20_master_and_local_security_meshes.md) | Separate MSM/LSM roles, distribution scope and local continuity |
-| [21 — Passive observation, sensors and coverage](21_passive_observation_sensors_and_coverage.md) | Passive taps, protected exporters, active observation and blind spots |
-| [22 — Independent watchers and meta-monitoring](22_independent_watchers_and_meta_monitoring.md) | Finite independent watchers, coverage, tampering and terminating roots |
-| [23 — Security mesh fabrics and one-way links](23_security_mesh_fabrics_and_one_way_links.md) | Physical one-way configuration, separate reports and bounded feedback |
-| [24 — Security event provenance and telemetry](24_security_event_provenance_and_telemetry.md) | Authenticated events, protected sequences, gaps, labels and accounting |
-| [25 — Security analysis AI and false-alarm control](25_security_analysis_ai_and_false_alarm_control.md) | Security analysis, calibration, second-stage review and false-alarm costs |
-| [26 — Protective response and containment](26_protective_response_and_containment.md) | Standing grants, finite response templates, containment and safe-state ordering |
-| [27 — Software update and supply-chain safety](27_software_update_and_supply_chain_safety.md) | Typed updates, independent roles, signed defects, canaries and recovery |
-| [28 — AESDS, IAMA and autonomous evolution](28_aesds_iama_and_autonomous_evolution.md) | Isolated synthesis, legacy analysis, protected tests and controlled deployment |
-| [29 — Monitoring privacy and observation authority](29_monitoring_privacy_and_observation_authority.md) | Observation authority, telemetry minimization, privacy, retention and disclosure |
-| [30 — Boot, key custody, recovery and continuity](30_boot_key_custody_recovery_and_continuity.md) | Boot and key roots, attestation, antirollback and bounded restoration |
-
-### IV — Accord, AI and native applications
-
-| Chapter | Owning subject |
-|---|---|
-| [31 — Accord system and machine authorization](31_accord_system_and_machine_authorization.md) | Accord modules and the Claim–Contract–Grant–Receipt authorization chain |
-| [32 — CLAIM, CONTRACT, GRANT and RECEIPT schemas](32_claim_contract_grant_receipt_schemas.md) | Typed schemas, canonical encoding, binding, budgets and receipt status |
-| [33 — PACT protocol and state machines](33_pact_protocol_and_state_machines.md) | PACT negotiation, local admission, retries, revocation and disagreement |
-| [34 — Identity, relationships, delegation and revocation](34_identity_relationships_delegation_and_revocation.md) | Pairwise identities, relationships, delegation and nondelegable duties |
-| [35 — Governance profiles, conflicts and institutions](35_governance_profiles_conflicts_and_institutions.md) | Governance profiles, applicability, conflicts, review and institutional limits |
-| [36 — Keystone and trusted user interaction](36_keystone_trusted_user_interaction.md) | Protected display/input, canonical intent, accessibility and local control |
-| [37 — AI-native operating environment](37_ai_native_operating_environment.md) | User companion, task context, retrieval, planning and deterministic supervision |
-| [38 — Native applications, toolchains and interoperability](38_native_apps_toolchains_and_interoperability.md) | Native application graphs, toolchains, collaboration and qualified adapters |
-| [39 — Agents, delegated workflows and effect approval](39_agents_delegated_workflows_and_effect_approval.md) | Delegated agents, tools, periodic budgets and final effect approval |
-
-### V — Purpose networks, witness and physical evidence
-
-| Chapter | Owning subject |
-|---|---|
-| [40 — Societal planes and endpoint separation](40_societal_planes_and_endpoint_separation.md) | Sanctum, Polis, Agora, Wilder, Steles and distinct endpoint roles |
-| [41 — STN, ATN, MCN and purpose-network roles](41_stn_atn_mcn_and_purpose_network_roles.md) | Sovereign trust, authenticated connectivity and multiple-channel organization |
-| [42 — Physical transit topology and routing](42_physical_transit_topology_and_routing.md) | Ports, carrier dependencies, path evidence, reservations and resilience |
-| [43 — Dynamic trust gateways and crossings](43_dynamic_trust_gateways_and_crossings.md) | Dynamic trust gateways, source release and independent receiving policy |
-| [44 — Admission, identity and sessions](44_admission_identity_and_sessions.md) | Discovery, attestation, enrollment, transcripts, keys and scoped sessions |
-| [45 — Packet records, delivery and egress](45_packet_records_delivery_and_egress.md) | Quarantine, authenticated records, replay, publication and final egress |
-| [46 — System-wide release and output channels](46_system_wide_release_and_output_channels.md) | Network, display, print, media, backup, logs, debug and actuator release |
-| [47 — Steles, witness receipts and notice](47_steles_witness_receipts_and_notice.md) | Private witness commitments, notice, correction and evidence confidence |
-| [48 — Media provenance and physical evidence](48_media_provenance_and_physical_evidence.md) | Media provenance, privacy blurring, microstructures and physical-evidence research |
-
-### VI — Civil and institutional workflows
-
-| Chapter | Owning subject |
-|---|---|
-| [49 — Legal process, rights and emergencies](49_legal_process_rights_and_emergencies.md) | Legal requests, emergency scope, custody, notice, challenge and unavailable keys |
-| [50 — Civic services, elections and public accountability](50_civic_services_elections_and_public_accountability.md) | Public services, eligibility, ballot secrecy, audits and civic resilience |
-| [51 — Family, care, professional and personal authority](51_family_care_professional_and_personal_authority.md) | Care, guardianship, professional duties, personal delegation and succession |
-| [52 — Commerce, enterprise and institutional workflows](52_commerce_enterprise_and_institutional_workflows.md) | Contracts, invoices, payments, enterprise duties and real-world finality |
-| [53 — Community, realm governance and disputes](53_community_realm_governance_and_disputes.md) | Independent communities, shared infrastructure, cooperation and disputes |
-
-### VII — Traces, validation, realizations and evidence
-
-| Chapter | Owning subject |
-|---|---|
-| [54 — End-to-end traces and incident walkthroughs](54_end_to_end_traces_and_incident_walkthroughs.md) | Twenty-five complete conceptual transactions and adversarial incident traces |
-| [55 — Formal properties and state models](55_formal_properties_and_state_models.md) | State models, invariants, refinement, composition and conditional liveness |
-| [56 — Conformance tests and vectors](56_conformance_tests_and_vectors.md) | Acceptance campaigns, executable finite models and exact primitive vectors |
-| [57 — Reference realizations and legacy interoperability](57_reference_realizations_and_legacy_interoperability.md) | Two physical reference deployments, a laboratory prototype and legacy/cloud boundaries |
-| [58 — Performance, cost, power and availability](58_performance_cost_power_and_availability.md) | Illustrative cost arithmetic, resource overhead, utilization and availability |
-| [59 — Assurance claims, profiles and manifests](59_assurance_claims_profiles_and_manifests.md) | Separate assurance dimensions, evidence statuses, registries and manifests |
-| [60 — Research program and architectural decisions](60_research_program_and_architectural_decisions.md) | Architectural decisions, falsifiable hypotheses and dependency-ordered experiments |
-| [61 — Requirement, decision and evidence traceability](61_requirement_decision_evidence_traceability.md) | Every requirement mapped to an enforcer, assumption, oracle and evidence status |
-| [62 — Prior art, sources and evidence register](62_prior_art_sources_and_evidence_register.md) | Primary-source comparisons, publication status, inspected scope and access limits |
-
-## Normative use
-
-Uppercase MUST, SHOULD and MAY have the meanings defined in Chapter 08. Normative obligations are identified as `R-NN-XX`; matching acceptance obligations use `T-NN-XX`. A permissive example does not override a restriction. An omitted permission is not an unrestricted grant. A conflict is resolved through the applicable local contract and governance process, with denial, suspension, challenge or technical unavailability represented explicitly.
-
-COMMITTED identifies one established finality point; a later unknown external outcome is separately scoped. RECONCILED appends evidence or correction without rewriting the original consequence. Disclosure already received by an unconstrained recipient cannot be revoked by changing a local table. These limits remain part of the machine contract wherever applications, monitoring, recovery or institutional workflows depend on them.
+The prior-art register provides primary publications, source-access limits and comparisons to proposed ASKA obligations. It does not assert novelty or transfer external proofs to ASKA.

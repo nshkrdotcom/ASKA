@@ -2,7 +2,7 @@
 
 ## Routing fabric and consequence boundaries
 
-The decentralized mesh network-on-chip (DMNoC) is an architectural role for explicit communication among local compute and service domains. A realization may use an on-chip mesh, a guarded switch fabric, chiplet links or board-level interconnects. “Decentralized” does not mean that every endpoint controls every route, and “network-on-chip” does not turn an inter-realm carrier network into a local hardware fabric. External transport has its own contracts in [physical transit](42_physical_transit_topology_and_routing.md).
+The decentralized mesh network-on-chip (DMNoC) is an architectural role for explicit communication among local compute and service domains. A realization may use an on-chip mesh, a guarded switch fabric, chiplet links or board-level interconnects. “Decentralized” does not mean that every endpoint controls every route, and “network-on-chip” does not turn an inter-realm carrier network into a local hardware fabric. External transport has its own contracts in [physical transit](35_physical_transit_topology_and_routing.md).
 
 The DMNoC transports bounded records or object fragments between named endpoints. BG, MG, DG and EG/RG functions authorize consequences at their respective boundaries. A switch may reject invalid paths or excess traffic, but successful routing is not evidence that the source may disclose an object or that the destination accepts it. Route availability, payload integrity and semantic authorization are separate claims.
 

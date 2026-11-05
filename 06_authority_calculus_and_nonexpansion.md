@@ -1,6 +1,6 @@
 # ASKA v6 — Authority calculus and non-expansion
 
-## 1. Authority describes a derivation
+## Authority describes a derivation
 
 An ASKA operation is authorized by a specific derivation from recognized evidence, applicable rules and installed rights. Neither physical possession, a network address, a role title, a cryptographic identity nor an AI recommendation creates all the prerequisites of that derivation. A person may own a device without owning every hosted institution's records; an institution may issue an applicable order without controlling the device's boot keys.
 
@@ -10,7 +10,7 @@ The protection algebra follows [Lampson's access-control model](https://bwlampso
 
 [KeyKOS](https://pdos.csail.mit.edu/6.828/2008/readings/keykos-osr.pdf), [EROS](https://doi.org/10.1145/319151.319163), [macaroons](https://research.google/pubs/macaroons-cookies-with-contextual-caveats-for-decentralized-authorization-in-the-cloud/) and the [confused-deputy analysis](https://doi.org/10.1145/54289.871709) establish capability confinement, scoped delegation and credential attenuation as prior art. The ASKA derivation adds typed approvals and multiple independent consequence owners; its non-expansion theorem remains an implementation obligation.
 
-## 2. Evidence kinds and independent rights
+## Evidence kinds and independent rights
 
 | Evidence or right | Permitted use | Cannot imply |
 |---|---|---|
@@ -26,9 +26,9 @@ The protection algebra follows [Lampson's access-control model](https://bwlampso
 | Resource capability | Name permitted local object operations | Release, carriage, recipient publication or semantic correctness |
 | Effect grant | Authorize exact bounded consequence at its owner | Rights at another owner without its acceptance |
 
-The distinctions remain even when the same party supplies several records. [Chapters 34–35](34_identity_relationships_delegation_and_revocation.md) define relationships and governance profiles; [Chapter 49](49_legal_process_rights_and_emergencies.md) defines legal process constraints.
+The distinctions remain even when the same party supplies several records. [Chapters 29–30](29_identity_relationships_delegation_and_revocation.md) define relationships and governance profiles; [Chapter 41](41_legal_process_rights_and_emergencies.md) defines legal process constraints.
 
-## 3. Partial decision procedure
+## Partial decision procedure
 
 The result is one of `ALLOW`, `ALLOW_WITH_OBLIGATIONS`, `DENY`, `SUSPEND`, `ESCALATE` or `UNAVAILABLE`. `SUSPEND` means a prerequisite or contest is unresolved. `ESCALATE` identifies a recognized independent review path. `UNAVAILABLE` records a technical inability after the relevant authority assessment, without creating bypass rights. Each result binds reason codes, evidence references, profile hashes, time basis and any notice/challenge obligations.
 
@@ -47,7 +47,7 @@ The evaluator performs the following ordered work:
 
 There is no default rule `State > Employer > Parent > User`. A profile may recognize specific precedence for a particular obligation, but the proof graph records that rule and its applicability. If two profiles cannot agree, connectivity and cryptographic compatibility do not settle the dispute.
 
-## 4. Non-expansion algebra
+## Non-expansion algebra
 
 Represent grant scope as `(objects, operations, recipients, purposes, paths, interval, uses, quantity, generations, exclusions, delegation_depth)`. A grant `g` refines contract `c`, written `g ⊑ c`, only if all positive sets are subsets, the interval is contained, each budget is no greater, generation bindings match, exclusions are at least as restrictive, and delegation depth does not increase.
 
@@ -55,7 +55,7 @@ For independent authorities that are all required, admitted positive rights use 
 
 An explicit delegation chain binds parent grant, delegator, delegatee, child scope, context, expiry, maximum depth and revocation dependencies. The installer checks every parent at installation and the relevant live epoch at finality. A duplicated grant is still the same protected use budget, not a second account of rights. Forwarding a signed blob without the corresponding installation cannot create a local owner entry.
 
-## 5. Authority-changing operations are effects
+## Authority-changing operations are effects
 
 Policy installation, root replacement, enrollment, capability creation, release approval, test-oracle modification and recovery are all consequential operations. Each needs an owner outside the untrusted proposer. Otherwise a planner could write the predicate that later approves its own request.
 
@@ -63,7 +63,7 @@ Dynamic trust assessment may recommend more restrictive admission or route selec
 
 [Flow-Limited Authorization](https://www.cs.cornell.edu/andru/papers/flam/flam-csf15.pdf), especially Sections II, IV and V, addresses interaction between delegation and information flow. It motivates treating trust-configuration updates and authorization queries as information-bearing operations. ASKA's physical installation calculus is a separate design obligation; the cited logic does not prove ASKA's implementations.
 
-## 6. Revocation, partition and concurrency
+## Revocation, partition and concurrency
 
 A revocation record names scope, issuer authority, effective boundary and a protected epoch or counter. Local owners define an order between revocation application and finality. A remote revocation can have propagation delay; the grant must bound allowed stale operation. A contract requiring immediate remote revocation cannot remain available through an arbitrary network partition.
 
@@ -71,19 +71,19 @@ A contract may authorize offline local protection with a short lease, a cumulati
 
 Revocation does not erase information already disclosed, undo a physical act or invalidate the truth of an earlier receipt. A correction or compensation requires a new operation and its own authority.
 
-## 7. Source and receiving authority
+## Source and receiving authority
 
 A source must authorize reading and, separately, the relevant release. A destination must independently authorize receiving, storage, publication or execution. These checks can be compiled into standing grants but cannot be merged into a sender credential. A source's contract with an intermediary does not appoint that intermediary as the receiver's administrator.
 
 For instance, a guardian may have an admitted right to obtain a dependent's appointment schedule. The clinic's release policy, the scope of guardianship, the dependent's protected confidentiality interests and the receiving account all remain relevant. A credential naming a family relationship is evidence for those checks, not a master read capability.
 
-## 8. Conflict and proof privacy
+## Conflict and proof privacy
 
 The authority proof is a directed acyclic graph of claims, applicability checks, approvals and installations. It must retain enough evidence for challenge while limiting disclosure. The existence of a confidential relationship, investigation or refusal can itself be sensitive. Public denial responses should expose a bounded reason class; authorized review may receive a fuller explanation under a separate release.
 
 An authenticated adversary can submit many valid-looking claims to probe protected relationships. Query rate, response shape and timing therefore belong to the information-flow policy. If an evaluator cannot decide within its bounded proof-search budget, it returns an explicit unresolved result. It must not accept because verification was expensive or silently turn resource exhaustion into a permanent denial for unrelated principals.
 
-## Normative requirements and acceptance obligations
+## Required behavior and test oracles
 
 **R-06-01 — Explicit authority derivation.** An admitted action MUST bind a finite proof graph from recognized evidence and applicable profiles to exact effect scope.
 
@@ -112,4 +112,3 @@ An authenticated adversary can submit many valid-looking claims to probe protect
 **R-06-07 — Private bounded decisions.** Authorization queries MUST obey confidentiality, bounded proof search and query-resource policy.
 
 **Acceptance T-06-07:** Probe a confidential relationship through repeated queries; verify release/rate bounds and explicit unresolved outcomes.
-

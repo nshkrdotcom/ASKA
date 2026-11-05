@@ -4,13 +4,13 @@
 
 A mailbox is a bounded guarded interface between owners. It carries a record referring to an exact object version or carrying bounded bytes, together with the authority and lifecycle context needed by the receiving owner. It is not a shared writable heap. A mailbox guard (BG) enforces source binding, destination acceptance, capacity and publication rules even when both communicating workloads are compromised.
 
-A mailbox descriptor identifies source and destination endpoints, mailbox identity and epoch, permitted record types, object-class constraints, labels, maximum payload and batch size, queue capacity, applicable grants, replay policy and finality points. Fields use the canonical encoding rules in [object schemas](32_claim_contract_grant_receipt_schemas.md). Unknown critical fields, duplicate encodings and ambiguous lengths are rejected before a payload is interpreted as an authorized object.
+A mailbox descriptor identifies source and destination endpoints, mailbox identity and epoch, permitted record types, object-class constraints, labels, maximum payload and batch size, queue capacity, applicable grants, replay policy and finality points. Fields use the canonical encoding rules in [object schemas](28_authority_schemas_and_pact_protocol.md). Unknown critical fields, duplicate encodings and ambiguous lengths are rejected before a payload is interpreted as an authorized object.
 
 **R-15-01 — Bounded mailbox contract.** Every mailbox MUST have an installed descriptor binding its endpoints, epochs, object classes, authority limits and finite capacity. A mailbox record MUST NOT derive authority from an untrusted pointer, route identifier or caller-supplied owner name alone.
 
 The interface distinguishes submission, protected receive publication and application use. A sender’s successful enqueue establishes only the named local enqueue event. Receiver publication establishes the receiver’s acceptance of a protected object. Neither establishes that an application understood the object, durably stored it or completed a physical task. These distinctions remain visible in receipts rather than being hidden behind one “success” bit.
 
-Segmented delivery of one application object follows the authenticated identity, length, offset, commitment and bounded assembly contract in [Packet records, delivery and egress](45_packet_records_delivery_and_egress.md). Mailbox receipt of individual fragments does not establish atomic publication of that object.
+Segmented delivery of one application object follows the authenticated identity, length, offset, commitment and bounded assembly contract in [Packet records, delivery and egress](38_packet_records_delivery_and_egress.md). Mailbox receipt of individual fragments does not establish atomic publication of that object.
 
 ## Copy, immutable loan and exclusive handoff
 
@@ -34,7 +34,7 @@ Quarantine is inaccessible to the destination application until validation and a
 
 **R-15-03 — Atomic protected publication.** A receive operation MUST keep unaccepted contents in protected quarantine and MUST publish only a complete, validated object. Object publication, accepted replay-state change, applicable quota debit and installed label MUST form one local atomic decision or an equivalent recoverable transaction.
 
-An authenticated record that fails policy may enter a separate bounded negative-result or deduplication cache. It must not advance the accepted replay window or suppress valid lower sequence numbers. Unauthenticated traffic cannot alter accepted replay state. This is the same rule used for external records in [packet delivery](45_packet_records_delivery_and_egress.md), so an internal fast path cannot introduce a different replay meaning.
+An authenticated record that fails policy may enter a separate bounded negative-result or deduplication cache. It must not advance the accepted replay window or suppress valid lower sequence numbers. Unauthenticated traffic cannot alter accepted replay state. This is the same rule used for external records in [packet delivery](38_packet_records_delivery_and_egress.md), so an internal fast path cannot introduce a different replay meaning.
 
 ## Credits, batching and cancellation
 

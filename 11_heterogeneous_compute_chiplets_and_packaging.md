@@ -16,7 +16,7 @@ A fifty-tier granularity experiment is an admissible design-space study: vary th
 
 Placement chooses resources that satisfy a cell’s admitted needs. The decision can consider memory locality, accelerator precision, availability, latency and thermal headroom. It cannot change the cell’s principals, object permissions or release policy. If a specialized implementation requires more access than the admitted contract allows, the placement is invalid even if the implementation would run faster.
 
-Short-lived workers can improve utilization when state cleanup is bounded. They can also increase guard traffic, scheduling overhead and sanitization cost. The relevant comparison includes useful work per admitted lifetime, occupancy under realistic arrivals, fragmentation, transfer bytes, failure recovery and the reserved headroom needed by critical service. An unused resource may be borrowed through SRBM, but it remains subject to the reclaim and bandwidth rules in [resource scheduling](09_ies_cells_resources_and_scheduling.md).
+Short-lived workers can improve utilization when state cleanup is bounded. They can also increase guard traffic, scheduling overhead and sanitization cost. The relevant comparison includes useful work per admitted lifetime, occupancy under realistic arrivals, fragmentation, transfer bytes, failure recovery and the reserved headroom needed by critical service. An unused resource may be borrowed through resource borrowing, but it remains subject to the reclaim and bandwidth rules in [resource scheduling](09_ies_cells_resources_and_scheduling.md).
 
 **R-11-02 — Authority-preserving placement.** Placement and migration MUST retain the cell’s admitted authority and assurance requirements. A change that introduces shared writable state, a new management dependency or weaker reset isolation MUST be re-admitted as a profile change rather than hidden as a scheduling optimization.
 
@@ -59,8 +59,6 @@ A repair service may inspect externally observable status and attest installatio
 Consider a cryptographic chiplet shared as a guarded service among three IESs. It accepts bounded requests containing immutable input bindings and operation grants. Its private queue, key slots and completion buffers are partitioned or scheduled under a declared profile. A deadline-sensitive tenant has a reservation covering request admission, memory traffic and completion delivery. If another tenant triggers thermal throttling, the deployment either maintains the reservation within its qualified envelope or records failure of that availability claim. It must not quietly read a neighboring tenant’s key slot or hide incomplete results.
 
 A design comparison records at least end-to-end work, transfer and sanitization cost, memory capacity, energy, heat, area, failure recovery and proof surface. Forecast process improvements cannot waive present budgets. Power is an isolation resource as well as an operating cost; treating it as unlimited would erase an important attacker-controlled channel and a common failure mechanism.
-
-**R-11-06 — Qualified engineering evidence.** Heterogeneous or package-level performance and isolation claims MUST identify the configuration, workload, environmental envelope and evidence class. ASKA-specific numerical results MUST NOT be asserted before reproducible measurement or explicitly labeled simulation establishes them.
 
 Acceptance specifications are:
 
